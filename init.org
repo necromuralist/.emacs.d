@@ -1,3 +1,5 @@
+* Original =init.el=
+#+BEGIN_SRC emacs-lisp :tangle init.el
 ;; emacs package management
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -227,6 +229,14 @@
 (add-hook 'sh-mode-hook         'hs-minor-mode)
 (add-hook 'js2-mode-hook         'hs-minor-mode)
 
+<<org-babel>>
+
+<<feature-mode>>
+#+END_SRC
+
+* org-babel
+#+NAME: org-babel
+#+BEGIN_SRC emacs-lisp
 ;; org-babel
 (add-to-list 'org-src-lang-modes '("rst" . "rst"))
 (add-to-list 'org-src-lang-modes '("feature" . "feature"))
@@ -258,5 +268,9 @@
 
 (setq org-src-fontify-natively t)
 (require 'ox-nikola)
-
+#+END_SRC
+* Feature Mode
+#+NAME: feature-mode
+#+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
+#+END_SRC
