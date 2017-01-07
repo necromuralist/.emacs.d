@@ -230,6 +230,7 @@
 (add-to-list 'org-src-lang-modes '("rst" . "rst"))
 (add-to-list 'org-src-lang-modes '("feature" . "feature"))
 (add-to-list 'org-src-lang-modes '("org" . "org"))
+(add-to-list 'org-src-lang-modes '("css" . "css"))
 
 (org-babel-do-load-languages
  'org-babel-load-languages
