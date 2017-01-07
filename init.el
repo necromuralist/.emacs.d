@@ -259,4 +259,11 @@
 (setq org-src-fontify-natively t)
 (require 'ox-nikola)
 
+;; export to latex/pdf
+(require 'ox-latex)
+;; syntax-highlighting
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-listings 'minted)
+(setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
 (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
