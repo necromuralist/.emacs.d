@@ -1,14 +1,6 @@
-* Original =init.el=
+* tangle source
 #+BEGIN_SRC emacs-lisp :tangle init.el
-;; emacs package management
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(package-initialize)
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
+<<package-management>>
 ;; elpy
 (elpy-enable)
 (setq elpy-rpc-backend "jedi")
@@ -228,7 +220,18 @@
 
 <<feature-mode>>
 #+END_SRC
+* package management
+#+NAME: package-management
+#+BEGIN_SRC emacs-lisp
+  ;; emacs package management
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  (package-initialize)
 
+  (when (not package-archive-contents)
+    (package-refresh-contents))
+#+END_SRC
 * javascript
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
@@ -242,47 +245,51 @@
 * org-babel
 #+NAME: org-babel
 #+BEGIN_SRC emacs-lisp
-;; org-babel
-(add-to-list 'org-src-lang-modes '("rst" . "rst"))
-(add-to-list 'org-src-lang-modes '("feature" . "feature"))
-(add-to-list 'org-src-lang-modes '("org" . "org"))
+  ;; org-babel
+  (add-to-list 'org-src-lang-modes '("rst" . "rst"))
+  (add-to-list 'org-src-lang-modes '("feature" . "feature"))
+  (add-to-list 'org-src-lang-modes '("org" . "org"))
 
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((ipython . t)
-   (plantuml . t)
-   (shell . t)
-   (emacs-lisp . t)
-   ))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((ipython . t)
+     (plantuml . t)
+     (shell . t)
+     (emacs-lisp . t)
+     ))
 
-(setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
+  (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
 
-(setq org-confirm-babel-evaluate nil)   ;don't prompt me to confirm everytime I want to evaluate a block
+  ;; don't confirm block evaluation
+  (setq org-confirm-babel-evaluate nil)
 
-;;; display/update images in the buffer after I evaluate
-(add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+  ;;; display/update images in the buffer after evaluation
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
-;;; noweb expansion only when you tangle
-(setq org-babel-default-header-args
-      (cons '(:noweb . "tangle")
-            (assq-delete-all :noweb org-babel-default-header-args))
-      )
+  ;;; noweb expansion only when you tangle
+  (setq org-babel-default-header-args
+        (cons '(:noweb . "tangle")
+              (assq-delete-all :noweb org-babel-default-header-args))
+        )
 
-;; export org to rst
-(require 'ox-rst)
+  ;; export org to rst
+  (require 'ox-rst)
 
-(setq org-src-fontify-natively t)
-(require 'ox-nikola)
+  (setq org-src-fontify-natively t)
 
-;; export to latex/pdf
-(require 'ox-latex)
-;; syntax-highlighting
-(add-to-list 'org-latex-packages-alist '("" "minted"))
-(setq org-latex-listings 'minted)
-(setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  ;; export org to nikola
+  (require 'ox-nikola)
+
+  ;; export to latex/pdf
+  (require 'ox-latex)
+
+  ;; syntax-highlighting for pdf's
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 #+END_SRC
 * Feature Mode
 #+NAME: feature-mode
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
+  (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
 #+END_SRC

@@ -6,7 +6,6 @@
 
 (when (not package-archive-contents)
   (package-refresh-contents))
-
 ;; elpy
 (elpy-enable)
 (setq elpy-rpc-backend "jedi")
@@ -242,9 +241,10 @@
 
 (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
 
-(setq org-confirm-babel-evaluate nil)   ;don't prompt me to confirm everytime I want to evaluate a block
+;; don't confirm block evaluation
+(setq org-confirm-babel-evaluate nil)
 
-;;; display/update images in the buffer after I evaluate
+;;; display/update images in the buffer after evaluation
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
 ;;; noweb expansion only when you tangle
@@ -257,11 +257,14 @@
 (require 'ox-rst)
 
 (setq org-src-fontify-natively t)
+
+;; export org to nikola
 (require 'ox-nikola)
 
 ;; export to latex/pdf
 (require 'ox-latex)
-;; syntax-highlighting
+
+;; syntax-highlighting for pdf's
 (add-to-list 'org-latex-packages-alist '("" "minted"))
 (setq org-latex-listings 'minted)
 (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
