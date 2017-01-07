@@ -70,7 +70,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(js2-basic-offset 2)
  '(package-selected-packages
    (quote
     (htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode elpy ein-mumamo deft csv-mode autopair ac-js2))))
@@ -134,19 +133,13 @@
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
 
-(add-hook 'js3-mode-hook 'turn-on-autocomplete)
-
 (define-global-minor-mode select-electric-pair-mode electric-pair-mode
   (lambda ()
     (when (not (memq major-mode
-                     (list 'web-mode 'js3-mode)))
+                     (list 'web-mode 'js2-mode)))
       (electric-pair-mode))))
 
 (select-electric-pair-mode 1)
-
-;; js3
-(add-to-list 'auto-mode-alist '("\\.js3\\'" . js3-mode))
-
 
 ;; tramp mode
 (setq tramp-default-method "ssh")
@@ -203,7 +196,7 @@
     (c++-mode "{" "}" "/[*/]" nil nil)
     (bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
     (java-mode "{" "}" "/[*/]" nil nil)
-    (js-mode "{" "}" "/[*/]" nil))))
+    (js2-mode "{" "}" "/[*/]" nil))))
 
 (defun toggle-selective-display (column)
       (interactive "P")
@@ -226,6 +219,13 @@
 (add-hook 'java-mode-hook       'hs-minor-mode)
 (add-hook 'sh-mode-hook         'hs-minor-mode)
 (add-hook 'js2-mode-hook         'hs-minor-mode)
+
+;; js2
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(custom-set-variables
+ '(js2-basic-offset 2)
+ '(js2-bounce-indent-p t)
+)
 
 ;; org-babel
 (add-to-list 'org-src-lang-modes '("rst" . "rst"))
