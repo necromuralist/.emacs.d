@@ -247,16 +247,18 @@
 ;;; display/update images in the buffer after evaluation
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
-;;; noweb expansion only when you tangle
+;; noweb expansion only when you tangle
 (setq org-babel-default-header-args
       (cons '(:noweb . "tangle")
             (assq-delete-all :noweb org-babel-default-header-args))
       )
 
+;; syntax highlighting in org-files
+(setq org-src-fontify-natively t)
+
 ;; export org to rst
 (require 'ox-rst)
 
-(setq org-src-fontify-natively t)
 
 ;; export org to nikola
 (require 'ox-nikola)
