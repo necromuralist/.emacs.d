@@ -219,6 +219,10 @@
 (add-hook 'sh-mode-hook         'hs-minor-mode)
 (add-hook 'js2-mode-hook         'hs-minor-mode)
 
+;; increase/decrease text size
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+
 ;; js2
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (custom-set-variables
@@ -241,6 +245,12 @@
    ))
 
 (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
+
+;; Don't treat underscores as sub-script notation
+(setq org-export-with-sub-superscripts nil)
+
+;; Don't re-evaluate the source blocks before exporting
+(setq org-export-babel-evaluate nil)
 
 ;; don't confirm block evaluation
 (setq org-confirm-babel-evaluate nil)
