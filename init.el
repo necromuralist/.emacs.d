@@ -84,6 +84,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(js-indent-level 2)
+ '(js2-basic-offset 2)
+ '(js2-bounce-indent-p t)
  '(package-selected-packages
    (quote
     (htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode elpy ein-mumamo deft csv-mode autopair ac-js2))))
@@ -243,10 +246,11 @@
 
 ;; js2
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(custom-set-variables
- '(js2-basic-offset 2)
- '(js2-bounce-indent-p t)
-)
+(add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
+;; (custom-set-variables
+;;  '(js2-basic-offset 2)
+;;  '(js2-bounce-indent-p t)
+;; )
 
 ;; org-babel
 (add-to-list 'org-src-lang-modes '("rst" . "rst"))
