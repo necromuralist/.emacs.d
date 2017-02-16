@@ -21,14 +21,16 @@
   (unless (package-installed-p package)
     (package-install package))
   )
+
 ;; elpy
 (elpy-enable)
 (setq elpy-rpc-backend "jedi")
 (eval-after-load "python"
- '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
+  '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
 
 (elpy-use-ipython)
 
+(add-to-list 'auto-mode-alist '("\\.py" . python-mode))
 ;; global parentheses matching (`autopair` package needs to be installed)
 (electric-pair-mode 1)
 
@@ -87,6 +89,7 @@
  '(js-indent-level 2)
  '(js2-basic-offset 2)
  '(js2-bounce-indent-p t)
+
  '(package-selected-packages
    (quote
     (htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode elpy ein-mumamo deft csv-mode autopair ac-js2))))
@@ -111,7 +114,6 @@
 ;; Emacs Ipython Notebook
 (require 'ein)
 (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
-;;(setq ein:use-autocomplete t)
 
 ;; make no-tabs universal
 (setq-default indent-tabs-mode nil)
@@ -147,7 +149,15 @@
 
 
 ;; auto-complete
-(defun turn-on-autocomplete () (auto-complete-mode 1))
+(define-global-minor-mode select-auto-complete-mode auto-complete-mode
+(lambda ()
+  (when (not (memq major-mode
+                   (list 'python-mode)))
+    (auto-complete-mode))))
+
+    (select-auto-complete-mode 1)
+
+;; (defun turn-on-autocomplete () (auto-complete-mode 1))
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
@@ -246,11 +256,6 @@
 
 ;; js2
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2)))
-;; (custom-set-variables
-;;  '(js2-basic-offset 2)
-;;  '(js2-bounce-indent-p t)
-;; )
 
 ;; org-babel
 (add-to-list 'org-src-lang-modes '("rst" . "rst"))
