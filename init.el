@@ -309,4 +309,7 @@
 (setq org-latex-listings 'minted)
 (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
+;; let the user set the indentation so you can insert text between methods in classes.
+(setq org-src-preserve-indentation t)
+
 (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
