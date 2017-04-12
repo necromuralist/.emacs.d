@@ -10,6 +10,8 @@
   (setq make-backup-files nil)
 
   ;; fish functions
+  '(sh-basic-offset 2)
+  '(sh-indentation 2)
   (setq auto-mode-alist (cons '("\\.fish$" . shell-script-mode) auto-mode-alist))
 
   ;; show column-numbers
@@ -19,34 +21,7 @@
   (show-paren-mode 1)
   (setq show-paren-delay 0)
 
-  ;; org-mode
-  (require 'org)
-  (define-key global-map "\C-cl" 'org-store-link)
-  (define-key global-map "\C-ca" 'org-agenda)
-  (setq org-log-done t)
-
-  ;; org-mode agendas
-  (setq org-agenda-files (list "~/Dropbox/roku_chiji/tsusu/kanban.org"))
-
-  ;; org-capture
-  (setq org-default-notes-file (concat "~/Dropbox/roku_chiji/tsusu/" "bugs.org"))
-  (define-key global-map "\C-cc" 'org-capture)
-
-  (setq org-capture-templates
-        '(("b" "Bug" entry (file+headline "~/Dropbox/roku_chiji/tsusu/bugs.org" "Bugs")
-                        "* BUG %?\n  %i\n  %a")))
-
-  ;; todo-state names
-  (setq org-todo-keywords
-        '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
-
-  ;; org clean-outlines
-  (setq org-hide-leading-stars t)
-  (setq org-indent-mode t)
-
-  ;; word-wrap
-  (setq org-indent-mode t)
-  (global-visual-line-mode 1)
+  <<org-mode>>
 
   ;; pweave
   (add-to-list 'auto-mode-alist '("\\.pnw" . python-mode))
@@ -234,6 +209,38 @@
 
     (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
   #+END_SRC
+* Org-mode
+  #+BEGIN_SRC emacs-lisp :noweb-ref org-mode
+    ;; org-mode
+  (require 'org)
+  (define-key global-map "\C-cl" 'org-store-link)
+  (define-key global-map "\C-ca" 'org-agenda)
+  (setq org-log-done t)
+
+  ;; org-mode agendas
+  (setq org-agenda-files (list "~/Dropbox/roku_chiji/tsusu/kanban.org"))
+
+  ;; org-capture
+  (setq org-default-notes-file (concat "~/Dropbox/roku_chiji/tsusu/" "bugs.org"))
+  (define-key global-map "\C-cc" 'org-capture)
+
+  (setq org-capture-templates
+        '(("b" "Bug" entry (file+headline "~/Dropbox/roku_chiji/tsusu/bugs.org" "Bugs")
+                        "* BUG %?\n  %i\n  %a")))
+
+  ;; todo-state names
+  (setq org-todo-keywords
+        '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
+
+  ;; org clean-outlines
+  (setq org-hide-leading-stars t)
+  (setq org-indent-mode t)
+
+  ;; word-wrap
+  (setq org-indent-mode t)
+  (global-visual-line-mode 1)
+
+  #+END_SRC
 * web-mode
   #+NAME: web-mode
   #+BEGIN_SRC emacs-lisp
@@ -269,19 +276,13 @@
   #+NAME: auto-complete
   #+BEGIN_SRC emacs-lisp
     ;; auto-complete
-    (define-global-minor-mode select-auto-complete-mode auto-complete-mode
-    (lambda ()
-      (when (not (memq major-mode
-                       (list 'python-mode)))
-        (auto-complete-mode))))
-
-        (select-auto-complete-mode 1)
-
     ;; (defun turn-on-autocomplete () (auto-complete-mode 1))
     (add-to-list 'load-path "~/.emacs.d/lisp")
     (require 'auto-complete-config)
     (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
     (ac-config-default)
+    (defadvice auto-complete-mode (around disable-auto-complete-for-python)
+    (unless (eq major-mode 'python-mode) ad-do-it))
   #+END_SRC
 
 * general text
@@ -312,6 +313,7 @@
      (plantuml . t)
      (shell . t)
      (emacs-lisp . t)
+     (latex . t)
      ))
 
   (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
