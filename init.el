@@ -2,7 +2,7 @@
     (require 'package)
   
     ;; list of packages copied from C-h v package-activated-list
-    (setq package-list '(ein websocket request ac-js2 deft elpy company feature-mode find-file-in-project god-mode highlight-indentation htmlize jedi auto-complete jedi-core epc ctable concurrent magit git-commit magit-popup ob-ipython f dash-functional ox-nikola ox-rst org popup python-environment deferred pyvenv s skewer-mode js2-mode simple-httpd swiper ivy web-mode with-editor dash async yasnippet))
+    (setq package-list '(ein websocket request ac-js2  elpy company feature-mode find-file-in-project god-mode highlight-indentation htmlize jedi auto-complete jedi-core epc ctable concurrent magit git-commit magit-popup ob-ipython f dash-functional ox-nikola ox-rst org popup python-environment deferred pyvenv s skewer-mode js2-mode simple-httpd swiper ivy web-mode with-editor dash async yasnippet))
   
     ;; add the repositories
     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -49,34 +49,35 @@
   (show-paren-mode 1)
   (setq show-paren-delay 0)
 
-  ;; org-mode
-  (require 'org)
-  (define-key global-map "\C-cl" 'org-store-link)
-  (define-key global-map "\C-ca" 'org-agenda)
-  (setq org-log-done t)
-
-  ;; org-mode agendas
-  (setq org-agenda-files (list "~/Dropbox/roku_chiji/tsusu/kanban.org"))
-
-  ;; org-capture
-  (setq org-default-notes-file (concat "~/Dropbox/roku_chiji/tsusu/" "bugs.org"))
-  (define-key global-map "\C-cc" 'org-capture)
-
-  (setq org-capture-templates
-        '(("b" "Bug" entry (file+headline "~/Dropbox/roku_chiji/tsusu/bugs.org" "Bugs")
-                        "* BUG %?\n  %i\n  %a")))
-
-  ;; todo-state names
-  (setq org-todo-keywords
-        '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
-
-  ;; org clean-outlines
-  (setq org-hide-leading-stars t)
-  (setq org-indent-mode t)
-
-  ;; word-wrap
-  (setq org-indent-mode t)
-  (global-visual-line-mode 1)
+      ;; org-mode
+    (require 'org)
+    (define-key global-map "\C-cl" 'org-store-link)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (setq org-log-done t)
+  
+    ;; org-mode agendas
+    (setq org-agenda-files (list "~/Dropbox/roku_chiji/tsusu/kanban.org"))
+  
+    ;; org-capture
+    (setq org-default-notes-file (concat "~/Dropbox/roku_chiji/tsusu/" "bugs.org"))
+    (define-key global-map "\C-cc" 'org-capture)
+  
+    (setq org-capture-templates
+          '(("b" "Bug" entry (file+headline "~/Dropbox/roku_chiji/tsusu/bugs.org" "Bugs")
+                          "* BUG %?\n  %i\n  %a")))
+  
+    ;; todo-state names
+    (setq org-todo-keywords
+          '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
+  
+    ;; org clean-outlines
+    (setq org-hide-leading-stars t)
+    (setq org-indent-mode t)
+  
+    ;; word-wrap
+    (setq org-indent-mode t)
+    (global-visual-line-mode 1)
+  
 
   ;; pweave
   (add-to-list 'auto-mode-alist '("\\.pnw" . python-mode))
@@ -94,7 +95,7 @@
 
    '(package-selected-packages
      (quote
-      (htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode elpy ein-mumamo deft csv-mode autopair ac-js2))))
+      (htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode elpy ein-mumamo csv-mode autopair ac-js2))))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
@@ -175,9 +176,6 @@
 
   ;; setup the keybinding to launch magit
   (global-set-key (kbd "C-x g") 'magit-status)
-
-  (require 'deft)
-  (setq deft-directory "~/Dropbox/notes/")
 
   ;; god-mode
   (require 'god-mode)
@@ -293,7 +291,6 @@
   
     ;; export org to rst
     (require 'ox-rst)
-  
   
     ;; export org to nikola
     (require 'ox-nikola)
