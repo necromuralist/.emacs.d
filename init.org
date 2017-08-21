@@ -167,6 +167,12 @@
   <<org-babel>>
 
   <<feature-mode>>
+  
+  <<emacs-gui>>
+
+  <<yaml>>
+
+  <<mini-zinc>>
 #+END_SRC
 * package management
 #+NAME: package-management
@@ -361,4 +367,20 @@
 #+NAME: feature-mode
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
+#+END_SRC
+* Emacs GUI
+#+NAME: emacs-gui
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode -1)
+#+END_SRC
+* yaml
+#+BEGIN_SRC emacs-lisp :noweb-ref yaml
+(add-hook 'yaml-mode-hook
+(lambda ()
+(define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+#+END_SRC
+* Mini-Zinc
+#+BEGIN_SRC emacs-lisp :noweb-ref mini-zinc
+(require 'minizinc-mode)
+(add-to-list 'auto-mode-alist '("\\.mzn\\'" . minizinc-mode))
 #+END_SRC

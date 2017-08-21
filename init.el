@@ -49,34 +49,35 @@
   (show-paren-mode 1)
   (setq show-paren-delay 0)
 
-  ;; org-mode
-  (require 'org)
-  (define-key global-map "\C-cl" 'org-store-link)
-  (define-key global-map "\C-ca" 'org-agenda)
-  (setq org-log-done t)
-
-  ;; org-mode agendas
-  (setq org-agenda-files (list "~/Dropbox/roku_chiji/tsusu/kanban.org"))
-
-  ;; org-capture
-  (setq org-default-notes-file (concat "~/Dropbox/roku_chiji/tsusu/" "bugs.org"))
-  (define-key global-map "\C-cc" 'org-capture)
-
-  (setq org-capture-templates
-        '(("b" "Bug" entry (file+headline "~/Dropbox/roku_chiji/tsusu/bugs.org" "Bugs")
-                        "* BUG %?\n  %i\n  %a")))
-
-  ;; todo-state names
-  (setq org-todo-keywords
-        '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
-
-  ;; org clean-outlines
-  (setq org-hide-leading-stars t)
-  (setq org-indent-mode t)
-
-  ;; word-wrap
-  (setq org-indent-mode t)
-  (global-visual-line-mode 1)
+      ;; org-mode
+    (require 'org)
+    (define-key global-map "\C-cl" 'org-store-link)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (setq org-log-done t)
+  
+    ;; org-mode agendas
+    (setq org-agenda-files (list "~/Dropbox/roku_chiji/tsusu/kanban.org"))
+  
+    ;; org-capture
+    (setq org-default-notes-file (concat "~/Dropbox/roku_chiji/tsusu/" "bugs.org"))
+    (define-key global-map "\C-cc" 'org-capture)
+  
+    (setq org-capture-templates
+          '(("b" "Bug" entry (file+headline "~/Dropbox/roku_chiji/tsusu/bugs.org" "Bugs")
+                          "* BUG %?\n  %i\n  %a")))
+  
+    ;; todo-state names
+    (setq org-todo-keywords
+          '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
+  
+    ;; org clean-outlines
+    (setq org-hide-leading-stars t)
+    (setq org-indent-mode t)
+  
+    ;; word-wrap
+    (setq org-indent-mode t)
+    (global-visual-line-mode 1)
+  
 
   ;; pweave
   (add-to-list 'auto-mode-alist '("\\.pnw" . python-mode))
@@ -310,3 +311,12 @@
     (setq org-src-preserve-indentation t)
 
     (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
+  
+  (tool-bar-mode -1)
+
+  (add-hook 'yaml-mode-hook
+  (lambda ()
+  (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+
+  (require 'minizinc-mode)
+  (add-to-list 'auto-mode-alist '("\\.mzn\\'" . minizinc-mode))
