@@ -168,8 +168,6 @@
   <<emacs-gui>>
 
   <<yaml>>
-
-  <<mini-zinc>>
 #+END_SRC
 * package management
 #+NAME: package-management
@@ -375,8 +373,4 @@
 (lambda ()
 (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 #+END_SRC
-* Mini-Zinc
-#+BEGIN_SRC emacs-lisp :noweb-ref mini-zinc
-(require 'minizinc-mode)
-(add-to-list 'auto-mode-alist '("\\.mzn\\'" . minizinc-mode))
-#+END_SRC
+
