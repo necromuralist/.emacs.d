@@ -313,6 +313,3 @@
   (add-hook 'yaml-mode-hook
   (lambda ()
   (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
-
-  (require 'minizinc-mode)
-  (add-to-list 'auto-mode-alist '("\\.mzn\\'" . minizinc-mode))
