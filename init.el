@@ -2,7 +2,7 @@
     (require 'package)
   
     ;; list of packages copied from C-h v package-activated-list
-    (setq package-list '(ein websocket request ac-js2  elpy company feature-mode find-file-in-project god-mode highlight-indentation htmlize jedi auto-complete jedi-core epc ctable concurrent magit git-commit magit-popup ob-ipython f dash-functional ox-nikola ox-rst org popup python-environment deferred pyvenv s skewer-mode js2-mode simple-httpd swiper ivy web-mode with-editor dash async yasnippet))
+    (setq package-list '(ein websocket request ac-js2  company feature-mode find-file-in-project god-mode highlight-indentation htmlize jedi auto-complete jedi-core epc ctable concurrent magit git-commit magit-popup ob-ipython f dash-functional ox-nikola ox-rst org popup python-environment deferred pyvenv s skewer-mode js2-mode simple-httpd swiper ivy web-mode with-editor dash async yasnippet yaml-mode))
   
     ;; add the repositories
     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -23,12 +23,12 @@
       )
 
       ;; elpy
+      (add-to-list 'package-archives
+                   '("elpy" . "http://jorgenschaefer.github.io/packages/"))
       (elpy-enable)
       (setq elpy-rpc-backend "jedi")
       (eval-after-load "python"
         '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
-  
-      (elpy-use-ipython)
   
       (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
   ;; global parentheses matching (`autopair` package needs to be installed)
@@ -95,7 +95,7 @@
 
    '(package-selected-packages
      (quote
-      (htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode elpy ein-mumamo csv-mode autopair ac-js2))))
+      (htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2))))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
@@ -122,8 +122,8 @@
   (setq-default indent-tabs-mode nil)
 
   ;; ipython shell
-  (setq python-shell-interpreter "ipython"
-        python-shell-interpreter-args "-i")
+  (setq python-shell-interpreter "jupyter"
+        python-shell-interpreter-args "console --simple prompt")
 
       ;; web-mode
       (require 'web-mode)
@@ -144,12 +144,10 @@
         (setq web-mode-enable-current-column-highlight t)
         (setq web-mode-enable-current-element-highlight t)
         (setq web-mode-engines-alist
-            '(("django"    . "\\.html\\'"))
+            '(("jinja"    . "\\.html\\'"))
             )
       )
       (add-hook 'web-mode-hook  'my-web-mode-hook)
-  
-  
 
       ;; auto-complete
       ;; (defun turn-on-autocomplete () (auto-complete-mode 1))
@@ -311,5 +309,5 @@
   (tool-bar-mode -1)
 
   (add-hook 'yaml-mode-hook
-  (lambda ()
-  (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+            (lambda ()
+              (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
