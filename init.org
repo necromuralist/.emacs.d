@@ -371,4 +371,3 @@
           (lambda ()
             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 #+END_SRC
-
