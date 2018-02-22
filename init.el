@@ -22,15 +22,15 @@
         (package-install package))
       )
 
-      ;; elpy
-      (add-to-list 'package-archives
-                   '("elpy" . "http://jorgenschaefer.github.io/packages/"))
-      (elpy-enable)
-      (setq elpy-rpc-backend "jedi")
-      (eval-after-load "python"
-        '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
+    ;; elpy
+    (add-to-list 'package-archives
+                 '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+  		 (setq elpy-rpc-backend "jedi")
+    (eval-after-load "python"
+      '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
   
-      (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
+    (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
+  
   ;; global parentheses matching (`autopair` package needs to be installed)
   (electric-pair-mode 1)
 
@@ -122,8 +122,12 @@
   (setq-default indent-tabs-mode nil)
 
   ;; ipython shell
-  (setq python-shell-interpreter "jupyter"
-        python-shell-interpreter-args "console --simple prompt")
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "-i")
+
+;; for reference, if you use 'jupyter' for the prompt, it will break ob-ipython
+;;  (setq python-shell-interpreter "jupyter"
+;;        python-shell-interpreter-args "console --simple prompt")
 
       ;; web-mode
       (require 'web-mode)

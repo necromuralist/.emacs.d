@@ -66,8 +66,12 @@
   (setq-default indent-tabs-mode nil)
 
   ;; ipython shell
-  (setq python-shell-interpreter "jupyter"
-        python-shell-interpreter-args "console --simple prompt")
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "-i")
+
+;; for reference, if you use 'jupyter' for the prompt, it will break ob-ipython
+;;  (setq python-shell-interpreter "jupyter"
+;;        python-shell-interpreter-args "console --simple prompt")
 
   <<web-mode>>
 
@@ -198,18 +202,18 @@
 #+END_SRC
 * Python and elpy
 
-  #+NAME: python-elpy
-  #+BEGIN_SRC emacs-lisp
-    ;; elpy
-    (add-to-list 'package-archives
-                 '("elpy" . "http://jorgenschaefer.github.io/packages/"))
-    (elpy-enable)
-    (setq elpy-rpc-backend "jedi")
-    (eval-after-load "python"
-      '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
+#+NAME: python-elpy
+#+BEGIN_SRC emacs-lisp
+  ;; elpy
+  (add-to-list 'package-archives
+               '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+		 (setq elpy-rpc-backend "jedi")
+  (eval-after-load "python"
+    '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
 
-    (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
-  #+END_SRC
+  (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
+
+#+END_SRC
 * Org-mode
   #+BEGIN_SRC emacs-lisp :noweb-ref org-mode
     ;; org-mode
