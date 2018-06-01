@@ -353,6 +353,11 @@
   ;; export to latex/pdf
   (require 'ox-latex)
 
+  ;; export to confluence wiki-markup
+  ;; this comes from https://gist.github.com/correl/8347cd28b6f9218a1507
+  ;; it requires the org-plus-contrib package from elpa
+  (require 'ox-confluence-en)
+
   ;; syntax-highlighting for pdf's
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (setq org-latex-listings 'minted)
@@ -393,5 +398,5 @@
 
 There's a ticket on github to add this geature to bats, but the old developers stopped supporting it and I don't know if the fork has it yet. It isn't working if you install bats from Ubuntu's repositories as of Bionic Beaver.
 #+BEGIN_SRC emacs-lisp :noweb-ref bats
-(add-to-list 'auto-mode-alist '("\\.bat\\" . bats-mode))
+(add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
 #+END_SRC
