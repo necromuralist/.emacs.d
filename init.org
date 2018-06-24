@@ -173,6 +173,8 @@
 
   <<yaml>>
 
+  <<vue>>
+
   <<bats>>
 #+END_SRC
 * package management
@@ -316,6 +318,7 @@
      (shell . t)
      (emacs-lisp . t)
      (latex . t)
+     (ditaa . t)
      ))
 
   (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
@@ -350,6 +353,11 @@
   ;; export to latex/pdf
   (require 'ox-latex)
 
+  ;; export to confluence wiki-markup
+  ;; this comes from https://gist.github.com/correl/8347cd28b6f9218a1507
+  ;; it requires the org-plus-contrib package from elpa
+  (require 'ox-confluence-en)
+
   ;; syntax-highlighting for pdf's
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (setq org-latex-listings 'minted)
@@ -374,15 +382,22 @@
           (lambda ()
             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 #+END_SRC
+* Vue.js
+#+BEGIN_SRC emacs-lisp :noweb-ref vue
+;; setup files ending in “.vue” to open in vue-mode
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+#+END_SRC
 * Bats
-  This is [[https://github.com/dougm/bats-mode][the mode]] for the [[https://github.com/bats-core/bats-core][Bash Automated Test System]].
+  The Bash Automated Test System mode.
 
-  | Keybinding | Description                            | State           |
-  |------------+----------------------------------------+-----------------|
-  | C-c C-a    | Run all tests in the current directory | Working         |
-  | C-c C-,    | Run all tests in the current buffer    | Working         |
-  | C-c M-,    | Run test under the cursor              | [[https://github.com/sstephenson/bats/issues/36][Not Implemented]] |
+| Keybinding | Description                                | State        |
+|------------+--------------------------------------------+--------------|
+| C-c C-a    | Run all bat-files in the current directory | Works        |
+| C-c C-,    | Run all the tests in the current buffer    | Works        |
+| C-c M-,    | Run the test where the cursor is           | Doesn't Work |
 
+There's a ticket on github to add this geature to bats, but the old developers stopped supporting it and I don't know if the fork has it yet. It isn't working if you install bats from Ubuntu's repositories as of Bionic Beaver.
 #+BEGIN_SRC emacs-lisp :noweb-ref bats
-  (add-to-list 'auto-mode-alist '("\\.bats" . bats-mode))
+(add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
+>>>>>>> 4774e5de80f5853b111a445d754e05e838a87d60
 #+END_SRC

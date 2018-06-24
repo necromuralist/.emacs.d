@@ -81,27 +81,27 @@
 
   ;; turn off auto-fill mode
   (remove-hook 'text-mode-hook #'turn-on-auto-fill)
-  
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(js-indent-level 2)
- '(js2-basic-offset 2)
- '(js2-bounce-indent-p t)
- '(package-selected-packages
-   '(yaml-mode yasnippet pyvenv highlight-indentation find-file-in-project company ein bats-mode htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2)))
-  
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(rst-level-1 ((t (:background "white" :foreground "royal blue"))))
- '(rst-level-2 ((t (:background "white"))))
- '(rst-level-3 ((t (:background "cyan"))))
- '(rst-level-4 ((t (:background "magenta")))))
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(js-indent-level 2)
+   '(js2-basic-offset 2)
+   '(js2-bounce-indent-p t)
+
+   '(package-selected-packages
+     (quote
+      (htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(rst-level-1 ((t (:background "white" :foreground "royal blue"))))
+   '(rst-level-2 ((t (:background "white"))))
+   '(rst-level-3 ((t (:background "cyan"))))
+   '(rst-level-4 ((t (:background "magenta")))))
 
   ;; rst minor-mode
   (defun turn-on-rst () (rst-minor-mode 1))
@@ -263,6 +263,7 @@
        (shell . t)
        (emacs-lisp . t)
        (latex . t)
+       (ditaa . t)
        ))
   
     (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
@@ -297,6 +298,11 @@
     ;; export to latex/pdf
     (require 'ox-latex)
   
+    ;; export to confluence wiki-markup
+    ;; this comes from https://gist.github.com/correl/8347cd28b6f9218a1507
+    ;; it requires the org-plus-contrib package from elpa
+    (require 'ox-confluence-en)
+  
     ;; syntax-highlighting for pdf's
     (add-to-list 'org-latex-packages-alist '("" "minted"))
     (setq org-latex-listings 'minted)
@@ -313,4 +319,8 @@
             (lambda ()
               (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
-    (add-to-list 'auto-mode-alist '("\\.bats" . bats-mode))
+  ;; setup files ending in “.vue” to open in vue-mode
+  (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+
+  (add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
+  >>>>>>> 4774e5de80f5853b111a445d754e05e838a87d60
