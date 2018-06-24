@@ -301,7 +301,7 @@
     ;; export to confluence wiki-markup
     ;; this comes from https://gist.github.com/correl/8347cd28b6f9218a1507
     ;; it requires the org-plus-contrib package from elpa
-    (require 'ox-confluence-en)
+    ;; (require 'ox-confluence-en)
   
     ;; syntax-highlighting for pdf's
     (add-to-list 'org-latex-packages-alist '("" "minted"))
@@ -323,4 +323,5 @@
   (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 
   (add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
-  >>>>>>> 4774e5de80f5853b111a445d754e05e838a87d60
+
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backups/")))
