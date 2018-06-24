@@ -172,6 +172,8 @@
   <<emacs-gui>>
 
   <<yaml>>
+
+  <<bats>>
 #+END_SRC
 * package management
 #+NAME: package-management
@@ -371,4 +373,16 @@
 (add-hook 'yaml-mode-hook
           (lambda ()
             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+#+END_SRC
+* Bats
+  This is [[https://github.com/dougm/bats-mode][the mode]] for the [[https://github.com/bats-core/bats-core][Bash Automated Test System]].
+
+  | Keybinding | Description                            | State           |
+  |------------+----------------------------------------+-----------------|
+  | C-c C-a    | Run all tests in the current directory | Working         |
+  | C-c C-,    | Run all tests in the current buffer    | Working         |
+  | C-c M-,    | Run test under the cursor              | [[https://github.com/sstephenson/bats/issues/36][Not Implemented]] |
+
+#+BEGIN_SRC emacs-lisp :noweb-ref bats
+  (add-to-list 'auto-mode-alist '("\\.bats" . bats-mode))
 #+END_SRC
