@@ -324,7 +324,7 @@
      ))
 
   (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
-
+  
   ;; Don't treat underscores as sub-script notation
   (setq org-export-with-sub-superscripts nil)
 
@@ -367,6 +367,9 @@
 
   ;; let the user set the indentation so you can insert text between methods in classes.
   (setq org-src-preserve-indentation t)
+
+  ;; pygmentize ipython
+  (add-to-list 'org-latex-minted-langs '(ipython "python"))
 #+END_SRC
 * Feature Mode
 #+NAME: feature-mode
