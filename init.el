@@ -1,6 +1,6 @@
     ;; emacs package management
     (require 'package)
-  
+    (require 'use-package)
     ;; list of packages copied from C-h v package-activated-list
     (setq package-list '(ein websocket request ac-js2  company feature-mode find-file-in-project god-mode highlight-indentation htmlize jedi auto-complete jedi-core epc ctable concurrent magit git-commit magit-popup ob-ipython f dash-functional ox-nikola ox-rst org popup python-environment deferred pyvenv s skewer-mode js2-mode simple-httpd swiper ivy web-mode with-editor dash async yasnippet yaml-mode))
   
@@ -91,7 +91,7 @@
  '(js2-basic-offset 2)
  '(js2-bounce-indent-p t)
  '(package-selected-packages
-   '(elpy htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2)))
+   '(simplenote2 htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2)))
   
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -187,10 +187,15 @@
   (defun my-update-cursor ()
     (setq cursor-type (if (or god-local-mode buffer-read-only)
                           'box
-                        'bar))
-    (set-cursor-color (if (or god-local-mode buffer-read-only)
-                          "#691520"
-                        "#ffffff")))
+                        'bar)))
+(defun c/god-mode-update-cursor ()
+  (let ((limited-colors-p (> 257 (length (defined-colors)))))
+  (cond (god-local-mode (progn
+  (set-face-background 'mode-line (if limited-colors-p "white" "#e9e2cb"))
+  (set-face-background 'mode-line-inactive (if limited-colors-p "white" "#e9e2cb"))))
+  (t (progn
+  (set-face-background 'mode-line (if limited-colors-p "black" "#0a2832"))
+  (set-face-background 'mode-line-inactive (if limited-colors-p "black" "#0a2832")))))))
 
   (add-hook 'god-mode-enabled-hook 'my-update-cursor)
   (add-hook 'god-mode-disabled-hook 'my-update-cursor)
@@ -208,6 +213,7 @@
   (define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
   (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
 
+  (define-key god-local-mode-map (kbd ".") 'repeat)
   ;; set a default virtual environment
   (pyvenv-activate "~/.virtualenvs/emacs")
 
@@ -243,88 +249,124 @@
   (add-hook 'sh-mode-hook         'hs-minor-mode)
   (add-hook 'js2-mode-hook         'hs-minor-mode)
 
-    ;; increase/decrease text size
-    (global-set-key (kbd "C-c C-+") 'text-scale-increase)
-    (global-set-key (kbd "C--") 'text-scale-decrease)
+  ;; increase/decrease text size
+  (global-set-key (kbd "C-c C-+") 'text-scale-increase)
+  (global-set-key (kbd "C--") 'text-scale-decrease)
 
-  ;; js2
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; js2
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-    ;; org-babel
-    (add-to-list 'org-src-lang-modes '("rst" . "rst"))
-    (add-to-list 'org-src-lang-modes '("feature" . "feature"))
-    (add-to-list 'org-src-lang-modes '("org" . "org"))
-    (add-to-list 'org-src-lang-modes '("css" . "css"))
-  
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((ipython . t)
-       (plantuml . t)
-       (shell . t)
-       (emacs-lisp . t)
-       (latex . t)
-       (ditaa . t)
-       ))
-  
-    (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
-      
-    ;; Don't treat underscores as sub-script notation
-    (setq org-export-with-sub-superscripts nil)
-  
-    ;; Don't re-evaluate the source blocks before exporting
-    (setq org-export-babel-evaluate nil)
-  
-    ;; don't confirm block evaluation
-    (setq org-confirm-babel-evaluate nil)
-  
-    ;;; display/update images in the buffer after evaluation
-    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-  
-    ;; noweb expansion only when you tangle
-    (setq org-babel-default-header-args
-          (cons '(:noweb . "tangle")
-                (assq-delete-all :noweb org-babel-default-header-args))
-          )
-  
-    ;; syntax highlighting in org-files
-    (setq org-src-fontify-natively t)
-  
-    ;; export org to rst
-    (require 'ox-rst)
-  
-    ;; export org to nikola
-    (require 'ox-nikola)
-  
-    ;; export to latex/pdf
-    (require 'ox-latex)
-  
-    ;; export to confluence wiki-markup
-    ;; this comes from https://gist.github.com/correl/8347cd28b6f9218a1507
-    ;; it requires the org-plus-contrib package from elpa
-    ;; (require 'ox-confluence-en)
-  
-    ;; syntax-highlighting for pdf's
-    (add-to-list 'org-latex-packages-alist '("" "minted"))
-    (setq org-latex-listings 'minted)
-    (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-  
-    ;; let the user set the indentation so you can insert text between methods in classes.
-    (setq org-src-preserve-indentation t)
+  ;; org-babel
+  (add-to-list 'org-src-lang-modes '("rst" . "rst"))
+  (add-to-list 'org-src-lang-modes '("feature" . "feature"))
+  (add-to-list 'org-src-lang-modes '("org" . "org"))
+  (add-to-list 'org-src-lang-modes '("css" . "css"))
 
-    (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((ipython . t)
+     (plantuml . t)
+     (shell . t)
+     (emacs-lisp . t)
+     (latex . t)
+     (ditaa . t)
+     ))
+
+  (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
   
-  (tool-bar-mode -1)
+  ;; Don't treat underscores as sub-script notation
+  (setq org-export-with-sub-superscripts nil)
 
-  (add-hook 'yaml-mode-hook
-            (lambda ()
-              (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+  ;; Don't re-evaluate the source blocks before exporting
+  (setq org-export-babel-evaluate nil)
 
-  ;; setup files ending in “.vue” to open in vue-mode
-  (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+  ;; don't confirm block evaluation
+  (setq org-confirm-babel-evaluate nil)
 
-  (add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
+  ;;; display/update images in the buffer after evaluation
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
 
-  (setq backup-directory-alist '(("." . "~/.emacs.d/backups/")))
+  ;; noweb expansion only when you tangle
+  (setq org-babel-default-header-args
+        (cons '(:noweb . "tangle")
+              (assq-delete-all :noweb org-babel-default-header-args))
+        )
 
-    ;; pygmentize ipython
-    (add-to-list 'org-latex-minted-langs '(ipython "python"))
+  ;; syntax highlighting in org-files
+  (setq org-src-fontify-natively t)
+
+  ;; export org to rst
+  (require 'ox-rst)
+
+  ;; export org to nikola
+  (require 'ox-nikola)
+
+  ;; export to latex/pdf
+  (require 'ox-latex)
+
+  ;; export to confluence wiki-markup
+  ;; this comes from https://gist.github.com/correl/8347cd28b6f9218a1507
+  ;; it requires the org-plus-contrib package from elpa
+  ;; (require 'ox-confluence-en)
+
+  ;; syntax-highlighting for pdf's
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+  ;; let the user set the indentation so you can insert text between methods in classes.
+  (setq org-src-preserve-indentation t)
+
+  ;; pygmentize ipython
+  (add-to-list 'org-latex-minted-langs '(ipython "python"))
+
+  (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
+  
+(tool-bar-mode -1)
+
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+
+;; setup files ending in “.vue” to open in vue-mode
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+
+(add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
+
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups/")))
+
+(use-package markdown-mode
+ :ensure t
+ :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+ :init (setq markdown-command "pandoc")
+)
+
+
+(require 'deft)
+(use-package deft
+  :bind ("C-S-D" . deft)
+  :commands (deft)
+  :config (setq deft-directory "~/Dropbox/notes"
+                deft-extensions '("md" "rst" "org" "")
+                deft-recursive t))
+
+(use-package simplenote2
+ :init 
+ (simplenote2-setup)
+ :commands (simplenote2-browse simplenote2-list)
+ :bind (("C-S-s b" . simplenote2-browse)
+         ("C-S-s l" . simplenote2-list)
+         :map simplenote2-note-mode-map
+         ("C-S-s C-t a" . simplenote2-add-tag)
+         ("C-S-s C-t d" . simplenote2-delete-tag)
+         ("C-S-s C-y" . simplenote2-sync-notes)
+         ("C-S-s m" . markdown-mode)
+         )
+ :hook simplenote2-note-mode
+ :config 
+ (setq simplenote2-email "necromuralist@protonmail.com"
+       simplenote2-password nil
+       simplenote2-directory "~/Dropbox/notes/simplenotes"
+       simplenote2-markdown-notes-mode "markdown-mode"))

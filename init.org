@@ -105,10 +105,15 @@
   (defun my-update-cursor ()
     (setq cursor-type (if (or god-local-mode buffer-read-only)
                           'box
-                        'bar))
-    (set-cursor-color (if (or god-local-mode buffer-read-only)
-                          "#691520"
-                        "#ffffff")))
+                        'bar)))
+(defun c/god-mode-update-cursor ()
+  (let ((limited-colors-p (> 257 (length (defined-colors)))))
+  (cond (god-local-mode (progn
+  (set-face-background 'mode-line (if limited-colors-p "white" "#e9e2cb"))
+  (set-face-background 'mode-line-inactive (if limited-colors-p "white" "#e9e2cb"))))
+  (t (progn
+  (set-face-background 'mode-line (if limited-colors-p "black" "#0a2832"))
+  (set-face-background 'mode-line-inactive (if limited-colors-p "black" "#0a2832")))))))
 
   (add-hook 'god-mode-enabled-hook 'my-update-cursor)
   (add-hook 'god-mode-disabled-hook 'my-update-cursor)
@@ -126,6 +131,7 @@
   (define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
   (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
 
+  (define-key god-local-mode-map (kbd ".") 'repeat)
   ;; set a default virtual environment
   (pyvenv-activate "~/.virtualenvs/emacs")
 
@@ -161,30 +167,36 @@
   (add-hook 'sh-mode-hook         'hs-minor-mode)
   (add-hook 'js2-mode-hook         'hs-minor-mode)
 
-  <<general-text>>
+<<general-text>>
 
-  <<javascript>>
+<<javascript>>
 
-  <<org-babel>>
+<<org-babel>>
 
-  <<feature-mode>>
+<<feature-mode>>
   
-  <<emacs-gui>>
+<<emacs-gui>>
 
-  <<yaml>>
+<<yaml>>
 
-  <<vue>>
+<<vue>>
 
-  <<bats>>
+<<bats>>
 
-  <<backups>>
+<<backups>>
+
+<<markdown-mode>>
+
+<<deft>>
+
+<<simplenote2>>
 #+END_SRC
 * package management
 #+NAME: package-management
 #+BEGIN_SRC emacs-lisp
   ;; emacs package management
   (require 'package)
-
+  (require 'use-package)
   ;; list of packages copied from C-h v package-activated-list
   (setq package-list '(ein websocket request ac-js2  company feature-mode find-file-in-project god-mode highlight-indentation htmlize jedi auto-complete jedi-core epc ctable concurrent magit git-commit magit-popup ob-ipython f dash-functional ox-nikola ox-rst org popup python-environment deferred pyvenv s skewer-mode js2-mode simple-httpd swiper ivy web-mode with-editor dash async yasnippet yaml-mode))
 
@@ -408,4 +420,48 @@ There's a ticket on github to add this geature to bats, but the old developers s
 * Backups
 #+BEGIN_SRC emacs-lisp :noweb-ref backups
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups/")))
+#+END_SRC
+* Deft
+  This is for [[https://jblevins.org/projects/deft/][deft]], a [[https://simplenote.com/][SimpleNote]]/Notational Velocity sort of mode that lets you search in a directory for notes.
+#+BEGIN_SRC emacs-lisp :noweb-ref deft
+(require 'deft)
+(use-package deft
+  :bind ("C-S-D" . deft)
+  :commands (deft)
+  :config (setq deft-directory "~/Dropbox/notes"
+                deft-extensions '("md" "rst" "org" "")
+                deft-recursive t))
+#+END_SRC
+* Simplenote 2
+  This is for [[https://github.com/alpha22jp/simplenote2.el][simplenote2]], an interface to [[https://simplenote.com/][SimpleNote]] for emacs.
+#+BEGIN_SRC emacs-lisp :noweb-ref simplenote2
+(use-package simplenote2
+ :init 
+ (simplenote2-setup)
+ :commands (simplenote2-browse simplenote2-list)
+ :bind (("C-S-s b" . simplenote2-browse)
+         ("C-S-s l" . simplenote2-list)
+         :map simplenote2-note-mode-map
+         ("C-S-s C-t a" . simplenote2-add-tag)
+         ("C-S-s C-t d" . simplenote2-delete-tag)
+         ("C-S-s C-y" . simplenote2-sync-notes)
+         ("C-S-s m" . markdown-mode)
+         )
+ :hook simplenote2-note-mode
+ :config 
+ (setq simplenote2-email "necromuralist@protonmail.com"
+       simplenote2-password nil
+       simplenote2-directory "~/Dropbox/notes/simplenotes"
+       simplenote2-markdown-notes-mode "markdown-mode"))
+#+END_SRC
+* Markdown Mode
+#+BEGIN_SRC emacs-lisp :noweb-ref markdown-mode
+(use-package markdown-mode
+ :ensure t
+ :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+ :init (setq markdown-command "pandoc")
+)
+
 #+END_SRC
