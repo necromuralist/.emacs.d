@@ -353,20 +353,19 @@
                 deft-recursive t))
 
 (use-package simplenote2
- :init 
- (simplenote2-setup)
- :commands (simplenote2-browse simplenote2-list)
- :bind (("C-S-s b" . simplenote2-browse)
+  :init
+  (simplenote2-setup)
+  :hook
+        ((simplenote2-create-note-hook . simplenote2-set-markdown))
+  :bind (("C-S-s b" . simplenote2-browse)
          ("C-S-s l" . simplenote2-list)
          :map simplenote2-note-mode-map
          ("C-S-s C-t a" . simplenote2-add-tag)
          ("C-S-s C-t d" . simplenote2-delete-tag)
          ("C-S-s C-y" . simplenote2-sync-notes)
-         ("C-S-s m" . markdown-mode)
          )
- :hook simplenote2-note-mode
- :config 
- (setq simplenote2-email "necromuralist@protonmail.com"
+  :config
+  (setq simplenote2-email "necromuralist@protonmail.com"
        simplenote2-password nil
        simplenote2-directory "~/Dropbox/notes/simplenotes"
        simplenote2-markdown-notes-mode "markdown-mode"))
