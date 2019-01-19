@@ -53,14 +53,14 @@
     (setq org-log-done t)
   
     ;; org-mode agendas
-    (setq org-agenda-files (list "~/Dropbox/roku_chiji/tsusu/kanban.org"))
+    (setq org-agenda-files (list "~/documents/pcloud_drive/roku_chiji/tsusu/kanban.org"))
   
     ;; org-capture
-    (setq org-default-notes-file (concat "~/Dropbox/roku_chiji/tsusu/" "bugs.org"))
+    (setq org-default-notes-file (concat "~/documents/pcloud_drive/roku_chiji/tsusu/" "bugs.org"))
     (define-key global-map "\C-cc" 'org-capture)
   
     (setq org-capture-templates
-          '(("b" "Bug" entry (file+headline "~/Dropbox/roku_chiji/tsusu/bugs.org" "Bugs")
+          '(("b" "Bug" entry (file+headline "~/documents/pcloud_drive/roku_chiji/tsusu/bugs.org" "Bugs")
                           "* BUG %?\n  %i\n  %a")))
   
     ;; todo-state names
@@ -81,27 +81,27 @@
 
   ;; turn off auto-fill mode
   (remove-hook 'text-mode-hook #'turn-on-auto-fill)
-  
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(js-indent-level 2)
- '(js2-basic-offset 2)
- '(js2-bounce-indent-p t)
- '(package-selected-packages
-   '(simplenote2 htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2)))
-  
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(rst-level-1 ((t (:background "white" :foreground "royal blue"))))
- '(rst-level-2 ((t (:background "white"))))
- '(rst-level-3 ((t (:background "cyan"))))
- '(rst-level-4 ((t (:background "magenta")))))
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(js-indent-level 2)
+   '(js2-basic-offset 2)
+   '(js2-bounce-indent-p t)
+
+   '(package-selected-packages
+     (quote
+      (htmlize ox-nikola ox-rst ob-ipython web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(rst-level-1 ((t (:background "white" :foreground "royal blue"))))
+   '(rst-level-2 ((t (:background "white"))))
+   '(rst-level-3 ((t (:background "cyan"))))
+   '(rst-level-4 ((t (:background "magenta")))))
 
   ;; rst minor-mode
   (defun turn-on-rst () (rst-minor-mode 1))
@@ -348,25 +348,24 @@
 (use-package deft
   :bind ("C-S-D" . deft)
   :commands (deft)
-  :config (setq deft-directory "~/Dropbox/notes"
+  :config (setq deft-directory "~/projects/necromuralist.github.io/posts"
                 deft-extensions '("md" "rst" "org" "")
                 deft-recursive t))
 
-(use-package simplenote2
- :init 
- (simplenote2-setup)
- :commands (simplenote2-browse simplenote2-list)
- :bind (("C-S-s b" . simplenote2-browse)
-         ("C-S-s l" . simplenote2-list)
-         :map simplenote2-note-mode-map
-         ("C-S-s C-t a" . simplenote2-add-tag)
-         ("C-S-s C-t d" . simplenote2-delete-tag)
-         ("C-S-s C-y" . simplenote2-sync-notes)
-         ("C-S-s m" . markdown-mode)
-         )
- :hook simplenote2-note-mode
- :config 
- (setq simplenote2-email "necromuralist@protonmail.com"
-       simplenote2-password nil
-       simplenote2-directory "~/Dropbox/notes/simplenotes"
-       simplenote2-markdown-notes-mode "markdown-mode"))
+(require 'simplenote2)
+(setq simplenote2-email "necromuralist@protonmail.com")
+(setq simplenote2-password nil)
+(simplenote2-setup)
+
+(add-hook 'simplenote2-create-note-hook
+ (lambda ()
+   (simplenote2-set-markdown)
+ )
+)
+(add-hook 'simplenote2-note-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-t C-t") 'simplenote2-add-tag)
+            (local-set-key (kbd "C-c C-c") 'simplenote2-push-buffer)
+            (local-set-key (kbd "C-c C-d") 'simplenote2-pull-buffer)
+            )
+)
