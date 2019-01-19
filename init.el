@@ -1,6 +1,6 @@
     ;; emacs package management
     (require 'package)
-    (require 'use-package)
+  
     ;; list of packages copied from C-h v package-activated-list
     (setq package-list '(ein websocket request ac-js2  company feature-mode find-file-in-project god-mode highlight-indentation htmlize jedi auto-complete jedi-core epc ctable concurrent magit git-commit magit-popup ob-ipython f dash-functional ox-nikola ox-rst org popup python-environment deferred pyvenv s skewer-mode js2-mode simple-httpd swiper ivy web-mode with-editor dash async yasnippet yaml-mode))
   
@@ -12,7 +12,7 @@
     (when (not package-archive-contents)
       (package-refresh-contents))
   
-  
+    (require 'use-package)
     ;; install missing packages
     (dolist (package package-list)
       (unless (package-installed-p package)
