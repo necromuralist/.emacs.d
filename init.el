@@ -5,6 +5,7 @@
     (setq package-list '(ein websocket request ac-js2  company feature-mode find-file-in-project god-mode highlight-indentation htmlize jedi auto-complete jedi-core epc ctable concurrent magit git-commit magit-popup ob-ipython f dash-functional ox-nikola ox-rst org popup python-environment deferred pyvenv s skewer-mode js2-mode simple-httpd swiper ivy web-mode with-editor dash async yasnippet yaml-mode))
   
     ;; add the repositories
+    (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
     (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
     (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
   
@@ -55,6 +56,11 @@
     ;; org-mode agendas
     (setq org-agenda-files (list "~/documents/pcloud_drive/roku_chiji/tsusu/kanban.org"))
   
+    ;; org-mode agenda settings
+    (setq org-agenda-span 3
+          org-agenda-start-on-weekday nil
+          org-agenda-start-day "-1d")
+  
     ;; org-capture
     (setq org-default-notes-file (concat "~/documents/pcloud_drive/roku_chiji/tsusu/" "bugs.org"))
     (define-key global-map "\C-cc" 'org-capture)
@@ -65,7 +71,7 @@
   
     ;; todo-state names
     (setq org-todo-keywords
-          '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
+          '((sequence "FUTURE" "TOMORROW" "TODAY" "DOING" "|" "DONE")))
   
     ;; org clean-outlines
     (setq org-hide-leading-stars t)
@@ -75,6 +81,9 @@
     (setq org-indent-mode t)
     (global-visual-line-mode 1)
   
+
+  ;; make monday the first day of the week
+  (setq calendar-week-start-day 1)
 
   ;; pweave
   (add-to-list 'auto-mode-alist '("\\.pnw" . python-mode))
