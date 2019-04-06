@@ -62,6 +62,7 @@
           org-agenda-start-day "-1d")
   
     ;; org-capture
+    (setq org-indent-indentation-per-level 2)
     (setq org-default-notes-file (concat "~/documents/pcloud_drive/roku_chiji/tsusu/" "bugs.org"))
     (define-key global-map "\C-cc" 'org-capture)
   
@@ -71,7 +72,7 @@
   
     ;; todo-state names
     (setq org-todo-keywords
-          '((sequence "FUTURE" "TOMORROW" "TODAY" "DOING" "|" "DONE")))
+    '((sequence "FUTURE" "TOMORROW" "TODAY" "NEXT" "DOING" "|" "DONE")))
   
     ;; org clean-outlines
     (setq org-hide-leading-stars t)
@@ -81,6 +82,12 @@
     (setq org-indent-mode t)
     (global-visual-line-mode 1)
   
+    ;; Number of headline-levels to export as headlines (eventually exports as lists if too deep)
+    ;; The default is 4
+    (setq org-export-headline-levels 5)
+  
+    ;; Allow underscores without treating as sub-script unless you surround with {}
+    (setq org-use-sub-superscripts '{})
 
   ;; make monday the first day of the week
   (setq calendar-week-start-day 1)
