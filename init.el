@@ -370,7 +370,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit-popup magit yasnippet yaml-mode web-mode use-package swiper simplenote2 pyvenv ox-nikola ob-ipython lv jedi htmlize highlight-indentation god-mode find-file-in-project feature-mode ein deft company anki-editor ac-js2)))
+   '(password-store magit-popup magit yasnippet yaml-mode web-mode use-package swiper simplenote2 pyvenv ox-nikola ob-ipython lv jedi htmlize highlight-indentation god-mode find-file-in-project feature-mode ein deft company anki-editor ac-js2)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
