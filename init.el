@@ -6,7 +6,7 @@
 
   ;; add the repositories
   (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
   ;; refresh the list
@@ -103,7 +103,8 @@
 (setq org-export-headline-levels 5)
 
 ;; Allow underscores without treating as sub-script unless you surround with {}
-(setq org-use-sub-superscripts '{})
+(setq org-export-with-sub-superscripts '{})
+
 
 ;; Add the time when you set a state to DONE
 (setq org-log-done 'time)
@@ -174,14 +175,14 @@
   (add-to-list 'org-latex-minted-langs '(ipython "python"))
 
   ;; elpy
-  (add-to-list 'package-archives
-               '("elpy" . "http://jorgenschaefer.github.io/packages/"))
-		 (setq elpy-rpc-backend "jedi")
-  (eval-after-load "python"
-    '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
+(add-to-list 'package-archives
+             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+(setq elpy-rpc-backend "jedi")
+(advice-add 'python-mode :before 'elpy-enable)
+(eval-after-load "python"
+  '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
 
-  (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
-
+(add-to-list 'auto-mode-alist '("\\.py" . python-mode))
 
 ;; hide-show mode
 (defun turn-on-hideshow () (hs-minor-mode 1))
@@ -364,16 +365,3 @@
   ;; )
   ;; 
   ;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(magit-popup magit yasnippet yaml-mode web-mode use-package swiper simplenote2 pyvenv ox-nikola ob-ipython lv jedi htmlize highlight-indentation god-mode find-file-in-project feature-mode ein deft company anki-editor ac-js2)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

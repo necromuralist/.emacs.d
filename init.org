@@ -134,14 +134,14 @@
 #+NAME: python-elpy
 #+BEGIN_SRC emacs-lisp
   ;; elpy
-  (add-to-list 'package-archives
-               '("elpy" . "http://jorgenschaefer.github.io/packages/"))
-		 (setq elpy-rpc-backend "jedi")
-  (eval-after-load "python"
-    '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
+(add-to-list 'package-archives
+             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+(setq elpy-rpc-backend "jedi")
+(advice-add 'python-mode :before 'elpy-enable)
+(eval-after-load "python"
+  '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
 
-  (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
-
+(add-to-list 'auto-mode-alist '("\\.py" . python-mode))
 #+END_SRC
 * Org-mode
   #+BEGIN_SRC emacs-lisp :noweb-ref org-mode
@@ -184,7 +184,8 @@
 (setq org-export-headline-levels 5)
 
 ;; Allow underscores without treating as sub-script unless you surround with {}
-(setq org-use-sub-superscripts '{})
+(setq org-export-with-sub-superscripts '{})
+
 
 ;; Add the time when you set a state to DONE
 (setq org-log-done 'time)
