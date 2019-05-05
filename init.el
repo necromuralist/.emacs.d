@@ -168,10 +168,13 @@
   (add-to-list 'org-latex-minted-langs '(ipython "python"))
 
   ;; elpy
-(add-to-list 'package-archives
-             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+(use-package elpy
+ :ensure t
+ :defer t
+ :init
+(advice-add 'python-mode :before 'elpy-enable))
 (setq elpy-rpc-backend "jedi")
-(advice-add 'python-mode :before 'elpy-enable)
+
 (eval-after-load "python"
   '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
 
@@ -358,3 +361,16 @@
   ;; )
   ;; 
   ;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(elpy yasnippet yaml-mode web-mode use-package swiper simplenote2 pyvenv password-store ox-nikola ob-ipython magit-popup magit lv jedi htmlize highlight-indentation god-mode find-file-in-project feature-mode ein deft company anki-editor ac-js2)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

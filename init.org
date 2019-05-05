@@ -127,10 +127,13 @@
 #+NAME: python-elpy
 #+BEGIN_SRC emacs-lisp
   ;; elpy
-(add-to-list 'package-archives
-             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+(use-package elpy
+ :ensure t
+ :defer t
+ :init
+(advice-add 'python-mode :before 'elpy-enable))
 (setq elpy-rpc-backend "jedi")
-(advice-add 'python-mode :before 'elpy-enable)
+
 (eval-after-load "python"
   '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
 
