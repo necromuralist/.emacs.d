@@ -162,7 +162,7 @@
 
 (setq org-capture-templates
       '(("b" "Bug" entry (file+headline "~/documents/pcloud_drive/roku_chiji/repository/bugs.org" "Bugs")
-         "* BUG %?\n  %i\n  %a")))
+         "* FUTURE %?\n  %i\n  %a")))
 
 ;; todo-state names
 (setq org-todo-keywords

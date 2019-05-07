@@ -78,7 +78,7 @@
 
 (setq org-capture-templates
       '(("b" "Bug" entry (file+headline "~/documents/pcloud_drive/roku_chiji/repository/bugs.org" "Bugs")
-         "* BUG %?\n  %i\n  %a")))
+         "* FUTURE %?\n  %i\n  %a")))
 
 ;; todo-state names
 (setq org-todo-keywords
@@ -361,16 +361,3 @@
   ;; )
   ;; 
   ;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(elpy yasnippet yaml-mode web-mode use-package swiper simplenote2 pyvenv password-store ox-nikola ob-ipython magit-popup magit lv jedi htmlize highlight-indentation god-mode find-file-in-project feature-mode ein deft company anki-editor ac-js2)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
