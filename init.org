@@ -9,11 +9,6 @@
   ;; turn off saving backups
   (setq make-backup-files nil)
 
-  ;; fish functions
-  '(sh-basic-offset 2)
-  '(sh-indentation 2)
-  (setq auto-mode-alist (cons '("\\.fish$" . shell-script-mode) auto-mode-alist))
-
   ;; show column-numbers
   (column-number-mode)
 
@@ -190,6 +185,8 @@
 <<deft>>
 
 <<simplenote2>>
+
+<<fish>>
 #+END_SRC
 * package management
 #+NAME: package-management
@@ -463,4 +460,11 @@ There's a ticket on github to add this geature to bats, but the old developers s
  :init (setq markdown-command "pandoc")
 )
 
+#+END_SRC
+* Fish
+#+BEGIN_SRC emacs-lisp :noweb-ref fish
+  ;; fish functions
+  '(sh-basic-offset 2)
+  '(sh-indentation 2)
+  (setq auto-mode-alist (cons '("\\.fish$" . shell-script-mode) auto-mode-alist))
 #+END_SRC

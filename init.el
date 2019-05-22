@@ -34,11 +34,6 @@
   ;; turn off saving backups
   (setq make-backup-files nil)
 
-  ;; fish functions
-  '(sh-basic-offset 2)
-  '(sh-indentation 2)
-  (setq auto-mode-alist (cons '("\\.fish$" . shell-script-mode) auto-mode-alist))
-
   ;; show column-numbers
   (column-number-mode)
 
@@ -369,3 +364,8 @@
        simplenote2-password nil
        simplenote2-directory "~/Dropbox/notes/simplenotes"
        simplenote2-markdown-notes-mode "markdown-mode"))
+
+  ;; fish functions
+  '(sh-basic-offset 2)
+  '(sh-indentation 2)
+  (setq auto-mode-alist (cons '("\\.fish$" . shell-script-mode) auto-mode-alist))
