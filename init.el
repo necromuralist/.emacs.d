@@ -61,6 +61,9 @@
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
+(add-hook 'org-mode-hook
+ (lambda () (local-set-key "\C-cx" 'org-babel-execute-buffer))
+)
 (setq org-log-done t)
 
 ;; org-mode agendas
