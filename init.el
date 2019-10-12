@@ -67,7 +67,7 @@
 (setq org-log-done t)
 
 ;; org-mode agendas
-(setq org-agenda-files (list "~/documents/pcloud_drive/roku_chiji/repository/kanban.org"))
+(setq org-agenda-files (list "~/pCloudDrive/Crypto Folder/roku_chiji/repository/kanban.org"))
 
 ;; org-mode agenda settings
 (setq org-agenda-span 3
@@ -76,11 +76,11 @@
 
 ;; org-capture
 (setq org-indent-indentation-per-level 2)
-(setq org-default-notes-file (concat "~/documents/pcloud_drive/roku_chiji/repository/" "bugs.org"))
+(setq org-default-notes-file (concat "~/pCloudDrive/Crypto Folder/roku_chiji/repository/" "bugs.org"))
 (define-key global-map "\C-cc" 'org-capture)
 
 (setq org-capture-templates
-      '(("b" "Bug" entry (file+headline "~/documents/pcloud_drive/roku_chiji/repository/bugs.org" "Bugs")
+      '(("b" "Bug" entry (file+headline "~/pCloudDrive/Crypto Folder/roku_chiji/repository/bugs.org" "Bugs")
          "*** FUTURE %?\n  %i\n  %a")))
 
 ;; todo-state names
@@ -106,6 +106,8 @@
 (setq org-log-done 'time)
 
 ;; this has to be there in order to tangle this file
+;; (ipython . t) this is for ob-ipython, but it conflicts with emacs-jupyter
+
   ;; org-babel
   (add-to-list 'org-src-lang-modes '("rst" . "rst"))
   (add-to-list 'org-src-lang-modes '("feature" . "feature"))
@@ -120,9 +122,10 @@
      (emacs-lisp . t)
      (latex . t)
      (ditaa . t)
+     (jupyter . t)
      ))
 
-  (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
+  (setq org-plantuml-jar-path (expand-file-name "/usr/bin/plantuml"))
   
   ;; Don't treat underscores as sub-script notation
   (setq org-export-with-sub-superscripts nil)
@@ -177,7 +180,6 @@
  :init
 (advice-add 'python-mode :before 'elpy-enable))
 (setq elpy-rpc-backend "jedi")
-
 (eval-after-load "python"
   '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
 
@@ -313,7 +315,17 @@
   ;;       )
   ;;       (add-hook 'web-mode-hook  'my-web-mode-hook)
   ;; ;; js2
+  ;; (require 'js2-mode)
   ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  ;; (add-hook 'js2-mode-hook #' js2-imenu-extras-mode)
+  ;; 
+  ;; ;; js2-refactor
+  ;; (require 'js2-refactor)
+  ;; (add-hook 'js2-mode-hook #' js2-refactor-mode)
+  ;; (js2r-add-keybindings-with-prefix "C-c C-r")
+  ;; (define-key js-mode-map (kbd "M-.") nil)
+  ;; (add-hook 'js2-mode-hook (lambda ()
+  ;;   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
   ;; 
   ;;   (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
   ;;   
