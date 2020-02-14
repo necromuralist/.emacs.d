@@ -3,6 +3,7 @@
 
   ;; add the repositories
   (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
@@ -67,7 +68,7 @@
 (setq org-log-done t)
 
 ;; org-mode agendas
-(setq org-agenda-files (list "~/documents/pcloud_drive/roku_chiji/repository/kanban.org"))
+(setq org-agenda-files (list "~/pCloudDrive/Crypto Folder/roku_chiji/repository/kanban.org"))
 
 ;; org-mode agenda settings
 (setq org-agenda-span 3
@@ -76,11 +77,11 @@
 
 ;; org-capture
 (setq org-indent-indentation-per-level 2)
-(setq org-default-notes-file (concat "~/documents/pcloud_drive/roku_chiji/repository/" "bugs.org"))
+(setq org-default-notes-file (concat "~/pCloudDrive/Crypto Folder/roku_chiji/repository/" "bugs.org"))
 (define-key global-map "\C-cc" 'org-capture)
 
 (setq org-capture-templates
-      '(("b" "Bug" entry (file+headline "~/documents/pcloud_drive/roku_chiji/repository/bugs.org" "Bugs")
+      '(("b" "Bug" entry (file+headline "~/pCloudDrive/Crypto Folder/roku_chiji/repository/bugs.org" "Bugs")
          "*** FUTURE %?\n  %i\n  %a")))
 
 ;; todo-state names
@@ -105,23 +106,31 @@
 ;; Add the time when you set a state to DONE
 (setq org-log-done 'time)
 
+;; Allow you to set image widths
+(setq org-image-actual-width nil)
+
 ;; this has to be there in order to tangle this file
   ;; org-babel
   (add-to-list 'org-src-lang-modes '("rst" . "rst"))
   (add-to-list 'org-src-lang-modes '("feature" . "feature"))
   (add-to-list 'org-src-lang-modes '("org" . "org"))
   (add-to-list 'org-src-lang-modes '("css" . "css"))
+  (add-to-list 'org-src-lang-modes '("javascript" . "javascript"))
 
+;; (ipython . t)
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((ipython . t)
+   '(;;(ipython . t)
+     (sqlite . t)
      (plantuml . t)
      (shell . t)
      (emacs-lisp . t)
      (latex . t)
      (ditaa . t)
+     (jupyter . t)
      ))
-
+     
+  ;; the file is the jar, not the shell executable that (which plantuml) shows you
   (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
   
   ;; Don't treat underscores as sub-script notation
@@ -154,6 +163,13 @@
   ;; export to latex/pdf
   (require 'ox-latex)
 
+  ;; export to html
+  (require 'ox-html)
+
+;; export to jupyter notebook
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(require 'ox-ipynb)
+
   ;; export to confluence wiki-markup
   ;; this comes from https://gist.github.com/correl/8347cd28b6f9218a1507
   ;; it requires the org-plus-contrib package from elpa
@@ -169,6 +185,8 @@
 
   ;; pygmentize ipython
   (add-to-list 'org-latex-minted-langs '(ipython "python"))
+
+(org-babel-jupyter-override-src-block "python")
 
   ;; elpy
 (use-package elpy
@@ -224,7 +242,6 @@
 
     ;; auto-complete
     ;; (defun turn-on-autocomplete () (auto-complete-mode 1))
-    (add-to-list 'load-path "~/.emacs.d/lisp")
     (require 'auto-complete-config)
     (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
     (ac-config-default)
@@ -280,6 +297,8 @@
 ; setup the keybinding to launch magit
 (global-set-key (kbd "C-x g") 'magit-status)
 
+(set-face-attribute 'default nil :height 140)
+
 ;; tramp mode
 (setq tramp-default-method "ssh")
 
@@ -288,6 +307,45 @@
 
 ;; show column-numbers
 (column-number-mode)
+
+;; Enable scala-mode and sbt-mode
+(use-package scala-mode
+  :mode "\\.s\\(cala\\|bt\\)$")
+
+(use-package sbt-mode
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map)
+   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+   (setq sbt:program-options '("-Dsbt.supershell=false"))
+)
+
+;; Enable nice rendering of diagnostics like compile errors.
+(use-package flycheck
+  :init (global-flycheck-mode))
+
+(use-package lsp-mode
+  ;; Optional - enable lsp-mode automatically in scala files
+  :hook (scala-mode . lsp)
+  :config (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui)
+
+;; lsp-mode supports snippets, but in order for them to work you need to use yasnippet
+;; If you don't want to use snippets set lsp-enable-snippet to nil in your lsp-mode settings
+;;   to avoid odd behavior with snippets and indentation
+(use-package yasnippet)
+
+;; Add company-lsp backend for metals
+(use-package company-lsp)
+
+
+
 
   ;;       ;; web-mode
   ;;       (require 'web-mode)
