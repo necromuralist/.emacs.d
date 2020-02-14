@@ -110,6 +110,8 @@
 (setq org-image-actual-width nil)
 
 ;; this has to be there in order to tangle this file
+;; (ipython . t) this is for ob-ipython, but it conflicts with emacs-jupyter
+
   ;; org-babel
   (add-to-list 'org-src-lang-modes '("rst" . "rst"))
   (add-to-list 'org-src-lang-modes '("feature" . "feature"))
@@ -129,7 +131,7 @@
      (ditaa . t)
      (jupyter . t)
      ))
-     
+
   ;; the file is the jar, not the shell executable that (which plantuml) shows you
   (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
   
@@ -195,7 +197,6 @@
  :init
 (advice-add 'python-mode :before 'elpy-enable))
 (setq elpy-rpc-backend "jedi")
-
 (eval-after-load "python"
   '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
 
@@ -371,7 +372,17 @@
   ;;       )
   ;;       (add-hook 'web-mode-hook  'my-web-mode-hook)
   ;; ;; js2
+  ;; (require 'js2-mode)
   ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  ;; (add-hook 'js2-mode-hook #' js2-imenu-extras-mode)
+  ;; 
+  ;; ;; js2-refactor
+  ;; (require 'js2-refactor)
+  ;; (add-hook 'js2-mode-hook #' js2-refactor-mode)
+  ;; (js2r-add-keybindings-with-prefix "C-c C-r")
+  ;; (define-key js-mode-map (kbd "M-.") nil)
+  ;; (add-hook 'js2-mode-hook (lambda ()
+  ;;   (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
   ;; 
   ;;   (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
   ;;   
