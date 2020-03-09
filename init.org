@@ -519,6 +519,8 @@ This will bring up a stack-trace so you can see the actual errors, not the bizar
 #+begin_src lisp :noweb-ref ipython
 ;; Emacs Ipython Notebook
 (require 'ein)
+(require 'ein-notebook)
+(require 'ein-subpackages)
 (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
 
 ;; make no-tabs universal
