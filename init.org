@@ -1,87 +1,114 @@
 * Tangle Source
-#+begin_src lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :tangle init.el
 <<package-management>>
+
+<<org-mode>>
+
+;; make sure org-babel comes before jupyter or any other code-based settings
+<<org-babel>>
+
+<<emacs-settings>>
+
+<<toggle-input-method>>
+
+;; <<python-elpy>>
+(custom-set-variables
+       ;; custom-set-variables was added by Custom.
+       ;; If you edit it by hand, you could mess it up, so be careful.
+       ;; Your init file should contain only one such instance.
+       ;; If there is more than one, they won't work right.
+       '(js-indent-level 2)
+       '(js2-basic-offset 2)
+       '(js2-bounce-indent-p t)
+
+       '(package-selected-packages
+         (quote
+          (htmlize ox-nikola ox-rst web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2))))
+
+      (custom-set-faces
+       ;; custom-set-faces was added by Custom.
+       ;; If you edit it by hand, you could mess it up, so be careful.
+       ;; Your init file should contain only one such instance.
+       ;; If there is more than one, they won't work right.
+       '(rst-level-1 ((t (:background "white" :foreground "royal blue"))))
+       '(rst-level-2 ((t (:background "white"))))
+       '(rst-level-3 ((t (:background "cyan"))))
+       '(rst-level-4 ((t (:background "magenta")))))
+
+      ;; rst minor-mode
+      (defun turn-on-rst () (rst-minor-mode 1))
+      (add-hook 'python-mode-hook 'turn-on-rst)
+
+      ;; hide-show mode
+      (defun turn-on-hideshow () (hs-minor-mode 1))
+      (add-hook 'python-mode-hook 'turn-on-hideshow)
+
+      ;; Emacs Ipython Notebook
+      (require 'ein)
+      (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
+
+      ;; make no-tabs universal
+      (setq-default indent-tabs-mode nil)
+
+      ;; ipython shell
+      (setq python-shell-interpreter "ipython"
+            python-shell-interpreter-args "-i")
+
+      <<web-mode>>
+
+      <<auto-complete>>
+
+      (define-global-minor-mode select-electric-pair-mode electric-pair-mode
+        (lambda ()
+          (when (not (memq major-mode
+                           (list 'web-mode 'js2-mode)))
+            (electric-pair-mode))))
+
+      (select-electric-pair-mode 1)
+
+      ;; tramp mode
+      (setq tramp-default-method "ssh")
+
+      ;; magit
+      (setq global-magit-file-mode 1)
+
+      ;; setup the keybinding to launch magit
+      (global-set-key (kbd "C-x g") 'magit-status)
 
 <<god-mode>>
 
-;; this has to come before org-babel or before running shell commands
-<<virtualenv>>
-
-;; this has to come before org-babel
-<<org-mode>>
-
-;; this has to be there in order to tangle this file
-<<org-babel>>
-
 <<jupyter-emacs>>
-
-<<python-elpy>>
-
-<<hide-show>>
-
-<<calendar>>
-
-<<auto-complete>>
-
-<<fish-functions>>
-
-<<electric-pair-mode>>
-
-<<backups>>
 
 <<general-text>>
 
-<<time-stamps>>
+<<javascript>>
 
-<<ipython>>
+<<feature-mode>>
 
-<<magit>>
+<<emacs-gui>>
 
-<<appearance>>
+<<yaml>>
 
-;; tramp mode
-(setq tramp-default-method "ssh")
+<<vue>>
 
-;; turn off auto-fill mode
-(remove-hook 'text-mode-hook #'turn-on-auto-fill)
+<<bats>>
 
-;; show column-numbers
-(column-number-mode)
+<<backups>>
 
-<<scala>>
+<<markdown-mode>>
 
+<<deft>>
 
-<<latex-export>>
-
-  ;;   <<web-mode>>
-  ;; <<javascript>>
-  ;; 
-  ;; <<feature-mode>>
-  ;;   
-  ;; <<emacs-gui>>
-  ;; 
-  ;; <<yaml>>
-  ;; 
-  ;; <<vue>>
-  ;; 
-  ;; <<bats>>
-  ;; 
-  ;; <<markdown-mode>>
-  ;; 
-  ;; <<deft>>
-  ;; 
-  ;; <<simplenote2>>
-  ;; 
+<<dockerfile-mode>>
 #+END_SRC
 * Package Management
-#+BEGIN_SRC lisp :noweb-ref package-management
+#+NAME: package-management
+#+BEGIN_SRC emacs-lisp
   ;; emacs package management
   (require 'package)
 
   ;; add the repositories
-  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/") t)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
   (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
   ;; refresh the list
@@ -89,10 +116,34 @@
     (package-refresh-contents))
 
   (require 'use-package)
-
 #+END_SRC
+* Emacs Settings
+#+begin_src emacs-lisp :noweb-ref emacs-settings
+;; show column-numbers
+(column-number-mode)
+
+;; show matching parentheses
+(show-paren-mode 1)
+(setq show-paren-delay 0)
+
+;; global parentheses matching (`autopair` package needs to be installed)
+(electric-pair-mode 1)
+
+;; turn off saving backups
+(setq make-backup-files nil)
+
+;; turn off auto-fill mode
+(remove-hook 'text-mode-hook #'turn-on-auto-fill)
+
+#+end_src
+** Toggle Input Mode
+   This allows you to switch to latex input and then back using =C-\=. This is useful to embed special characters. Although you could probably just do the same thing with math mode if you want to wait until exporting.
+#+begin_src emacs-lisp :noweb-ref toggle-input-method
+;; (setq default-input-method "TeX")
+(setq default-input-method "TeX")
+#+end_src
 * God Mode
-#+begin_src lisp :noweb-ref god-mode
+#+begin_src emacs-lisp :noweb-ref god-mode
 ;; god-mode
 (require 'god-mode)
 (global-set-key (kbd "<escape>") 'god-mode-all)
@@ -131,88 +182,99 @@
 (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
 
 (define-key god-local-mode-map (kbd ".") 'repeat)
+;; set a default virtual environment
+(pyvenv-activate "~/.virtualenvs/emacs")
+
+;; hide-show is broken by god mode.
+;; this adds universal quick and dirty code-folding that works
+(defvar hs-special-modes-alist
+  (mapcar 'purecopy
+          '((c-mode "{" "}" "/[*/]" nil nil)
+            (c++-mode "{" "}" "/[*/]" nil nil)
+            (bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
+            (java-mode "{" "}" "/[*/]" nil nil)
+            (js2-mode "{" "}" "/[*/]" nil))))
+
+(defun toggle-selective-display (column)
+  (interactive "P")
+  (set-selective-display
+   (or column
+       (unless selective-display
+         (1+ (current-column))))))
+
+(defun toggle-hiding (column)
+  (interactive "P")
+  (if hs-minor-mode
+      (if (condition-case nil
+              (hs-toggle-hiding)
+            (error t))
+          (hs-show-all))
+    (toggle-selective-display column)))
+(load-library "hideshow")
+(global-set-key (kbd "C-+") 'toggle-hiding)
+(global-set-key (kbd "C-|") 'toggle-selective-display)
+(add-hook 'java-mode-hook       'hs-minor-mode)
+(add-hook 'sh-mode-hook         'hs-minor-mode)
+(add-hook 'js2-mode-hook         'hs-minor-mode)
 #+end_src
 * Python and elpy
 
 #+NAME: python-elpy
 #+BEGIN_SRC emacs-lisp
   ;; elpy
-(use-package elpy
- :ensure t
- :defer t
- :init
-(advice-add 'python-mode :before 'elpy-enable))
-(setq elpy-rpc-backend "jedi")
-(eval-after-load "python"
-  '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
+  (add-to-list 'package-archives
+               '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+		 (setq elpy-rpc-backend "jedi")
 
-(add-to-list 'auto-mode-alist '("\\.py" . python-mode))
+  ;; this next bit seem to conflict with emacs-jupyter
+  ;;(eval-after-load "python"
+  ;;  '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
+
+  (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
 #+END_SRC
-* Org-mode
-  #+BEGIN_SRC emacs-lisp :noweb-ref org-mode
-;; org-mode
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(add-hook 'org-mode-hook
- (lambda () (local-set-key "\C-cx" 'org-babel-execute-buffer))
-)
-(setq org-log-done t)
-
-;; org-mode agendas
-(setq org-agenda-files (list "~/pCloudDrive/Crypto Folder/roku_chiji/repository/kanban.org"))
-
-;; org-mode agenda settings
-(setq org-agenda-span 3
-      org-agenda-start-on-weekday nil
-      org-agenda-start-day "-1d")
-
-;; org-capture
-(setq org-indent-indentation-per-level 2)
-(setq org-default-notes-file (concat "~/pCloudDrive/Crypto Folder/roku_chiji/repository/" "bugs.org"))
-(define-key global-map "\C-cc" 'org-capture)
-
-(setq org-capture-templates
-      '(("b" "Bug" entry (file+headline "~/pCloudDrive/Crypto Folder/roku_chiji/repository/bugs.org" "Bugs")
-         "*** FUTURE %?\n  %i\n  %a")))
-
-;; todo-state names
-(setq org-todo-keywords
-      '((sequence "FUTURE" "TOMORROW" "TODAY" "NEXT" "DOING" "|" "DONE")))
-
-;; org clean-outlines
-(setq org-hide-leading-stars t)
-
-;; word-wrap
-(setq org-indent-mode t)
-(global-visual-line-mode 1)
-
-;; Number of headline-levels to export as headlines (eventually exports as lists if too deep)
-;; The default is 4
-(setq org-export-headline-levels 5)
-
-;; Allow underscores without treating as sub-script unless you surround with {}
-(setq org-export-with-sub-superscripts '{})
-
-
-;; Add the time when you set a state to DONE
-(setq org-log-done 'time)
-
-;; Allow you to set image widths
-(setq org-image-actual-width nil)
-  #+END_SRC
-* Fish Functions
-#+begin_src lisp :noweb-ref fish-functions
+* Emacs Jupyter
+#+begin_src python :noweb-ref jupyter-emacs
+(org-babel-jupyter-override-src-block "python")
+#+end_src
+* Fish
+#+begin_src emacs-lisp :noweb-ref fish-shell
 ;; fish functions
 '(sh-basic-offset 2)
 '(sh-indentation 2)
 (setq auto-mode-alist (cons '("\\.fish$" . shell-script-mode) auto-mode-alist))
 #+end_src
-* Calendar
-#+BEGIN_SRC emacs-lisp :noweb-ref calendar
-;; make monday the first day of the week
-(setq calendar-week-start-day 1)
-#+END_SRC
+* Org-mode
+  #+BEGIN_SRC emacs-lisp :noweb-ref org-mode
+    ;; org-mode
+  (require 'org)
+  (define-key global-map "\C-cl" 'org-store-link)
+  (define-key global-map "\C-ca" 'org-agenda)
+  (setq org-log-done t)
+
+  ;; org-mode agendas
+  (setq org-agenda-files (list "~/documents/pcloud_drive/roku_chiji/tsusu/kanban.org"))
+
+  ;; org-capture
+  (setq org-default-notes-file (concat "~/documents/pcloud_drive/roku_chiji/tsusu/" "bugs.org"))
+  (define-key global-map "\C-cc" 'org-capture)
+
+  (setq org-capture-templates
+        '(("b" "Bug" entry (file+headline "~/documents/pcloud_drive/roku_chiji/tsusu/bugs.org" "Bugs")
+                        "* BUG %?\n  %i\n  %a")))
+
+  ;; todo-state names
+  (setq org-todo-keywords
+        '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
+
+  ;; org clean-outlines
+  (setq org-hide-leading-stars t)
+  (setq org-indent-mode t)
+
+  ;; word-wrap
+  (setq org-indent-mode t)
+  (global-visual-line-mode 1)
+
+  #+END_SRC
 * web-mode
   #+NAME: web-mode
   #+BEGIN_SRC emacs-lisp
@@ -247,6 +309,7 @@
   #+BEGIN_SRC emacs-lisp
     ;; auto-complete
     ;; (defun turn-on-autocomplete () (auto-complete-mode 1))
+    (add-to-list 'load-path "~/.emacs.d/lisp")
     (require 'auto-complete-config)
     (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
     (ac-config-default)
@@ -265,44 +328,31 @@
 #+NAME: javascript
 #+BEGIN_SRC emacs-lisp
 ;; js2
-(require 'js2-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-hook 'js2-mode-hook #' js2-imenu-extras-mode)
-
-;; js2-refactor
-(require 'js2-refactor)
-(add-hook 'js2-mode-hook #' js2-refactor-mode)
-(js2r-add-keybindings-with-prefix "C-c C-r")
-(define-key js-mode-map (kbd "M-.") nil)
-(add-hook 'js2-mode-hook (lambda ()
-  (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
 #+END_SRC
 * org-babel
 #+NAME: org-babel
 #+BEGIN_SRC emacs-lisp
-;; (ipython . t) this is for ob-ipython, but it conflicts with emacs-jupyter
-
   ;; org-babel
+(require 'ob-js)
+
   (add-to-list 'org-src-lang-modes '("rst" . "rst"))
   (add-to-list 'org-src-lang-modes '("feature" . "feature"))
   (add-to-list 'org-src-lang-modes '("org" . "org"))
   (add-to-list 'org-src-lang-modes '("css" . "css"))
-  (add-to-list 'org-src-lang-modes '("javascript" . "javascript"))
 
-;; (ipython . t)
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '(;;(ipython . t)
-     (sqlite . t)
+   '(
      (plantuml . t)
      (shell . t)
      (emacs-lisp . t)
      (latex . t)
      (ditaa . t)
+     (js . t)
      (jupyter . t)
      ))
 
-  ;; the file is the jar, not the shell executable that (which plantuml) shows you
   (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
   
   ;; Don't treat underscores as sub-script notation
@@ -335,18 +385,6 @@
   ;; export to latex/pdf
   (require 'ox-latex)
 
-  ;; export to html
-  (require 'ox-html)
-
-;; export to jupyter notebook
-(add-to-list 'load-path "~/.emacs.d/lisp")
-(require 'ox-ipynb)
-
-  ;; export to confluence wiki-markup
-  ;; this comes from https://gist.github.com/correl/8347cd28b6f9218a1507
-  ;; it requires the org-plus-contrib package from elpa
-  ;; (require 'ox-confluence-en)
-
   ;; syntax-highlighting for pdf's
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (setq org-latex-listings 'minted)
@@ -358,20 +396,12 @@
   ;; pygmentize ipython
   (add-to-list 'org-latex-minted-langs '(ipython "python"))
 #+END_SRC
-* Emacs Jupyter
-#+begin_src python :noweb-ref jupyter-emacs
-(org-babel-jupyter-override-src-block "python")
-#+end_src
 * Feature Mode
 #+NAME: feature-mode
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
 #+END_SRC
-* Emacs GUI
-#+NAME: emacs-gui
-#+BEGIN_SRC emacs-lisp
-(tool-bar-mode -1)
-#+END_SRC
+
 * yaml
 #+BEGIN_SRC emacs-lisp :noweb-ref yaml
 (add-hook 'yaml-mode-hook
@@ -392,7 +422,7 @@
 | C-c C-,    | Run all the tests in the current buffer    | Works        |
 | C-c M-,    | Run the test where the cursor is           | Doesn't Work |
 
-There's a ticket on github to add this geature to bats, but the old developers stopped supporting it and I don't know if the fork has it yet. It isn't working if you install bats from Ubuntu's repositories as of Bionic Beaver.
+There's a ticket on github to add this feature (?) to bats, but the old developers stopped supporting it and I don't know if the fork has it yet. It isn't working if you install bats from Ubuntu's repositories as of Bionic Beaver.
 #+BEGIN_SRC emacs-lisp :noweb-ref bats
 (add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
 #+END_SRC
@@ -407,32 +437,13 @@ There's a ticket on github to add this geature to bats, but the old developers s
 (use-package deft
   :bind ("C-S-D" . deft)
   :commands (deft)
-  :config (setq deft-directory "~/projects/necromuralist.github.io/posts"
-                deft-extensions '("md" "rst" "org" "")
+  :config (setq deft-directory "~/.deft/"
+	   deft-extensions '("md" "rst" "org" "")
+                deft-use-filename-as-title t
+                deft-current-sort-method 'title		
                 deft-recursive t))
 #+END_SRC
-* Simplenote 2
-  This is for [[https://github.com/alpha22jp/simplenote2.el][simplenote2]], an interface to [[https://simplenote.com/][SimpleNote]] for emacs.
-#+BEGIN_SRC emacs-lisp :noweb-ref simplenote2
-(require 'simplenote2)
-(setq simplenote2-email "necromuralist@protonmail.com")
-(setq simplenote2-password nil)
-(simplenote2-setup)
 
-(add-hook 'simplenote2-create-note-hook
- (lambda ()
-   (simplenote2-set-markdown)
- )
-)
-(add-hook 'simplenote2-note-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-t C-t") 'simplenote2-add-tag)
-            (local-set-key (kbd "C-c C-c") 'simplenote2-push-buffer)
-            (local-set-key (kbd "C-c C-d") 'simplenote2-pull-buffer)
-            )
-)
-
-#+END_SRC
 * Markdown Mode
 #+BEGIN_SRC emacs-lisp :noweb-ref markdown-mode
 (use-package markdown-mode
@@ -444,185 +455,8 @@ There's a ticket on github to add this geature to bats, but the old developers s
 )
 
 #+END_SRC
-* Time Stamps
-  This will allow you to add an automatically-updated timestamp (see [[https://www.emacswiki.org/emacs/TimeStamp][th Emacs Wiki]] for more information).
-#+begin_src lisp :noweb-ref timestamps
-(add-hook 'before-save-hook 'time-stamp)
-#+end_src
-* Hide-Show
-#+begin_src lisp :noweb-ref hide-show
-;; hide-show mode
-(defun turn-on-hideshow () (hs-minor-mode 1))
-(add-hook 'python-mode-hook 'turn-on-hideshow)
-
-;; hide-show is broken by god mode.
-;; this adds universal quick and dirty code-folding that works
-(defvar hs-special-modes-alist
-  (mapcar 'purecopy
-  '((c-mode "{" "}" "/[*/]" nil nil)
-    (c++-mode "{" "}" "/[*/]" nil nil)
-    (bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
-    (java-mode "{" "}" "/[*/]" nil nil)
-    (js2-mode "{" "}" "/[*/]" nil))))
-
-(defun toggle-selective-display (column)
-      (interactive "P")
-      (set-selective-display
-       (or column
-           (unless selective-display
-             (1+ (current-column))))))
-
-(defun toggle-hiding (column)
-  (interactive "P")
-  (if hs-minor-mode
-      (if (condition-case nil
-              (hs-toggle-hiding)
-            (error t))
-          (hs-show-all))
-    (toggle-selective-display column)))
-(load-library "hideshow")
-(global-set-key (kbd "C-+") 'toggle-hiding)
-(global-set-key (kbd "C-\\") 'toggle-selective-display)
-(add-hook 'java-mode-hook       'hs-minor-mode)
-(add-hook 'sh-mode-hook         'hs-minor-mode)
-(add-hook 'js2-mode-hook         'hs-minor-mode)
-#+end_src
-* Magit
-#+begin_src lisp :noweb-ref magit
-;; magit
-(setq global-magit-file-mode 1)
-
-; setup the keybinding to launch magit
-(global-set-key (kbd "C-x g") 'magit-status)
-#+end_src
-* Virtualenv
-  When org-babel tries to set =ipython= as one of the languages it will raise an error if you don't have it on the path. Also, pretty much every process that uses the shell will raise an error if =virtualenv= isn't on the path, since that gets loaded in my =fish.config= file, so either all of these need to be global:
-
- - ipython
- - jupyter
- - virtualfish
-
-Or they need to in a virtualenv that gets loaded before the org-babel or ob-ipython settings get loaded or any lisp command is executed that uses the shell. I'm going here with creating a default virtualenv that has them.
-#+begin_src lisp :noweb-ref virtualenv
-;; load a virtualenv
-(pyvenv-activate  "~/.virtualenvs/emacs/")
-#+end_src
-
-A /very/ useful command to troubleshoot this kind of thing (emacs is surprisingly horrible at percolating errors up - or at least lisp programmers are) is:
-
-#+begin_src lisp
-M-x toggle-debug-on-error
-#+end_src
-
-This will bring up a stack-trace so you can see the actual errors, not the bizarre ones that usually show up.
-* Ipython
-#+begin_src lisp :noweb-ref ipython
-;; Emacs Ipython Notebook
-(require 'ein)
-(require 'ein-notebook)
-(require 'ein-subpackages)
-(add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
-
-;; make no-tabs universal
-(setq-default indent-tabs-mode nil)
-
-;; ipython shell
-(setq python-shell-interpreter "ipython"
-        python-shell-interpreter-args "-i")
-	
-;; for reference, if you use 'jupyter' for the prompt, it will break ob-ipython
-;;  (setq python-shell-interpreter "jupyter"
-;;        python-shell-interpreter-args "console --simple prompt")
-#+end_src
-* Electric Pair Mode
-#+begin_src lisp :noweb-ref electric-pair-mode
-;; global parentheses matching (`autopair` package needs to be installed)
-(electric-pair-mode 1)
-
-(define-global-minor-mode select-electric-pair-mode electric-pair-mode
-  (lambda ()
-    (when (not (memq major-mode
-                     (list 'web-mode 'js2-mode)))
-      (electric-pair-mode))))
-
-(select-electric-pair-mode 1)
-
-;; show matching parentheses
-(show-paren-mode 1)
-(setq show-paren-delay 0)
-#+end_src
-* Appearance
-#+begin_src lisp :noweb-ref appearance
-(set-face-attribute 'default nil :height 140)
-#+end_src
-* Scala
-#+begin_src python :noweb-ref scala
-;; Enable scala-mode and sbt-mode
-(use-package scala-mode
-  :mode "\\.s\\(cala\\|bt\\)$")
-
-(use-package sbt-mode
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map)
-   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-   (setq sbt:program-options '("-Dsbt.supershell=false"))
-)
-
-;; Enable nice rendering of diagnostics like compile errors.
-(use-package flycheck
-  :init (global-flycheck-mode))
-
-(use-package lsp-mode
-  ;; Optional - enable lsp-mode automatically in scala files
-  :hook (scala-mode . lsp)
-  :config (setq lsp-prefer-flymake nil))
-
-(use-package lsp-ui)
-
-;; lsp-mode supports snippets, but in order for them to work you need to use yasnippet
-;; If you don't want to use snippets set lsp-enable-snippet to nil in your lsp-mode settings
-;;   to avoid odd behavior with snippets and indentation
-(use-package yasnippet)
-
-;; Add company-lsp backend for metals
-(use-package company-lsp)
-#+end_src
-* Latex
-#+begin_src :noweb-ref latex-export
-;; 'djcb-org-article' for export org documents to the LaTex 'article', using
-;; XeTeX and some fancy fonts; requires XeTeX (see org-latex-to-pdf-process)
-(add-to-list 'org-export-latex-classes
-  '("djcb-org-article"
-"\\documentclass[12pt]{article}
-\\usepackage[T1]{fontenc}
-\\usepackage{fontspec}
-\\usepackage{graphicx} 
-\\defaultfontfeatures{Mapping=tex-text}
-\\setromanfont{Gentium}
-\\setromanfont [BoldFont={Gentium Basic Bold},
-                ItalicFont={Gentium Basic Italic}]{Gentium Basic}
-\\setsansfont{Charis SIL}
-\\setmonofont[Scale=0.8]{DejaVu Sans Mono}
-\\usepackage{geometry}
-\\geometry{a4paper, textwidth=6.5in, textheight=10in,
-            marginparsep=7pt, marginparwidth=.6in}
-\\pagestyle{empty}
-\\title{}
-      [NO-DEFAULT-PACKAGES]
-      [NO-PACKAGES]"
-     ("\\section{%s}" . "\\section*{%s}")
-     ("\\subsection{%s}" . "\\subsection*{%s}")
-     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-     ("\\paragraph{%s}" . "\\paragraph*{%s}")
-     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
-(setq org-latex-to-pdf-process 
-  '("xelatex -interaction nonstopmode %f"
-     "xelatex -interaction nonstopmode %f")) ;; for multiple passes
+* Dockerfile Mode
+#+begin_src emacs-lisp :noweb-ref dockerfile-mode
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 #+end_src
