@@ -12,6 +12,7 @@
 <<toggle-input-method>>
 
 ;; <<python-elpy>>
+
 (custom-set-variables
        ;; custom-set-variables was added by Custom.
        ;; If you edit it by hand, you could mess it up, so be careful.
@@ -97,9 +98,9 @@
 
 <<markdown-mode>>
 
-<<deft>>
-
 <<dockerfile-mode>>
+
+;; <<flycheck-mypy>>
 #+END_SRC
 * Package Management
 #+NAME: package-management
@@ -222,14 +223,11 @@
 #+NAME: python-elpy
 #+BEGIN_SRC emacs-lisp
   ;; elpy
-  (add-to-list 'package-archives
-               '("elpy" . "http://jorgenschaefer.github.io/packages/"))
-		 (setq elpy-rpc-backend "jedi")
-
-  ;; this next bit seem to conflict with emacs-jupyter
-  ;;(eval-after-load "python"
-  ;;  '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
-
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
   (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
 #+END_SRC
 * Emacs Jupyter
@@ -430,20 +428,6 @@ There's a ticket on github to add this feature (?) to bats, but the old develope
 #+BEGIN_SRC emacs-lisp :noweb-ref backups
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups/")))
 #+END_SRC
-* Deft
-  This is for [[https://jblevins.org/projects/deft/][deft]], a [[https://simplenote.com/][SimpleNote]]/Notational Velocity sort of mode that lets you search in a directory for notes.
-#+BEGIN_SRC emacs-lisp :noweb-ref deft
-(require 'deft)
-(use-package deft
-  :bind ("C-S-D" . deft)
-  :commands (deft)
-  :config (setq deft-directory "~/.deft/"
-	   deft-extensions '("md" "rst" "org" "")
-                deft-use-filename-as-title t
-                deft-current-sort-method 'title		
-                deft-recursive t))
-#+END_SRC
-
 * Markdown Mode
 #+BEGIN_SRC emacs-lisp :noweb-ref markdown-mode
 (use-package markdown-mode
@@ -460,3 +444,58 @@ There's a ticket on github to add this feature (?) to bats, but the old develope
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 #+end_src
+* Flycheck
+#+begin_src emacs-lisp :noweb-ref flycheck-mypy
+;; flycheck
+(use-package flycheck
+  :ensure t
+  :config
+  (global-flycheck-mode t)
+  ;; note that these bindings are optional
+  (global-set-key (kbd "C-c n") 'flycheck-next-error)
+  ;; this might override a default binding for running a python process,
+  ;; see comments below this answer
+  (global-set-key (kbd "C-c p") 'flycheck-prev-error)
+  )
+;; flycheck-pycheckers
+;; Allows multiple syntax checkers to run in parallel on Python code
+;; Ideal use-case: pyflakes for syntax combined with mypy for typing
+(use-package flycheck-pycheckers
+  :after flycheck
+  :ensure t
+  :init
+  (with-eval-after-load 'flycheck
+    (add-hook 'flycheck-mode-hook #'flycheck-pycheckers-setup)
+    )
+  (setq flycheck-pycheckers-checkers
+    '(
+      mypy3
+      pyflakes
+      )
+    )
+  )
+;; elpy
+(use-package elpy
+  :after poetry
+  :ensure t
+  :config
+  (elpy-enable)
+  (add-hook 'elpy-mode-hook 'poetry-tracking-mode) ;; optional if you're using Poetry
+  (setq elpy-rpc-virtualenv-path 'current)
+  (setq elpy-syntax-check-command "~/.virtualenvs/neurotic-networks/bin/pyflakes") ;; or replace with the path to your pyflakes binary
+  ;; allows Elpy to see virtualenv
+  (add-hook 'elpy-mode-hook
+        ;; pyvenv-mode
+        '(lambda ()
+           (pyvenv-mode +1)
+           )
+        )
+  ;; use flycheck instead of flymake
+  (when (load "flycheck" t t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+  )
+;; poetry
+(use-package poetry
+  :ensure t)
+#+end_src  
