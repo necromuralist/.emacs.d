@@ -21,7 +21,7 @@
        '(js-indent-level 2)
        '(js2-basic-offset 2)
        '(js2-bounce-indent-p t)
-
+       '(org-export-backends '(ascii html icalendar latex org))
        '(package-selected-packages
          (quote
           (htmlize ox-nikola ox-rst web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2))))
@@ -90,17 +90,23 @@
 
 <<yaml>>
 
-<<vue>>
+;; <<vue>>
 
-<<bats>>
+;; <<bats>>
 
 <<backups>>
 
-<<markdown-mode>>
+;; <<markdown-mode>>
 
 <<dockerfile-mode>>
 
+<<keychain>>
+
+<<hideshow-org>>
+
 ;; <<flycheck-mypy>>
+
+<<add-path>>
 #+END_SRC
 * Package Management
 #+NAME: package-management
@@ -136,6 +142,22 @@
 ;; turn off auto-fill mode
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
+;; hide menu-bar by default
+(menu-bar-mode -1)
+
+;; hide the toolbar
+(tool-bar-mode -1)
+
+;; disable the scrollbar
+(toggle-scroll-bar -1)
+
+(add-to-list 'default-frame-alist '(background-color . "white"))
+(add-to-list 'default-frame-alist '(foreground-color . "black"))
+
+;; dark slate blue
+;; (add-to-list 'default-frame-alist '(cursor-color . "#483D8B"))
+;; dark red
+(add-to-list 'default-frame-alist '(cursor-color . "#8B0000"))
 #+end_src
 ** Toggle Input Mode
    This allows you to switch to latex input and then back using =C-\=. This is useful to embed special characters. Although you could probably just do the same thing with math mode if you want to wait until exporting.
@@ -250,28 +272,30 @@
   (setq org-log-done t)
 
   ;; org-mode agendas
-  (setq org-agenda-files (list "~/documents/pcloud_drive/roku_chiji/tsusu/kanban.org"))
+  (setq org-agenda-files (list "~/documents/roku-chiji/repository/kanban.org"))
 
   ;; org-capture
-  (setq org-default-notes-file (concat "~/documents/pcloud_drive/roku_chiji/tsusu/" "bugs.org"))
+  (setq org-default-notes-file (concat "~/documents/roku-chiji/repository/" "bugs.org"))
   (define-key global-map "\C-cc" 'org-capture)
 
   (setq org-capture-templates
-        '(("b" "Bug" entry (file+headline "~/documents/pcloud_drive/roku_chiji/tsusu/bugs.org" "Bugs")
+        '(("b" "Bug" entry (file+headline "~/documents/roku-chiji/repository/bugs.org" "Bugs")
                         "* BUG %?\n  %i\n  %a")))
 
   ;; todo-state names
   (setq org-todo-keywords
-        '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
+        '((sequence "BUG" "TOMORROW" "TODAY" "DOING" "|" "DONE")))
 
   ;; org clean-outlines
-  (setq org-hide-leading-stars t)
-  (setq org-indent-mode t)
+;;  (setq org-hide-leading-stars t)
+  (setq org-startup-indented t)
+  (setq org-indent-indentation-per-level 1)
 
   ;; word-wrap
-  (setq org-indent-mode t)
   (global-visual-line-mode 1)
 
+;; start the calendar on monday
+(setq calendar-week-start-day 1)
   #+END_SRC
 * web-mode
   #+NAME: web-mode
@@ -338,6 +362,7 @@
   (add-to-list 'org-src-lang-modes '("feature" . "feature"))
   (add-to-list 'org-src-lang-modes '("org" . "org"))
   (add-to-list 'org-src-lang-modes '("css" . "css"))
+  (add-to-list 'org-src-lang-modes '("plantuml" . "plantuml"))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -346,7 +371,7 @@
      (shell . t)
      (emacs-lisp . t)
      (latex . t)
-     (ditaa . t)
+     (org . t)
      (js . t)
      (jupyter . t)
      ))
@@ -409,7 +434,7 @@
 * Vue.js
 #+BEGIN_SRC emacs-lisp :noweb-ref vue
 ;; setup files ending in “.vue” to open in vue-mode
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 #+END_SRC
 * Bats
   The Bash Automated Test System mode.
@@ -499,3 +524,28 @@ There's a ticket on github to add this feature (?) to bats, but the old develope
 (use-package poetry
   :ensure t)
 #+end_src  
+* Keychain
+This is to be able to use ssh-agent (via keychain).
+- `keychain` needs to be installed (e.g. via apt)
+- It needs to be running - Add this to the fish.config
+
+#+begin_src fish
+if status --is-interactive
+ keychain --eval --quiet -Q id_rsa | source
+end
+#+end_src
+
+#+begin_src elisp :noweb-ref keychain
+(require 'keychain-environment)
+(keychain-refresh-environment)
+#+end_src
+* Hideshow-Org
+#+begin_src elisp :noweb-ref hideshow-org
+(add-to-list 'load-path "~/projects/third-party/hideshow-org/")
+(require 'hideshow-org)
+#+end_src
+* Exec Path From Shell
+#+begin_src python :noweb-ref add-path
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+#+end_src

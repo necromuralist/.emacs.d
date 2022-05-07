@@ -18,28 +18,30 @@
   (setq org-log-done t)
 
   ;; org-mode agendas
-  (setq org-agenda-files (list "~/documents/pcloud_drive/roku_chiji/tsusu/kanban.org"))
+  (setq org-agenda-files (list "~/documents/roku-chiji/repository/kanban.org"))
 
   ;; org-capture
-  (setq org-default-notes-file (concat "~/documents/pcloud_drive/roku_chiji/tsusu/" "bugs.org"))
+  (setq org-default-notes-file (concat "~/documents/roku-chiji/repository/" "bugs.org"))
   (define-key global-map "\C-cc" 'org-capture)
 
   (setq org-capture-templates
-        '(("b" "Bug" entry (file+headline "~/documents/pcloud_drive/roku_chiji/tsusu/bugs.org" "Bugs")
+        '(("b" "Bug" entry (file+headline "~/documents/roku-chiji/repository/bugs.org" "Bugs")
                         "* BUG %?\n  %i\n  %a")))
 
   ;; todo-state names
   (setq org-todo-keywords
-        '((sequence "BUG" "DOABLE" "DOING" "|" "DONE")))
+        '((sequence "BUG" "TOMORROW" "TODAY" "DOING" "|" "DONE")))
 
   ;; org clean-outlines
-  (setq org-hide-leading-stars t)
-  (setq org-indent-mode t)
+;;  (setq org-hide-leading-stars t)
+  (setq org-startup-indented t)
+  (setq org-indent-indentation-per-level 1)
 
   ;; word-wrap
-  (setq org-indent-mode t)
   (global-visual-line-mode 1)
 
+;; start the calendar on monday
+(setq calendar-week-start-day 1)
 
 ;; make sure org-babel comes before jupyter or any other code-based settings
   ;; org-babel
@@ -49,6 +51,7 @@
   (add-to-list 'org-src-lang-modes '("feature" . "feature"))
   (add-to-list 'org-src-lang-modes '("org" . "org"))
   (add-to-list 'org-src-lang-modes '("css" . "css"))
+  (add-to-list 'org-src-lang-modes '("plantuml" . "plantuml"))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -57,7 +60,7 @@
      (shell . t)
      (emacs-lisp . t)
      (latex . t)
-     (ditaa . t)
+     (org . t)
      (js . t)
      (jupyter . t)
      ))
@@ -121,6 +124,22 @@
 ;; turn off auto-fill mode
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
+;; hide menu-bar by default
+(menu-bar-mode -1)
+
+;; hide the toolbar
+(tool-bar-mode -1)
+
+;; disable the scrollbar
+(toggle-scroll-bar -1)
+
+(add-to-list 'default-frame-alist '(background-color . "white"))
+(add-to-list 'default-frame-alist '(foreground-color . "black"))
+
+;; dark slate blue
+;; (add-to-list 'default-frame-alist '(cursor-color . "#483D8B"))
+;; dark red
+(add-to-list 'default-frame-alist '(cursor-color . "#8B0000"))
 
 ;; (setq default-input-method "TeX")
 (setq default-input-method "TeX")
@@ -134,26 +153,27 @@
 ;;   (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(js-indent-level 2)
- '(js2-basic-offset 2)
- '(js2-bounce-indent-p t)
- '(package-selected-packages
-   '(keychain-environment htmlize ox-nikola ox-rst web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2)))
+       ;; custom-set-variables was added by Custom.
+       ;; If you edit it by hand, you could mess it up, so be careful.
+       ;; Your init file should contain only one such instance.
+       ;; If there is more than one, they won't work right.
+       '(js-indent-level 2)
+       '(js2-basic-offset 2)
+       '(js2-bounce-indent-p t)
+       '(org-export-backends '(ascii html icalendar latex org))
+       '(package-selected-packages
+         (quote
+          (htmlize ox-nikola ox-rst web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2))))
 
-      
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(rst-level-1 ((t (:background "white" :foreground "royal blue"))))
- '(rst-level-2 ((t (:background "white"))))
- '(rst-level-3 ((t (:background "cyan"))))
- '(rst-level-4 ((t (:background "magenta")))))
+      (custom-set-faces
+       ;; custom-set-faces was added by Custom.
+       ;; If you edit it by hand, you could mess it up, so be careful.
+       ;; Your init file should contain only one such instance.
+       ;; If there is more than one, they won't work right.
+       '(rst-level-1 ((t (:background "white" :foreground "royal blue"))))
+       '(rst-level-2 ((t (:background "white"))))
+       '(rst-level-3 ((t (:background "cyan"))))
+       '(rst-level-4 ((t (:background "magenta")))))
 
       ;; rst minor-mode
       (defun turn-on-rst () (rst-minor-mode 1))
@@ -314,24 +334,30 @@
           (lambda ()
             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
-;; setup files ending in “.vue” to open in vue-mode
-(add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
+;; ;; setup files ending in “.vue” to open in vue-mode
+;; ;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 
-(add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
+;; (add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups/")))
 
-(use-package markdown-mode
- :ensure t
- :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
- :init (setq markdown-command "pandoc")
-)
-
+;; (use-package markdown-mode
+;;  :ensure t
+;;  :mode (("README\\.md\\'" . gfm-mode)
+;;          ("\\.md\\'" . markdown-mode)
+;;          ("\\.markdown\\'" . markdown-mode))
+;;  :init (setq markdown-command "pandoc")
+;; )
+;; 
 
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+
+(require 'keychain-environment)
+(keychain-refresh-environment)
+
+(add-to-list 'load-path "~/projects/third-party/hideshow-org/")
+(require 'hideshow-org)
 
 ;; ;; flycheck
 ;; (use-package flycheck
@@ -385,3 +411,6 @@
 ;; ;; poetry
 ;; (use-package poetry
 ;;   :ensure t)
+
+(when (daemonp)
+  (exec-path-from-shell-initialize))
