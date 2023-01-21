@@ -9,6 +9,8 @@
 
 <<emacs-settings>>
 
+<<emacs-file-locks>>
+
 <<toggle-input-method>>
 
 ;; <<python-elpy>>
@@ -136,9 +138,6 @@
 ;; global parentheses matching (`autopair` package needs to be installed)
 (electric-pair-mode 1)
 
-;; turn off saving backups
-(setq make-backup-files nil)
-
 ;; turn off auto-fill mode
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
@@ -158,6 +157,15 @@
 ;; (add-to-list 'default-frame-alist '(cursor-color . "#483D8B"))
 ;; dark red
 (add-to-list 'default-frame-alist '(cursor-color . "#8B0000"))
+
+;; Disable Bell
+(setq ring-bell-function 'ignore)
+#+end_src
+** File Locks
+A lock got corrupted once in the cryfs directory, making the editing file unreadable. You can fix it by copying everything but the corrupted file out, destroying and re-creating the cryfs mount and copying the files back in, but hopefully this will fix it. It does mean that two people could edit the same file and cause problems, but oh, well.
+
+#+begin_src emacs-lisp :noweb-ref emacs-settings
+(setq create-lockfiles nil)
 #+end_src
 ** Toggle Input Mode
    This allows you to switch to latex input and then back using =C-\=. This is useful to embed special characters. Although you could probably just do the same thing with math mode if you want to wait until exporting.
@@ -284,12 +292,13 @@
 
   ;; todo-state names
   (setq org-todo-keywords
-        '((sequence "BUG" "TOMORROW" "TODAY" "DOING" "|" "DONE")))
+        '((sequence "BUG" "TOMORROW" "TODAY" "NEXT" "DOING" "|" "DONE")))
 
   ;; org clean-outlines
-;;  (setq org-hide-leading-stars t)
-  (setq org-startup-indented t)
-  (setq org-indent-indentation-per-level 1)
+;;  
+  (setq org-startup-indented t
+  org-hide-leading-stars t
+  org-indent-indentation-per-level 1)
 
   ;; word-wrap
   (global-visual-line-mode 1)
@@ -302,7 +311,8 @@
   #+BEGIN_SRC emacs-lisp
     ;; web-mode
     (require 'web-mode)
-    (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
@@ -450,8 +460,12 @@ There's a ticket on github to add this feature (?) to bats, but the old develope
 (add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
 #+END_SRC
 * Backups
+From the [[https://www.emacswiki.org/emacs/BackupDirectory][Emacs Wiki]].
 #+BEGIN_SRC emacs-lisp :noweb-ref backups
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups/")))
+(setq backup-directory-alist 
+      '(("." . "/tmp/")))
+(setq auto-save-file-name-transforms
+      `((".*" , "/tmp/" t)))
 #+END_SRC
 * Markdown Mode
 #+BEGIN_SRC emacs-lisp :noweb-ref markdown-mode
@@ -543,9 +557,4 @@ end
 #+begin_src elisp :noweb-ref hideshow-org
 (add-to-list 'load-path "~/projects/third-party/hideshow-org/")
 (require 'hideshow-org)
-#+end_src
-* Exec Path From Shell
-#+begin_src python :noweb-ref add-path
-(when (daemonp)
-  (exec-path-from-shell-initialize))
 #+end_src

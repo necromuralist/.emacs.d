@@ -30,12 +30,13 @@
 
   ;; todo-state names
   (setq org-todo-keywords
-        '((sequence "BUG" "TOMORROW" "TODAY" "DOING" "|" "DONE")))
+        '((sequence "BUG" "TOMORROW" "TODAY" "NEXT" "DOING" "|" "DONE")))
 
   ;; org clean-outlines
-;;  (setq org-hide-leading-stars t)
-  (setq org-startup-indented t)
-  (setq org-indent-indentation-per-level 1)
+;;  
+  (setq org-startup-indented t
+  org-hide-leading-stars t
+  org-indent-indentation-per-level 1)
 
   ;; word-wrap
   (global-visual-line-mode 1)
@@ -118,9 +119,6 @@
 ;; global parentheses matching (`autopair` package needs to be installed)
 (electric-pair-mode 1)
 
-;; turn off saving backups
-(setq make-backup-files nil)
-
 ;; turn off auto-fill mode
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
@@ -140,6 +138,12 @@
 ;; (add-to-list 'default-frame-alist '(cursor-color . "#483D8B"))
 ;; dark red
 (add-to-list 'default-frame-alist '(cursor-color . "#8B0000"))
+
+;; Disable Bell
+(setq ring-bell-function 'ignore)
+(setq create-lockfiles nil)
+
+
 
 ;; (setq default-input-method "TeX")
 (setq default-input-method "TeX")
@@ -196,7 +200,8 @@
 
           ;; web-mode
           (require 'web-mode)
-          (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+          (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+          (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
           (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
           (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
           (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
@@ -339,7 +344,10 @@
 
 ;; (add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
 
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups/")))
+(setq backup-directory-alist 
+      '(("." . "/tmp/")))
+(setq auto-save-file-name-transforms
+      `((".*" , "/tmp/" t)))
 
 ;; (use-package markdown-mode
 ;;  :ensure t
@@ -411,6 +419,3 @@
 ;; ;; poetry
 ;; (use-package poetry
 ;;   :ensure t)
-
-(when (daemonp)
-  (exec-path-from-shell-initialize))
