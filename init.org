@@ -2,6 +2,8 @@
 #+BEGIN_SRC emacs-lisp :tangle init.el
 <<package-management>>
 
+<<activate-pyvenv>>
+
 <<org-mode>>
 
 ;; make sure org-babel comes before jupyter or any other code-based settings
@@ -126,6 +128,15 @@
 
   (require 'use-package)
 #+END_SRC
+* Pyvenv
+To prevent errors when emacs starts up and tries to load jupyter (for emacs-jupyter) we need ~jupyter~ to be on the path. Now that debian and ubuntu don't want you to install python packages globally we need another way. I had installed it with [[https://github.com/pypa/pipx][pipx]], which does work, but pipx doesn't doesn't install standalone libraries and sometimes breaks when trying to install dependencies so I think for this case it's better to avoid it and instead use a virtual-environment. Since it has to be activated before anything else that uses python packages, activating the environment should be put fairly early on in the ~init.el~ file.
+
+#+begin_src emacs-lisp :noweb-ref activate-pyvenv
+(require 'pyvenv)
+(pyvenv-activate "~/.virtualenvs/emacs-environment/")
+#+end_src
+
+This assumes that there's a virtual-environment named ~emacs-environment~ setup (with jupyter at least). Note that you could load ~elpy~ instead of just ~pyvenv~ by itself, but ~elpy~ is giving me errors (or at least lots of warnings) when it loads and I don't feel like troubleshooting it right now, since it doesn't play well with org-mode anyway.
 * Emacs Settings
 #+begin_src emacs-lisp :noweb-ref emacs-settings
 ;; show column-numbers

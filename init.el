@@ -11,6 +11,9 @@
 
   (require 'use-package)
 
+(require 'pyvenv)
+(pyvenv-activate "~/.virtualenvs/emacs-environment/")
+
     ;; org-mode
   (require 'org)
   (define-key global-map "\C-cl" 'org-store-link)
