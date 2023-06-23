@@ -56,6 +56,7 @@
   (add-to-list 'org-src-lang-modes '("org" . "org"))
   (add-to-list 'org-src-lang-modes '("css" . "css"))
   (add-to-list 'org-src-lang-modes '("plantuml" . "plantuml"))
+  (add-to-list 'org-src-lang-modes '("conf" . "conf"))
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -69,7 +70,7 @@
      (jupyter . t)
      ))
 
-  (setq org-plantuml-jar-path (expand-file-name "/usr/share/plantuml/plantuml.jar"))
+  (setq org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml.jar"))
   
   ;; Don't treat underscores as sub-script notation
   (setq org-export-with-sub-superscripts nil)
