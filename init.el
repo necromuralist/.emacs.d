@@ -14,38 +14,41 @@
 (require 'pyvenv)
 (pyvenv-activate "~/.virtualenvs/emacs-environment/")
 
-    ;; org-mode
-  (require 'org)
-  (define-key global-map "\C-cl" 'org-store-link)
-  (define-key global-map "\C-ca" 'org-agenda)
-  (setq org-log-done t)
+;; org-mode
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
 
-  ;; org-mode agendas
-  (setq org-agenda-files (list "~/documents/roku-chiji/repository/kanban.org"))
+;; org-mode agendas
+(setq org-agenda-files (list "~/documents/roku-chiji/repository/kanban.org"))
 
-  ;; org-capture
-  (setq org-default-notes-file (concat "~/documents/roku-chiji/repository/" "bugs.org"))
-  (define-key global-map "\C-cc" 'org-capture)
+;; org-capture
+(setq org-default-notes-file (concat "~/documents/roku-chiji/repository/" "bugs.org"))
+(define-key global-map "\C-cc" 'org-capture)
 
-  (setq org-capture-templates
-        '(("b" "Bug" entry (file+headline "~/documents/roku-chiji/repository/bugs.org" "Bugs")
-                        "* BUG %?\n  %i\n  %a")))
+(setq org-capture-templates
+      '(("b" "Bug" entry (file+headline "~/documents/roku-chiji/repository/bugs.org" "Bugs")
+         "* BUG %?\n  %i\n  %a")))
 
-  ;; todo-state names
-  (setq org-todo-keywords
-        '((sequence "BUG" "TOMORROW" "TODAY" "NEXT" "DOING" "|" "DONE")))
+;; todo-state names
+(setq org-todo-keywords
+        '((sequence "TOMORROW" "TODAY" "DOING" "|" "DONE")))
 
-  ;; org clean-outlines
-;;  
-  (setq org-startup-indented t
-  org-hide-leading-stars t
-  org-indent-indentation-per-level 1)
+;; org clean-outlines
 
-  ;; word-wrap
-  (global-visual-line-mode 1)
+(setq org-startup-indented t
+      org-hide-leading-stars t
+      org-indent-indentation-per-level 1)
+
+;; word-wrap
+(global-visual-line-mode 1)
 
 ;; start the calendar on monday
 (setq calendar-week-start-day 1)
+
+;; start with outline folded
+(setq org-startup-folded t)
 
 ;; make sure org-babel comes before jupyter or any other code-based settings
   ;; org-babel
@@ -113,6 +116,9 @@
   ;; pygmentize ipython
   (add-to-list 'org-latex-minted-langs '(ipython "python"))
 
+(setq python-indent-guess-indent-offset t)  
+(setq python-indent-guess-indent-offset-verbose nil)
+
 ;; show column-numbers
 (column-number-mode)
 
@@ -171,7 +177,7 @@
        '(org-export-backends '(ascii html icalendar latex org))
        '(package-selected-packages
          (quote
-          (htmlize ox-nikola ox-rst web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode ein-mumamo csv-mode autopair ac-js2))))
+          (htmlize ox-nikola ox-rst web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode csv-mode autopair ac-js2))))
 
       (custom-set-faces
        ;; custom-set-faces was added by Custom.
@@ -190,10 +196,6 @@
       ;; hide-show mode
       (defun turn-on-hideshow () (hs-minor-mode 1))
       (add-hook 'python-mode-hook 'turn-on-hideshow)
-
-      ;; Emacs Ipython Notebook
-      (require 'ein)
-      (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
 
       ;; make no-tabs universal
       (setq-default indent-tabs-mode nil)
@@ -256,6 +258,8 @@
 ;; god-mode
 (require 'god-mode)
 (global-set-key (kbd "<escape>") 'god-mode-all)
+(global-set-key (kbd "C-$") 'god-mode-all)
+(global-set-key (kbd "<Scroll_Lock>") 'god-mode-all)
 (define-key god-local-mode-map (kbd ".") 'repeat)
 
 (setq god-exempt-major-modes nil)
