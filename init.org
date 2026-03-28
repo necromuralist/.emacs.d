@@ -1,4 +1,4 @@
-* Tangle Source
+* TODO Tangle Source
 #+BEGIN_SRC emacs-lisp :tangle init.el
 <<package-management>>
 
@@ -57,7 +57,7 @@
       (setq python-shell-interpreter "ipython"
             python-shell-interpreter-args "-i")
 
-      <<web-mode>>
+      ;;<<web-mode>>
 
       <<auto-complete>>
 
@@ -100,7 +100,7 @@
 
 ;; <<markdown-mode>>
 
-<<dockerfile-mode>>
+;; <<dockerfile-mode>>
 
 <<keychain>>
 
@@ -432,10 +432,10 @@ This just stops emitting the message that emacs is using a default 4 spaces when
   (setq org-src-fontify-natively t)
 
   ;; export org to rst
-  (require 'ox-rst)
+;;  (require 'ox-rst)
 
   ;; export org to nikola
-  (require 'ox-nikola)
+  ;;(require 'ox-nikola)
 
   ;; export to latex/pdf
   (require 'ox-latex)
