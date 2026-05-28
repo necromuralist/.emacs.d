@@ -104,6 +104,8 @@ The =#+INCLUDE= doesn't get picked up when you tangle, only when you export this
   This will export it to a file named =the-init-file.org.org= and open it in another buffer
 - Change into the new buffer and tangle the configuration there (C-c C-v C-t)
 
+See [[https://necromuralist.github.io/posts/tangling-multiple-org-files/][Necromuralist: Tangling Multiple org Files]].
+
 #+begin_notecard
 The exported org-file (=the-init-file.org.org=) won't be a valid nikola file (it won't have the metadata at the top of the file). You'll have to delete it to build the nikola HTML.
 #+end_notecard
