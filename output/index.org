@@ -1,0 +1,15 @@
+#+BEGIN_COMMENT
+.. title: Emacs Configuration
+.. slug: index
+.. date: 2026-04-08 20:16:34 UTC-07:00
+.. tags: home
+.. category: Home
+.. link: 
+.. description: The Home Page.
+.. type: text
+.. status: 
+.. updated: 
+
+#+END_COMMENT
+
+Some pages to document my Emacs Configuration.

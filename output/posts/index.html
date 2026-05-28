@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#">
+<head>
+<meta charset="utf-8">
+<meta content="An emacs configuration." name="description">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>Emacs Configuration</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta content="#5670d4" name="theme-color">
+<meta content="Nikola (getnikola.com)" name="generator">
+<link href="../rss.xml" hreflang="en" rel="alternate" title="RSS" type="application/rss+xml">
+<link href="https://necromuralist.github.io/emacs.d/posts/index.html" rel="canonical"><!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><!-- favicons -->
+<link href="../apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+<link href="../android-chrome-192x192.png" rel="android-chrome-icon" sizes="192x192">
+<link href="../android-chrome-512x512.png" rel="android-chrome-icon" sizes="512x512">
+<link href="../favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+<link href="../favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+<link href="../site.webmanifest" rel="manifest">
+</head>
+<body>
+<a class="sr-only sr-only-focusable" href="#content">Skip to main content</a> <!-- Menubar -->
+<nav class="navbar navbar-expand-md static-top mb-4 navbar-light bg-light">
+<div class="container"><!-- This keeps the margins nice -->
+ <a class="navbar-brand" href="../"><span id="blog-title">Emacs Configuration</span></a> <button aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#bs-navbar" data-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+<div class="collapse navbar-collapse" id="bs-navbar">
+<ul class="navbar-nav mr-auto">
+<li class="nav-item"><a class="nav-link" href=".">Posts</a></li>
+<li class="nav-item"><a class="nav-link" href="../archive.html">Archive</a></li>
+<li class="nav-item"><a class="nav-link" href="../categories/">Tags</a></li>
+<li class="nav-item"><a class="nav-link" href="../rss.xml">RSS feed</a></li>
+<li class="nav-item dropdown"><a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Monkey Sites</a>
+<div class="dropdown-menu"><a class="dropdown-item" href="https://necromuralist.github.io/">The Cloistered Monkey</a> <a class="dropdown-item" href="https://necromuralist.github.io/Ape-Iron/">Ape Iron</a> <a class="dropdown-item" href="https://necromuralist.github.io/Beach-Pig-Thigh/">Beach Pig Runp & Thigh</a> <a class="dropdown-item" href="https://necromuralist.github.io/Bowling-For-Data/">Bowling For Data</a> <a class="dropdown-item" href="https://necromuralist.github.io/Neurotic-Networking/">Neurotic Networking</a> <a class="dropdown-item" href="https://necromuralist.github.io/Terribilis-Ludum/">Terribilis Ludum</a> <a class="dropdown-item" href="https://necromuralist.github.io/Visions-Voices-Data/">Visions, Voices, Data</a></div>
+</li>
+</ul>
+<!-- DuckDuckGo custom search -->
+<form action="https://duckduckgo.com/" class="navbar-form pull-left" id="search" method="get" name="search"><input name="sites" type="hidden" value="https://necromuralist.github.io/emacs.d/"><input name="k8" type="hidden" value="#444444"><input name="k9" type="hidden" value="#D51920"><input name="kt" type="hidden" value="h"><input class="span2" maxlength="255" name="q" placeholder="Search…" type="text"><input style="visibility: hidden;display:none" type="submit" value="DuckDuckGo Search"></form>
+<!-- End of custom search -->
+<ul class="navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse --></div>
+<!-- /.container --></nav>
+<!-- End of Menubar -->
+<div class="container" id="content" role="main">
+<div class="body-content"><!--Body content-->
+<div class="postindex">
+<article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article">
+<header>
+<h1 class="p-name entry-title"><a class="u-url" href="configuration-packages/index.html">Configuration: Packages</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">Cloistered Monkey</span></p>
+<p class="dateline"><a href="configuration-packages/index.html" rel="bookmark"><time class="published dt-published" datetime="2026-05-27T22:25:14-07:00" itemprop="datePublished" title="2026-05-27 22:25">2026-05-27 22:25</time></a></p>
+</div>
+</header>
+<div class="p-summary entry-summary">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="configuration-packages/index.html#orgcc5fbb0">Introduction</a></li>
+<li><a href="configuration-packages/index.html#orgb4cb537">Package Management</a></li>
+</ul>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgcc5fbb0">
+<h2 id="orgcc5fbb0">Introduction</h2>
+<div class="outline-text-2" id="text-orgcc5fbb0">
+<p>This is the section to load the package management configuration.</p>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgb4cb537">
+<h2 id="orgb4cb537">Package Management</h2>
+<div class="outline-text-2" id="text-orgb4cb537">
+<div class="highlight">
+<pre><span></span><span class="c1">;; emacs package management</span>
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'package</span><span class="p">)</span>
+
+<span class="c1">;; add the repositories</span>
+<span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'package-archives</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"melpa"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"https://melpa.org/packages/"</span><span class="p">)</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'package-archives</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"org"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"http://orgmode.org/elpa/"</span><span class="p">)</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+
+<span class="c1">;; refresh the list</span>
+<span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="nb">not</span><span class="w"> </span><span class="nv">package-archive-contents</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">package-refresh-contents</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'use-package</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</article>
+<article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article">
+<header>
+<h1 class="p-name entry-title"><a class="u-url" href="emacs-starter-kits/index.html">Emacs Starter Kits</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">Cloistered Monkey</span></p>
+<p class="dateline"><a href="emacs-starter-kits/index.html" rel="bookmark"><time class="published dt-published" datetime="2026-04-20T21:16:51-07:00" itemprop="datePublished" title="2026-04-20 21:16">2026-04-20 21:16</time></a></p>
+</div>
+</header>
+<div class="p-summary entry-summary">
+<ul class="org-ul">
+<li><a href="https://github.com/seagle0128/.emacs.d">Centaur (github)</a></li>
+<li><a href="https://github.com/MiniApollo/kickstart.emacs">kickstart.emacs (github)</a></li>
+<li><a href="https://github.com/jamescherti/minimal-emacs.d">Minimal Emacs.d (github)</a></li>
+<li><a href="https://github.com/bbatsov/prelude">Prelude (github)</a></li>
+<li><a href="https://github.com/jkitchin/scimax">scimax (github)</a></li>
+</ul>
+</div>
+</article>
+<article class="h-entry post-text" itemscope="itemscope" itemtype="http://schema.org/Article">
+<header>
+<h1 class="p-name entry-title"><a class="u-url" href="the-init-file/index.html">The Init File</a></h1>
+<div class="metadata">
+<p class="byline author vcard"><span class="byline-name fn" itemprop="author">Cloistered Monkey</span></p>
+<p class="dateline"><a href="the-init-file/index.html" rel="bookmark"><time class="published dt-published" datetime="2026-04-08T20:22:32-07:00" itemprop="datePublished" title="2026-04-08 20:22">2026-04-08 20:22</time></a></p>
+</div>
+</header>
+<div class="p-summary entry-summary">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="the-init-file/index.html#orge051904">Things To Do <code>[0/6]</code></a></li>
+<li><a href="the-init-file/index.html#orgab29262">Includes</a>
+<ul>
+<li><a href="the-init-file/index.html#org6a65419">Package Management</a></li>
+</ul>
+</li>
+<li><a href="the-init-file/index.html#org0554d1f">Custom Set Variables</a>
+<ul>
+<li><a href="the-init-file/index.html#org9f07d5d">Custom Set Faces</a></li>
+</ul>
+</li>
+<li><a href="the-init-file/index.html#org9145ea6">RST Minor Mode</a></li>
+<li><a href="the-init-file/index.html#org77dc2f7">Hide-Show Mode</a></li>
+<li><a href="the-init-file/index.html#org3c5a160">Universal No-Tabs</a></li>
+<li><a href="the-init-file/index.html#orgc2250de">Electric Pair Mode</a></li>
+<li><a href="the-init-file/index.html#orgc21b0eb">Tramp Mode</a></li>
+<li><a href="the-init-file/index.html#orgb6e6506">Magit</a></li>
+<li><a href="the-init-file/index.html#org7c687af">Pyvenv</a></li>
+<li><a href="the-init-file/index.html#org9f01b78">Emacs Settings</a>
+<ul>
+<li><a href="the-init-file/index.html#orgb6e1d6a">File Locks</a></li>
+<li><a href="the-init-file/index.html#org5de593d">Toggle Input Mode</a></li>
+</ul>
+</li>
+<li><a href="the-init-file/index.html#org2ca4959">God Mode</a></li>
+<li><a href="the-init-file/index.html#org9044a09">Python and elpy</a></li>
+<li><a href="the-init-file/index.html#org44732b7">Emacs Jupyter</a></li>
+<li><a href="the-init-file/index.html#org0c1e40a">Fish</a></li>
+<li><a href="the-init-file/index.html#org40f96d0">Org-mode</a></li>
+<li><a href="the-init-file/index.html#org3987e78">org-export python mode</a></li>
+<li><a href="the-init-file/index.html#org471b4e2">web-mode</a></li>
+<li><a href="the-init-file/index.html#org44bacf0">auto-complete</a></li>
+<li><a href="the-init-file/index.html#org0252021">general text</a></li>
+<li><a href="the-init-file/index.html#org83714f9">javascript</a></li>
+<li><a href="the-init-file/index.html#orgbc85396">org-babel</a></li>
+<li><a href="the-init-file/index.html#org99cf94c">Feature Mode</a></li>
+<li><a href="the-init-file/index.html#orga345631">yaml</a></li>
+<li><a href="the-init-file/index.html#orgf0eaba3">Vue.js</a></li>
+<li><a href="the-init-file/index.html#orgec72875">Bats</a></li>
+<li><a href="the-init-file/index.html#org51df044">Backups</a></li>
+<li><a href="the-init-file/index.html#org48b05c9">Markdown Mode</a></li>
+<li><a href="the-init-file/index.html#orgbe30883">Dockerfile Mode</a></li>
+<li><a href="the-init-file/index.html#orgd8648e5">Flycheck</a></li>
+<li><a href="the-init-file/index.html#org7c6ec5e">Keychain</a></li>
+<li><a href="the-init-file/index.html#orgc7c8c5e">Hideshow-Org</a></li>
+</ul>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orge051904">
+<h2 id="orge051904">Things To Do <code>[0/6]</code></h2>
+<div class="outline-text-2" id="text-orge051904">
+<ul class="org-ul">
+<li class="off"><code>[&nbsp;]</code> Move setup so far to separate posts and then include elisp back into this one</li>
+<li class="off"><code>[&nbsp;]</code> move custom-set-variables and faces to separate files <a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Customizations.html">See the emacs manual</a></li>
+<li class="off"><code>[&nbsp;]</code> Add emacs settings (like backups, hide toolbar, etc)</li>
+<li class="off"><code>[&nbsp;]</code> get jupyter working</li>
+<li class="off"><code>[&nbsp;]</code> Figure out what to re-add to the config</li>
+<li class="off"><code>[&nbsp;]</code> figure out what to copy from minimal-emacs</li>
+</ul>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgab29262">
+<h2 id="orgab29262">Includes</h2>
+<div class="outline-text-2" id="text-orgab29262">
+<p>The <code>#+INCLUDE</code> doesn't get picked up when you tangle, only when you export this file to another format. To make this work:</p>
+<ul class="org-ul">
+<li>Export this file to another Org file (C-c C-e Ov) This will export it to a file named <code>the-init-file.org.org</code> and open it in another buffer</li>
+<li>Change into the new buffer and tangle the configuration there (C-c C-v C-t)</li>
+</ul>
+<div class="notecard" id="orgbad7f3e">
+<p>The exported org-file (<code>the-init-file.org.org</code>) won't be a valid nikola file (it won't have the metadata at the top of the file). You'll have to delete it to build the nikola HTML.</p>
+</div>
+</div>
+<div class="outline-3" id="outline-container-org6a65419">
+<h3 id="org6a65419">Package Management</h3>
+<div class="outline-text-3" id="text-org6a65419">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; emacs package management</span>
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'package</span><span class="p">)</span>
+
+<span class="c1">;; add the repositories</span>
+<span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'package-archives</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"melpa"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"https://melpa.org/packages/"</span><span class="p">)</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'package-archives</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"org"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"http://orgmode.org/elpa/"</span><span class="p">)</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+
+<span class="c1">;; refresh the list</span>
+<span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="nb">not</span><span class="w"> </span><span class="nv">package-archive-contents</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">package-refresh-contents</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'use-package</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org0554d1f">
+<h2 id="org0554d1f">Custom Set Variables</h2>
+<div class="outline-text-2" id="text-org0554d1f">
+<p>These were set by emacs via the interactive interface (I think).</p>
+source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">custom-set-variables</span>
+<span class="w">       </span><span class="c1">;; custom-set-variables was added by Custom.</span>
+<span class="w">       </span><span class="c1">;; If you edit it by hand, you could mess it up, so be careful.</span>
+<span class="w">       </span><span class="c1">;; Your init file should contain only one such instance.</span>
+<span class="w">       </span><span class="c1">;; If there is more than one, they won't work right.</span>
+<span class="w">       </span><span class="o">'</span><span class="p">(</span><span class="nv">js-indent-level</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">       </span><span class="o">'</span><span class="p">(</span><span class="nv">js2-basic-offset</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">       </span><span class="o">'</span><span class="p">(</span><span class="nv">js2-bounce-indent-p</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">       </span><span class="o">'</span><span class="p">(</span><span class="nv">org-export-backends</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">ascii</span><span class="w"> </span><span class="nv">html</span><span class="w"> </span><span class="nv">icalendar</span><span class="w"> </span><span class="nv">latex</span><span class="w"> </span><span class="nv">org</span><span class="p">))</span>
+<span class="w">       </span><span class="o">'</span><span class="p">(</span><span class="nv">package-selected-packages</span>
+<span class="w">         </span><span class="p">(</span><span class="k">quote</span>
+<span class="w">          </span><span class="p">(</span><span class="nf">htmlize</span><span class="w"> </span><span class="nv">ox-nikola</span><span class="w"> </span><span class="nv">ox-rst</span><span class="w"> </span><span class="nv">web-mode</span><span class="w"> </span><span class="nv">swiper</span><span class="w"> </span><span class="nv">smex</span><span class="w"> </span><span class="nv">paredit</span><span class="w"> </span><span class="nv">magit</span><span class="w"> </span><span class="nv">jedi</span><span class="w"> </span><span class="nv">ido-ubiquitous</span><span class="w"> </span><span class="nv">idle-highlight-mode</span><span class="w"> </span><span class="nv">god-mode</span><span class="w"> </span><span class="nv">fuzzy</span><span class="w"> </span><span class="nv">feature-mode</span><span class="w"> </span><span class="nv">csv-mode</span><span class="w"> </span><span class="nv">autopair</span><span class="w"> </span><span class="nv">ac-js2</span><span class="p">))))</span>
+</pre></div>
+</div>
+<div class="outline-3" id="outline-container-org9f07d5d">
+<h3 id="org9f07d5d">Custom Set Faces</h3>
+<div class="outline-text-3" id="text-org9f07d5d">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">custom-set-faces</span>
+<span class="w"> </span><span class="c1">;; custom-set-faces was added by Custom.</span>
+<span class="w"> </span><span class="c1">;; If you edit it by hand, you could mess it up, so be careful.</span>
+<span class="w"> </span><span class="c1">;; Your init file should contain only one such instance.</span>
+<span class="w"> </span><span class="c1">;; If there is more than one, they won't work right.</span>
+<span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">rst-level-1</span><span class="w"> </span><span class="p">((</span><span class="nf">t</span><span class="w"> </span><span class="p">(</span><span class="nf">:background</span><span class="w"> </span><span class="s">"white"</span><span class="w"> </span><span class="nv">:foreground</span><span class="w"> </span><span class="s">"royal blue"</span><span class="p">))))</span>
+<span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">rst-level-2</span><span class="w"> </span><span class="p">((</span><span class="nf">t</span><span class="w"> </span><span class="p">(</span><span class="nf">:background</span><span class="w"> </span><span class="s">"white"</span><span class="p">))))</span>
+<span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">rst-level-3</span><span class="w"> </span><span class="p">((</span><span class="nf">t</span><span class="w"> </span><span class="p">(</span><span class="nf">:background</span><span class="w"> </span><span class="s">"cyan"</span><span class="p">))))</span>
+<span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">rst-level-4</span><span class="w"> </span><span class="p">((</span><span class="nf">t</span><span class="w"> </span><span class="p">(</span><span class="nf">:background</span><span class="w"> </span><span class="s">"magenta"</span><span class="p">)))))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org9145ea6">
+<h2 id="org9145ea6">RST Minor Mode</h2>
+<div class="outline-text-2" id="text-org9145ea6">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; rst minor-mode</span>
+<span class="p">(</span><span class="nf">defun</span><span class="w"> </span><span class="nv">turn-on-rst</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="nf">rst-minor-mode</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'python-mode-hook</span><span class="w"> </span><span class="ss">'turn-on-rst</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org77dc2f7">
+<h2 id="org77dc2f7">Hide-Show Mode</h2>
+<div class="outline-text-2" id="text-org77dc2f7">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; hide-show mode</span>
+<span class="p">(</span><span class="nf">defun</span><span class="w"> </span><span class="nv">turn-on-hideshow</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="nf">hs-minor-mode</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'python-mode-hook</span><span class="w"> </span><span class="ss">'turn-on-hideshow</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org3c5a160">
+<h2 id="org3c5a160">Universal No-Tabs</h2>
+<div class="outline-text-2" id="text-org3c5a160">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; make no-tabs universal</span>
+<span class="p">(</span><span class="nf">setq-default</span><span class="w"> </span><span class="nv">indent-tabs-mode</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgc2250de">
+<h2 id="orgc2250de">Electric Pair Mode</h2>
+<div class="outline-text-2" id="text-orgc2250de">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">define-global-minor-mode</span><span class="w"> </span><span class="nv">select-electric-pair-mode</span><span class="w"> </span><span class="nv">electric-pair-mode</span>
+<span class="w">  </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">()</span>
+<span class="w">    </span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="nb">not</span><span class="w"> </span><span class="p">(</span><span class="nb">memq</span><span class="w"> </span><span class="nv">major-mode</span>
+<span class="w">                     </span><span class="p">(</span><span class="nb">list</span><span class="w"> </span><span class="ss">'web-mode</span><span class="w"> </span><span class="ss">'js2-mode</span><span class="p">)))</span>
+<span class="w">      </span><span class="p">(</span><span class="nf">electric-pair-mode</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nf">select-electric-pair-mode</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgc21b0eb">
+<h2 id="orgc21b0eb">Tramp Mode</h2>
+<div class="outline-text-2" id="text-orgc21b0eb">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; tramp mode</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">tramp-default-method</span><span class="w"> </span><span class="s">"ssh"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgb6e6506">
+<h2 id="orgb6e6506">Magit</h2>
+<div class="outline-text-2" id="text-orgb6e6506">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; magit</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">global-magit-file-mode</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">;; setup the keybinding to launch magit</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-x g"</span><span class="p">)</span><span class="w"> </span><span class="ss">'magit-status</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org7c687af">
+<h2 id="org7c687af">Pyvenv</h2>
+<div class="outline-text-2" id="text-org7c687af">
+<p>To prevent errors when emacs starts up and tries to load jupyter (for emacs-jupyter) we need <code>jupyter</code> to be on the path. Now that debian and ubuntu don't want you to install python packages globally we need another way. I had installed it with <a href="https://github.com/pypa/pipx">pipx</a>, which does work, but pipx doesn't doesn't install standalone libraries and sometimes breaks when trying to install dependencies so I think for this case it's better to avoid it and instead use a virtual-environment. Since it has to be activated before anything else that uses python packages, activating the environment should be put fairly early on in the <code>init.el</code> file.</p>
+source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'pyvenv</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">pyvenv-activate</span><span class="w"> </span><span class="s">"~/.virtualenvs/emacs-environment/"</span><span class="p">)</span>
+</pre></div>
+<p>This assumes that there's a virtual-environment named <code>emacs-environment</code> setup (with jupyter at least). Note that you could load <code>elpy</code> instead of just <code>pyvenv</code> by itself, but <code>elpy</code> is giving me errors (or at least lots of warnings) when it loads and I don't feel like troubleshooting it right now, since it doesn't play well with org-mode anyway.</p>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org9f01b78">
+<h2 id="org9f01b78">Emacs Settings</h2>
+<div class="outline-text-2" id="text-org9f01b78">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; show column-numbers</span>
+<span class="p">(</span><span class="nf">column-number-mode</span><span class="p">)</span>
+
+<span class="c1">;; show matching parentheses</span>
+<span class="p">(</span><span class="nf">show-paren-mode</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">show-paren-delay</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1">;; global parentheses matching (`autopair` package needs to be installed)</span>
+<span class="p">(</span><span class="nf">electric-pair-mode</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">;; turn off auto-fill mode</span>
+<span class="p">(</span><span class="nf">remove-hook</span><span class="w"> </span><span class="ss">'text-mode-hook</span><span class="w"> </span><span class="o">#</span><span class="ss">'turn-on-auto-fill</span><span class="p">)</span>
+
+<span class="c1">;; hide menu-bar by default</span>
+<span class="p">(</span><span class="nf">menu-bar-mode</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+
+<span class="c1">;; hide the toolbar</span>
+<span class="p">(</span><span class="nf">tool-bar-mode</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+
+<span class="c1">;; disable the scrollbar</span>
+<span class="p">(</span><span class="nf">toggle-scroll-bar</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'default-frame-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">background-color</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"white"</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'default-frame-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">foreground-color</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"black"</span><span class="p">))</span>
+
+<span class="c1">;; dark slate blue</span>
+<span class="c1">;; (add-to-list 'default-frame-alist '(cursor-color . "#483D8B"))</span>
+<span class="c1">;; dark red</span>
+<span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'default-frame-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">cursor-color</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"#8B0000"</span><span class="p">))</span>
+
+<span class="c1">;; Disable Bell</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">ring-bell-function</span><span class="w"> </span><span class="ss">'ignore</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="outline-3" id="outline-container-orgb6e1d6a">
+<h3 id="orgb6e1d6a">File Locks</h3>
+<div class="outline-text-3" id="text-orgb6e1d6a">
+<p>A lock got corrupted once in the cryfs directory, making the editing file unreadable. You can fix it by copying everything but the corrupted file out, destroying and re-creating the cryfs mount and copying the files back in, but hopefully this will fix it. It does mean that two people could edit the same file and cause problems, but oh, well.</p>
+source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">create-lockfiles</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-3" id="outline-container-org5de593d">
+<h3 id="org5de593d">Toggle Input Mode</h3>
+<div class="outline-text-3" id="text-org5de593d">
+<p>This allows you to switch to latex input and then back using <code>C-\</code>. This is useful to embed special characters. Although you could probably just do the same thing with math mode if you want to wait until exporting.</p>
+source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; (setq default-input-method "TeX")</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">default-input-method</span><span class="w"> </span><span class="s">"TeX"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org2ca4959">
+<h2 id="org2ca4959">God Mode</h2>
+<div class="outline-text-2" id="text-org2ca4959">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; god-mode</span>
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'god-mode</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"&lt;escape&gt;"</span><span class="p">)</span><span class="w"> </span><span class="ss">'god-mode-all</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-$"</span><span class="p">)</span><span class="w"> </span><span class="ss">'god-mode-all</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"&lt;Scroll_Lock&gt;"</span><span class="p">)</span><span class="w"> </span><span class="ss">'god-mode-all</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">define-key</span><span class="w"> </span><span class="nv">god-local-mode-map</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"."</span><span class="p">)</span><span class="w"> </span><span class="ss">'repeat</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">god-exempt-major-modes</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">god-exempt-predicates</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">defun</span><span class="w"> </span><span class="nv">my-update-cursor</span><span class="w"> </span><span class="p">()</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">cursor-type</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">god-local-mode</span><span class="w"> </span><span class="nv">buffer-read-only</span><span class="p">)</span>
+<span class="w">                        </span><span class="ss">'box</span>
+<span class="w">                      </span><span class="ss">'bar</span><span class="p">)))</span>
+<span class="p">(</span><span class="nf">defun</span><span class="w"> </span><span class="nv">c/god-mode-update-cursor</span><span class="w"> </span><span class="p">()</span>
+<span class="w">  </span><span class="p">(</span><span class="k">let</span><span class="w"> </span><span class="p">((</span><span class="nf">limited-colors-p</span><span class="w"> </span><span class="p">(</span><span class="nb">&gt;</span><span class="w"> </span><span class="mi">257</span><span class="w"> </span><span class="p">(</span><span class="nb">length</span><span class="w"> </span><span class="p">(</span><span class="nf">defined-colors</span><span class="p">)))))</span>
+<span class="w">    </span><span class="p">(</span><span class="k">cond</span><span class="w"> </span><span class="p">(</span><span class="nf">god-local-mode</span><span class="w"> </span><span class="p">(</span><span class="nf">progn</span>
+<span class="w">                            </span><span class="p">(</span><span class="nf">set-face-background</span><span class="w"> </span><span class="ss">'mode-line</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="nv">limited-colors-p</span><span class="w"> </span><span class="s">"white"</span><span class="w"> </span><span class="s">"#e9e2cb"</span><span class="p">))</span>
+<span class="w">                            </span><span class="p">(</span><span class="nf">set-face-background</span><span class="w"> </span><span class="ss">'mode-line-inactive</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="nv">limited-colors-p</span><span class="w"> </span><span class="s">"white"</span><span class="w"> </span><span class="s">"#e9e2cb"</span><span class="p">))))</span>
+<span class="w">          </span><span class="p">(</span><span class="nf">t</span><span class="w"> </span><span class="p">(</span><span class="nf">progn</span>
+<span class="w">               </span><span class="p">(</span><span class="nf">set-face-background</span><span class="w"> </span><span class="ss">'mode-line</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="nv">limited-colors-p</span><span class="w"> </span><span class="s">"black"</span><span class="w"> </span><span class="s">"#0a2832"</span><span class="p">))</span>
+<span class="w">               </span><span class="p">(</span><span class="nf">set-face-background</span><span class="w"> </span><span class="ss">'mode-line-inactive</span><span class="w"> </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="nv">limited-colors-p</span><span class="w"> </span><span class="s">"black"</span><span class="w"> </span><span class="s">"#0a2832"</span><span class="p">)))))))</span>
+
+<span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'god-mode-enabled-hook</span><span class="w"> </span><span class="ss">'my-update-cursor</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'god-mode-disabled-hook</span><span class="w"> </span><span class="ss">'my-update-cursor</span><span class="p">)</span>
+
+<span class="c1">;; window bindings for god-mode</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-x C-o"</span><span class="p">)</span><span class="w"> </span><span class="ss">'other-window</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-x C-1"</span><span class="p">)</span><span class="w"> </span><span class="ss">'delete-other-windows</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-x C-2"</span><span class="p">)</span><span class="w"> </span><span class="ss">'split-window-below</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-x C-3"</span><span class="p">)</span><span class="w"> </span><span class="ss">'split-window-right</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-x C-0"</span><span class="p">)</span><span class="w"> </span><span class="ss">'delete-window</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-x C-B"</span><span class="p">)</span><span class="w"> </span><span class="ss">'switch-to-buffer</span><span class="p">)</span>
+
+<span class="c1">;; allow using 's' and 'r' for repeated searches</span>
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'god-mode-isearch</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">define-key</span><span class="w"> </span><span class="nv">isearch-mode-map</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"&lt;escape&gt;"</span><span class="p">)</span><span class="w"> </span><span class="ss">'god-mode-isearch-activate</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">define-key</span><span class="w"> </span><span class="nv">god-mode-isearch-map</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"&lt;escape&gt;"</span><span class="p">)</span><span class="w"> </span><span class="ss">'god-mode-isearch-disable</span><span class="p">)</span>
+
+<span class="p">(</span><span class="nf">define-key</span><span class="w"> </span><span class="nv">god-local-mode-map</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"."</span><span class="p">)</span><span class="w"> </span><span class="ss">'repeat</span><span class="p">)</span>
+
+<span class="c1">;; hide-show is broken by god mode.</span>
+<span class="c1">;; this adds universal quick and dirty code-folding that works</span>
+<span class="p">(</span><span class="nf">defvar</span><span class="w"> </span><span class="nv">hs-special-modes-alist</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">mapcar</span><span class="w"> </span><span class="ss">'purecopy</span>
+<span class="w">          </span><span class="o">'</span><span class="p">((</span><span class="nf">c-mode</span><span class="w"> </span><span class="s">"{"</span><span class="w"> </span><span class="s">"}"</span><span class="w"> </span><span class="s">"/[*/]"</span><span class="w"> </span><span class="nv">nil</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+<span class="w">            </span><span class="p">(</span><span class="nf">c++-mode</span><span class="w"> </span><span class="s">"{"</span><span class="w"> </span><span class="s">"}"</span><span class="w"> </span><span class="s">"/[*/]"</span><span class="w"> </span><span class="nv">nil</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+<span class="w">            </span><span class="p">(</span><span class="nf">bibtex-mode</span><span class="w"> </span><span class="p">(</span><span class="s">"@</span><span class="se">\\</span><span class="s">S(*</span><span class="se">\\</span><span class="s">(</span><span class="se">\\</span><span class="s">s(</span><span class="se">\\</span><span class="s">)"</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<span class="w">            </span><span class="p">(</span><span class="nf">java-mode</span><span class="w"> </span><span class="s">"{"</span><span class="w"> </span><span class="s">"}"</span><span class="w"> </span><span class="s">"/[*/]"</span><span class="w"> </span><span class="nv">nil</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+<span class="w">            </span><span class="p">(</span><span class="nf">js2-mode</span><span class="w"> </span><span class="s">"{"</span><span class="w"> </span><span class="s">"}"</span><span class="w"> </span><span class="s">"/[*/]"</span><span class="w"> </span><span class="nv">nil</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nf">defun</span><span class="w"> </span><span class="nv">toggle-selective-display</span><span class="w"> </span><span class="p">(</span><span class="nf">column</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">interactive</span><span class="w"> </span><span class="s">"P"</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">set-selective-display</span>
+<span class="w">   </span><span class="p">(</span><span class="k">or</span><span class="w"> </span><span class="nv">column</span>
+<span class="w">       </span><span class="p">(</span><span class="k">unless</span><span class="w"> </span><span class="nv">selective-display</span>
+<span class="w">         </span><span class="p">(</span><span class="nb">1+</span><span class="w"> </span><span class="p">(</span><span class="nf">current-column</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="nf">defun</span><span class="w"> </span><span class="nv">toggle-hiding</span><span class="w"> </span><span class="p">(</span><span class="nf">column</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">interactive</span><span class="w"> </span><span class="s">"P"</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="nv">hs-minor-mode</span>
+<span class="w">      </span><span class="p">(</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nf">condition-case</span><span class="w"> </span><span class="nv">nil</span>
+<span class="w">              </span><span class="p">(</span><span class="nf">hs-toggle-hiding</span><span class="p">)</span>
+<span class="w">            </span><span class="p">(</span><span class="nb">error</span><span class="w"> </span><span class="nv">t</span><span class="p">))</span>
+<span class="w">          </span><span class="p">(</span><span class="nf">hs-show-all</span><span class="p">))</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">toggle-selective-display</span><span class="w"> </span><span class="nv">column</span><span class="p">)))</span>
+<span class="p">(</span><span class="nf">load-library</span><span class="w"> </span><span class="s">"hideshow"</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-+"</span><span class="p">)</span><span class="w"> </span><span class="ss">'toggle-hiding</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-|"</span><span class="p">)</span><span class="w"> </span><span class="ss">'toggle-selective-display</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'java-mode-hook</span><span class="w">       </span><span class="ss">'hs-minor-mode</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'sh-mode-hook</span><span class="w">         </span><span class="ss">'hs-minor-mode</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'js2-mode-hook</span><span class="w">         </span><span class="ss">'hs-minor-mode</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org9044a09">
+<h2 id="org9044a09">Python and elpy</h2>
+<div class="outline-text-2" id="text-org9044a09">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="w">  </span><span class="c1">;; elpy</span>
+<span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">elpy</span>
+<span class="w">  </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span>
+<span class="w">  </span><span class="nv">:defer</span><span class="w"> </span><span class="nv">t</span>
+<span class="w">  </span><span class="nv">:init</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">advice-add</span><span class="w"> </span><span class="ss">'python-mode</span><span class="w"> </span><span class="nv">:before</span><span class="w"> </span><span class="ss">'elpy-enable</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.py"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">python-mode</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org44732b7">
+<h2 id="org44732b7">Emacs Jupyter</h2>
+<div class="outline-text-2" id="text-org44732b7">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="n">org</span><span class="o">-</span><span class="n">babel</span><span class="o">-</span><span class="n">jupyter</span><span class="o">-</span><span class="n">override</span><span class="o">-</span><span class="n">src</span><span class="o">-</span><span class="n">block</span> <span class="s2">"python"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org0c1e40a">
+<h2 id="org0c1e40a">Fish</h2>
+<div class="outline-text-2" id="text-org0c1e40a">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; fish functions</span>
+<span class="o">'</span><span class="p">(</span><span class="nv">sh-basic-offset</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="o">'</span><span class="p">(</span><span class="nv">sh-indentation</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">auto-mode-alist</span><span class="w"> </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.fish$"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">shell-script-mode</span><span class="p">)</span><span class="w"> </span><span class="nv">auto-mode-alist</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org40f96d0">
+<h2 id="org40f96d0">Org-mode</h2>
+<div class="outline-text-2" id="text-org40f96d0">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="w">  </span><span class="c1">;; org-mode</span>
+<span class="w">  </span><span class="c1">;;(require 'org)</span>
+
+<span class="w">  </span><span class="c1">;; these are recommended by org</span>
+<span class="w">  </span><span class="c1">;; see: https://orgmode.org/org.html#Activation-1</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">define-key</span><span class="w"> </span><span class="nv">global-map</span><span class="w"> </span><span class="s">"</span><span class="se">\C</span><span class="s">-cl"</span><span class="w"> </span><span class="ss">'org-store-link</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">define-key</span><span class="w"> </span><span class="nv">global-map</span><span class="w"> </span><span class="s">"</span><span class="se">\C</span><span class="s">-ca"</span><span class="w"> </span><span class="ss">'org-agenda</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-c c"</span><span class="p">)</span><span class="w"> </span><span class="o">#</span><span class="ss">'org-capture</span><span class="p">)</span>
+
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-log-done</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; org-mode agendas</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-agenda-files</span><span class="w"> </span><span class="p">(</span><span class="nb">list</span><span class="w"> </span><span class="s">"~/documents/roku-chiji/repository/kanban.org"</span><span class="p">))</span>
+
+<span class="w">  </span><span class="c1">;; org-capture</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-default-notes-file</span><span class="w"> </span><span class="p">(</span><span class="nf">concat</span><span class="w"> </span><span class="s">"~/documents/roku-chiji/repository/"</span><span class="w"> </span><span class="s">"bugs.org"</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">define-key</span><span class="w"> </span><span class="nv">global-map</span><span class="w"> </span><span class="s">"</span><span class="se">\C</span><span class="s">-cc"</span><span class="w"> </span><span class="ss">'org-capture</span><span class="p">)</span>
+
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-capture-templates</span>
+<span class="w">        </span><span class="o">'</span><span class="p">((</span><span class="s">"b"</span><span class="w"> </span><span class="s">"Bug"</span><span class="w"> </span><span class="nv">entry</span><span class="w"> </span><span class="p">(</span><span class="nf">file+headline</span><span class="w"> </span><span class="s">"~/documents/roku-chiji/repository/bugs.org"</span><span class="w"> </span><span class="s">"Bugs"</span><span class="p">)</span>
+<span class="w">           </span><span class="s">"* BUG %?</span><span class="se">\n</span><span class="s">  %i</span><span class="se">\n</span><span class="s">  %a"</span><span class="p">)))</span>
+
+<span class="w">  </span><span class="c1">;; todo-state names</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-todo-keywords</span>
+<span class="w">          </span><span class="o">'</span><span class="p">((</span><span class="nf">sequence</span><span class="w"> </span><span class="s">"TOMORROW"</span><span class="w"> </span><span class="s">"TODAY"</span><span class="w"> </span><span class="s">"DOING"</span><span class="w"> </span><span class="s">"|"</span><span class="w"> </span><span class="s">"DONE"</span><span class="p">)))</span>
+
+<span class="w">  </span><span class="c1">;; org clean-outlines</span>
+
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-startup-indented</span><span class="w"> </span><span class="nv">t</span>
+<span class="w">        </span><span class="nv">org-hide-leading-stars</span><span class="w"> </span><span class="nv">t</span>
+<span class="w">        </span><span class="nv">org-indent-indentation-per-level</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; word-wrap</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">global-visual-line-mode</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; start the calendar on monday</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">calendar-week-start-day</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; start with outline folded</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-startup-folded</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org3987e78">
+<h2 id="org3987e78">org-export python mode</h2>
+<div class="outline-text-2" id="text-org3987e78">
+<p>This just stops emitting the message that emacs is using a default 4 spaces when exporting python.</p>
+source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">python-indent-guess-indent-offset</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span><span class="w">  </span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">python-indent-guess-indent-offset-verbose</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org471b4e2">
+<h2 id="org471b4e2">web-mode</h2>
+<div class="outline-text-2" id="text-org471b4e2">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="w">  </span><span class="c1">;; web-mode</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'web-mode</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.html?</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">web-mode</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.tmpl</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">web-mode</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.phtml</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">web-mode</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.tpl</span><span class="se">\\</span><span class="s">.php</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">web-mode</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.[agj]sp</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">web-mode</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.as[cp]x</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">web-mode</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.erb</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">web-mode</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.mustache</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">web-mode</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.djhtml</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">web-mode</span><span class="p">))</span>
+
+<span class="w">  </span><span class="p">(</span><span class="nf">defun</span><span class="w"> </span><span class="nv">my-web-mode-hook</span><span class="w"> </span><span class="p">()</span>
+<span class="w">    </span><span class="s">"Hooks for Web mode."</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">web-mode-markup-indent-offset</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">web-mode-css-indent-offset</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">web-mode-code-indent-offset</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">web-mode-enable-current-column-highlight</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">web-mode-enable-current-element-highlight</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">web-mode-engines-alist</span>
+<span class="w">        </span><span class="o">'</span><span class="p">((</span><span class="s">"jinja"</span><span class="w">    </span><span class="o">.</span><span class="w"> </span><span class="s">"</span><span class="se">\\</span><span class="s">.html</span><span class="se">\\</span><span class="s">'"</span><span class="p">))</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'web-mode-hook</span><span class="w">  </span><span class="ss">'my-web-mode-hook</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org44bacf0">
+<h2 id="org44bacf0">auto-complete</h2>
+<div class="outline-text-2" id="text-org44bacf0">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="w">  </span><span class="c1">;; auto-complete</span>
+<span class="w">  </span><span class="c1">;; (defun turn-on-autocomplete () (auto-complete-mode 1))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'load-path</span><span class="w"> </span><span class="s">"~/.emacs.d/lisp"</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'auto-complete-config</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'ac-dictionary-directories</span><span class="w"> </span><span class="s">"~/.emacs.d/ac-dict"</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">ac-config-default</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">defadvice</span><span class="w"> </span><span class="nv">auto-complete-mode</span><span class="w"> </span><span class="p">(</span><span class="nf">around</span><span class="w"> </span><span class="nv">disable-auto-complete-for-python</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="k">unless</span><span class="w"> </span><span class="p">(</span><span class="nf">eq</span><span class="w"> </span><span class="nv">major-mode</span><span class="w"> </span><span class="ss">'python-mode</span><span class="p">)</span><span class="w"> </span><span class="nv">ad-do-it</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org0252021">
+<h2 id="org0252021">general text</h2>
+<div class="outline-text-2" id="text-org0252021">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; increase/decrease text size</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-c C-+"</span><span class="p">)</span><span class="w"> </span><span class="ss">'text-scale-increase</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C--"</span><span class="p">)</span><span class="w"> </span><span class="ss">'text-scale-decrease</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org83714f9">
+<h2 id="org83714f9">javascript</h2>
+<div class="outline-text-2" id="text-org83714f9">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; js2</span>
+<span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.js</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">js2-mode</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgbc85396">
+<h2 id="orgbc85396">org-babel</h2>
+<div class="outline-text-2" id="text-orgbc85396">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="w">  </span><span class="c1">;; org-babel</span>
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'ob-js</span><span class="p">)</span>
+
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'org-src-lang-modes</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"rst"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"rst"</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'org-src-lang-modes</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"feature"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"feature"</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'org-src-lang-modes</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"org"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"org"</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'org-src-lang-modes</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"css"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"css"</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'org-src-lang-modes</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"plantuml"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"plantuml"</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'org-src-lang-modes</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"conf"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"conf"</span><span class="p">))</span>
+
+<span class="w">  </span><span class="p">(</span><span class="nf">org-babel-do-load-languages</span>
+<span class="w">   </span><span class="ss">'org-babel-load-languages</span>
+<span class="w">   </span><span class="o">'</span><span class="p">(</span>
+<span class="w">     </span><span class="p">(</span><span class="nf">plantuml</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">     </span><span class="p">(</span><span class="nf">shell</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">     </span><span class="p">(</span><span class="nf">emacs-lisp</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">     </span><span class="p">(</span><span class="nf">latex</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">     </span><span class="p">(</span><span class="nf">org</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">     </span><span class="p">(</span><span class="nf">js</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">     </span><span class="c1">;;(jupyter . t)</span>
+<span class="w">     </span><span class="p">))</span>
+
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-plantuml-jar-path</span><span class="w"> </span><span class="p">(</span><span class="nf">expand-file-name</span><span class="w"> </span><span class="s">"/usr/share/java/plantuml.jar"</span><span class="p">))</span>
+
+<span class="w">  </span><span class="c1">;; Don't treat underscores as sub-script notation</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-export-with-sub-superscripts</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; Don't re-evaluate the source blocks before exporting</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-export-babel-evaluate</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; don't confirm block evaluation</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-confirm-babel-evaluate</span><span class="w"> </span><span class="nv">nil</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;;; display/update images in the buffer after evaluation</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'org-babel-after-execute-hook</span><span class="w"> </span><span class="ss">'org-display-inline-images</span><span class="w"> </span><span class="ss">'append</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; noweb expansion only when you tangle</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-babel-default-header-args</span>
+<span class="w">        </span><span class="p">(</span><span class="nb">cons</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">:noweb</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"tangle"</span><span class="p">)</span>
+<span class="w">              </span><span class="p">(</span><span class="nf">assq-delete-all</span><span class="w"> </span><span class="nv">:noweb</span><span class="w"> </span><span class="nv">org-babel-default-header-args</span><span class="p">))</span>
+<span class="w">        </span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; syntax highlighting in org-files</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-src-fontify-natively</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; export org to rst</span>
+<span class="c1">;;  (require 'ox-rst)</span>
+
+<span class="w">  </span><span class="c1">;; export org to nikola</span>
+<span class="c1">;;  (require 'ox-nikola)</span>
+
+<span class="w">  </span><span class="c1">;; export to latex/pdf</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'ox-latex</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; syntax-highlighting for pdf's</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'org-latex-packages-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">""</span><span class="w"> </span><span class="s">"minted"</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-latex-listings</span><span class="w"> </span><span class="ss">'minted</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-latex-pdf-process</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span><span class="p">))</span>
+
+<span class="w">  </span><span class="c1">;; let the user set the indentation so you can insert text between methods in classes.</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">org-src-preserve-indentation</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">;; pygmentize ipython</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'org-latex-minted-langs</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="nv">ipython</span><span class="w"> </span><span class="s">"python"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org99cf94c">
+<h2 id="org99cf94c">Feature Mode</h2>
+<div class="outline-text-2" id="text-org99cf94c">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.feature"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">feature-mode</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orga345631">
+<h2 id="orga345631">yaml</h2>
+<div class="outline-text-2" id="text-orga345631">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'yaml-mode-hook</span>
+<span class="w">          </span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">()</span>
+<span class="w">            </span><span class="p">(</span><span class="nf">define-key</span><span class="w"> </span><span class="nv">yaml-mode-map</span><span class="w"> </span><span class="s">"</span><span class="se">\C</span><span class="s">-m"</span><span class="w"> </span><span class="ss">'newline-and-indent</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgf0eaba3">
+<h2 id="orgf0eaba3">Vue.js</h2>
+<div class="outline-text-2" id="text-orgf0eaba3">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; setup files ending in “.vue” to open in vue-mode</span>
+<span class="c1">;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgec72875">
+<h2 id="orgec72875">Bats</h2>
+<div class="outline-text-2" id="text-orgec72875">
+<p>The Bash Automated Test System mode.</p>
+<table border="2" cellpadding="6" cellspacing="0" frame="hsides" rules="groups">
+<colgroup>
+<col class="org-left">
+<col class="org-left">
+<col class="org-left"></colgroup>
+<thead>
+<tr>
+<th class="org-left" scope="col">Keybinding</th>
+<th class="org-left" scope="col">Description</th>
+<th class="org-left" scope="col">State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-c C-a</td>
+<td class="org-left">Run all bat-files in the current directory</td>
+<td class="org-left">Works</td>
+</tr>
+<tr>
+<td class="org-left">C-c C-,</td>
+<td class="org-left">Run all the tests in the current buffer</td>
+<td class="org-left">Works</td>
+</tr>
+<tr>
+<td class="org-left">C-c M-,</td>
+<td class="org-left">Run the test where the cursor is</td>
+<td class="org-left">Doesn't Work</td>
+</tr>
+</tbody>
+</table>
+<p>There's a ticket on github to add this feature (?) to bats, but the old developers stopped supporting it and I don't know if the fork has it yet. It isn't working if you install bats from Ubuntu's repositories as of Bionic Beaver.</p>
+source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.bat</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">bats-mode</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org51df044">
+<h2 id="org51df044">Backups</h2>
+<div class="outline-text-2" id="text-org51df044">
+<p>From the <a href="https://www.emacswiki.org/emacs/BackupDirectory">Emacs Wiki</a>.</p>
+source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">backup-directory-alist</span><span class="w"> </span>
+<span class="w">      </span><span class="o">'</span><span class="p">((</span><span class="s">"."</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="s">"/tmp/"</span><span class="p">)))</span>
+<span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">auto-save-file-name-transforms</span>
+<span class="w">      </span><span class="o">`</span><span class="p">((</span><span class="s">".*"</span><span class="w"> </span><span class="o">,</span><span class="w"> </span><span class="s">"/tmp/"</span><span class="w"> </span><span class="nv">t</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org48b05c9">
+<h2 id="org48b05c9">Markdown Mode</h2>
+<div class="outline-text-2" id="text-org48b05c9">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">markdown-mode</span>
+<span class="w"> </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span>
+<span class="w"> </span><span class="nv">:mode</span><span class="w"> </span><span class="p">((</span><span class="s">"README</span><span class="se">\\</span><span class="s">.md</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">gfm-mode</span><span class="p">)</span>
+<span class="w">         </span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.md</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">markdown-mode</span><span class="p">)</span>
+<span class="w">         </span><span class="p">(</span><span class="s">"</span><span class="se">\\</span><span class="s">.markdown</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">markdown-mode</span><span class="p">))</span>
+<span class="w"> </span><span class="nv">:init</span><span class="w"> </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">markdown-command</span><span class="w"> </span><span class="s">"pandoc"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgbe30883">
+<h2 id="orgbe30883">Dockerfile Mode</h2>
+<div class="outline-text-2" id="text-orgbe30883">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'dockerfile-mode</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'auto-mode-alist</span><span class="w"> </span><span class="o">'</span><span class="p">(</span><span class="s">"Dockerfile</span><span class="se">\\</span><span class="s">'"</span><span class="w"> </span><span class="o">.</span><span class="w"> </span><span class="nv">dockerfile-mode</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgd8648e5">
+<h2 id="orgd8648e5">Flycheck</h2>
+<div class="outline-text-2" id="text-orgd8648e5">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="c1">;; flycheck</span>
+<span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">flycheck</span>
+<span class="w">  </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span>
+<span class="w">  </span><span class="nv">:config</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">global-flycheck-mode</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">  </span><span class="c1">;; note that these bindings are optional</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-c n"</span><span class="p">)</span><span class="w"> </span><span class="ss">'flycheck-next-error</span><span class="p">)</span>
+<span class="w">  </span><span class="c1">;; this might override a default binding for running a python process,</span>
+<span class="w">  </span><span class="c1">;; see comments below this answer</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">global-set-key</span><span class="w"> </span><span class="p">(</span><span class="nf">kbd</span><span class="w"> </span><span class="s">"C-c p"</span><span class="p">)</span><span class="w"> </span><span class="ss">'flycheck-prev-error</span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="c1">;; flycheck-pycheckers</span>
+<span class="c1">;; Allows multiple syntax checkers to run in parallel on Python code</span>
+<span class="c1">;; Ideal use-case: pyflakes for syntax combined with mypy for typing</span>
+<span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">flycheck-pycheckers</span>
+<span class="w">  </span><span class="nv">:after</span><span class="w"> </span><span class="nv">flycheck</span>
+<span class="w">  </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span>
+<span class="w">  </span><span class="nv">:init</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">with-eval-after-load</span><span class="w"> </span><span class="ss">'flycheck</span>
+<span class="w">    </span><span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'flycheck-mode-hook</span><span class="w"> </span><span class="o">#</span><span class="ss">'flycheck-pycheckers-setup</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">flycheck-pycheckers-checkers</span>
+<span class="w">    </span><span class="o">'</span><span class="p">(</span>
+<span class="w">      </span><span class="nv">mypy3</span>
+<span class="w">      </span><span class="nv">pyflakes</span>
+<span class="w">      </span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="c1">;; elpy</span>
+<span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">elpy</span>
+<span class="w">  </span><span class="nv">:after</span><span class="w"> </span><span class="nv">poetry</span>
+<span class="w">  </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span>
+<span class="w">  </span><span class="nv">:config</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">elpy-enable</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'elpy-mode-hook</span><span class="w"> </span><span class="ss">'poetry-tracking-mode</span><span class="p">)</span><span class="w"> </span><span class="c1">;; optional if you're using Poetry</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">elpy-rpc-virtualenv-path</span><span class="w"> </span><span class="ss">'current</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">elpy-syntax-check-command</span><span class="w"> </span><span class="s">"~/.virtualenvs/neurotic-networks/bin/pyflakes"</span><span class="p">)</span><span class="w"> </span><span class="c1">;; or replace with the path to your pyflakes binary</span>
+<span class="w">  </span><span class="c1">;; allows Elpy to see virtualenv</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'elpy-mode-hook</span>
+<span class="w">        </span><span class="c1">;; pyvenv-mode</span>
+<span class="w">        </span><span class="o">'</span><span class="p">(</span><span class="k">lambda</span><span class="w"> </span><span class="p">()</span>
+<span class="w">           </span><span class="p">(</span><span class="nf">pyvenv-mode</span><span class="w"> </span><span class="mi">+1</span><span class="p">)</span>
+<span class="w">           </span><span class="p">)</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">  </span><span class="c1">;; use flycheck instead of flymake</span>
+<span class="w">  </span><span class="p">(</span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="k">load</span><span class="w"> </span><span class="s">"flycheck"</span><span class="w"> </span><span class="nv">t</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">setq</span><span class="w"> </span><span class="nv">elpy-modules</span><span class="w"> </span><span class="p">(</span><span class="nb">delq</span><span class="w"> </span><span class="ss">'elpy-module-flymake</span><span class="w"> </span><span class="nv">elpy-modules</span><span class="p">))</span>
+<span class="w">  </span><span class="p">(</span><span class="nf">add-hook</span><span class="w"> </span><span class="ss">'elpy-mode-hook</span><span class="w"> </span><span class="ss">'flycheck-mode</span><span class="p">))</span>
+<span class="w">  </span><span class="p">)</span>
+<span class="c1">;; poetry</span>
+<span class="p">(</span><span class="nf">use-package</span><span class="w"> </span><span class="nv">poetry</span>
+<span class="w">  </span><span class="nv">:ensure</span><span class="w"> </span><span class="nv">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-org7c6ec5e">
+<h2 id="org7c6ec5e">Keychain</h2>
+<div class="outline-text-2" id="text-org7c6ec5e">
+<p>This is to be able to use ssh-agent (via keychain).</p>
+<ul class="org-ul">
+<li>`keychain` needs to be installed (e.g. via apt)</li>
+<li>It needs to be running - Add this to the fish.config</li>
+</ul>
+source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="k">if</span> <span class="nb">status</span> --is-interactive
+ keychain --eval --quiet -Q id_rsa <span class="o">|</span> <span class="nb">source</span>
+<span class="k">end</span>
+</pre></div>
+source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'keychain-environment</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">keychain-refresh-environment</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="outline-2" id="outline-container-orgc7c8c5e">
+<h2 id="orgc7c8c5e">Hideshow-Org</h2>
+<div class="outline-text-2" id="text-orgc7c8c5e">source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/virtual.fish”: source: No such file or directory source: Error encountered while sourcing file “/home/deltron/.local/share/pipx/venvs/virtualfish/lib/python3.13/site-packages/virtualfish/auto_activation.fish”: source: No such file or directory
+<div class="highlight">
+<pre><span></span><span class="p">(</span><span class="nf">add-to-list</span><span class="w"> </span><span class="ss">'load-path</span><span class="w"> </span><span class="s">"~/projects/third-party/hideshow-org/"</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="ss">'hideshow-org</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!--End of body content-->
+<footer id="footer">Scribbled by the <a href="mailto:cloisteredmonkey.jmark@slmail.me">Cloistered Monkey</a> - Powered by <a href="https://getnikola.com" rel="nofollow">Nikola</a>
+<div id="license" xmlns:cc="http://creativecommons.org/ns#">This work is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" rel="license noopener noreferrer" style="display:inline-block;" target="_blank">CC BY 4.0 <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></div>
+</footer>
+</div>
+</div>
+<script src="../assets/js/all-nocdn.js"></script>
+<script>
+
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
+</script>
+</body>
+</html>

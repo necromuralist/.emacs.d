@@ -1,0 +1,21 @@
+#+BEGIN_COMMENT
+.. title: Emacs Starter Kits
+.. slug: emacs-starter-kits
+.. date: 2026-04-20 21:16:51 UTC-07:00
+.. tags: starter kit,links
+.. category: Links
+.. link: 
+.. description: Links to emacs starter kits.
+.. type: text
+.. status: 
+.. updated: 
+
+#+END_COMMENT
+#+OPTIONS: ^:{}
+#+TOC: headlines 2
+
+- [[https://github.com/seagle0128/.emacs.d][Centaur (github)]]
+- [[https://github.com/MiniApollo/kickstart.emacs][kickstart.emacs (github)]]
+- [[https://github.com/jamescherti/minimal-emacs.d][Minimal Emacs.d (github)]]
+- [[https://github.com/bbatsov/prelude][Prelude (github)]]
+- [[https://github.com/jkitchin/scimax][scimax (github)]]

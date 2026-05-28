@@ -1,0 +1,10 @@
+{#  -*- coding: utf-8 -*- #}
+{% import 'p5_helper.tmpl' as p5 with context %}
+
+{% extends 'post.tmpl' %}
+
+{% block extra_head %}
+  {{ super() }}
+  {{ p5.p5_scripts() }}
+{% endblock %}
+

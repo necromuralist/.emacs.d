@@ -336,7 +336,6 @@
   ;;          ("\\.markdown\\'" . markdown-mode))
   ;;  :init (setq markdown-command "pandoc")
   ;; )
-  ;; 
 
   ;;(require 'dockerfile-mode)
   ;;(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))

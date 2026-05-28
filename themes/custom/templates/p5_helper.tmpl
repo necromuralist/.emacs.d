@@ -1,0 +1,32 @@
+{#  -*- coding: utf-8 -*- #}
+
+{# macro to add the p5.js code tag #}
+{% macro p5_scripts() %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+{% endmacro %}
+
+{# macro for a single post #}
+{# `post`: a Post object #}
+{% macro p5_scripts_ifpost(post) %}
+    {% if post.meta("has_p5") %}
+        {{ p5_scripts() }}
+    {% endif %}
+{% endmacro %}
+
+{# macro used by feed page with multiple posts (e.g. index.tmpl) #}
+{# 'posts': list of Post objects #}
+{# jinja doesn't support comprehensions so we have to use a for-loop #}
+{# the ~post.meta~ object is a Functionary object #}
+{# the metadata is in a dictionary that's in a dictionary #}
+{# if you try ~post.meta.has_p5~ it will fail because you need the language you're using as a key #}
+{# e.g. ~post.meta.en.has_p5~ #}
+{# to not refer to the langugage you need to call it like a function, passing in the "has_p5" key as an argument #}
+{% macro p5_scripts_ifposts(posts) %}
+  {% set p5_added = False %}
+  {% for post in posts %}
+    {% if (post.meta("has_p5") or post.meta("template") == "p5.tmpl") and not p5_added %}
+      {% set p5_added = True %}
+      {{ p5_scripts() }}
+    {% endif %}
+  {% endfor %}
+{% endmacro %}

@@ -1,6 +1,8 @@
-# ignore everything
-*
-
+.doit.db
+.org-id-locations
+.venv
+__pycache__
+cache/
 # except for these
 !init.el
 !init.org
