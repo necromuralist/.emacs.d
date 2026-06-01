@@ -114,7 +114,12 @@ The exported org-file (=the-init-file.org.org=) won't be a valid nikola file (it
 
 #+INCLUDE: "./configuration-packages.org::*Package Management"
 
-{{% lancelot title="From the Configure Packages post" %}}configuration-packages{{% /lancelot %}}
+{{% lancelot title="From the /Configuration: Packages/ post" %}}configuration-packages{{% /lancelot %}}
+
+#+INCLUDE: "./configuration-org-mode.org::*Org-Mode"
+
+{{% lancelot title="From the /Configuration: Org-Mode/ post" %}}configuration-org-mode{{% /lancelot %}}
+
 * Custom Set Variables
 
 These were set by emacs via the interactive interface (I think).
@@ -353,49 +358,6 @@ A lock got corrupted once in the cryfs directory, making the editing file unread
 '(sh-indentation 2)
 (setq auto-mode-alist (cons '("\\.fish$" . shell-script-mode) auto-mode-alist))
 #+end_src
-* Org-mode
-  #+BEGIN_SRC emacs-lisp :noweb-ref org-mode
-    ;; org-mode
-    ;;(require 'org)
-
-    ;; these are recommended by org
-    ;; see: https://orgmode.org/org.html#Activation-1
-    (define-key global-map "\C-cl" 'org-store-link)
-    (define-key global-map "\C-ca" 'org-agenda)
-    (global-set-key (kbd "C-c c") #'org-capture)
-
-    (setq org-log-done t)
-
-    ;; org-mode agendas
-    (setq org-agenda-files (list "~/documents/roku-chiji/repository/kanban.org"))
-
-    ;; org-capture
-    (setq org-default-notes-file (concat "~/documents/roku-chiji/repository/" "bugs.org"))
-    (define-key global-map "\C-cc" 'org-capture)
-
-    (setq org-capture-templates
-          '(("b" "Bug" entry (file+headline "~/documents/roku-chiji/repository/bugs.org" "Bugs")
-             "* BUG %?\n  %i\n  %a")))
-
-    ;; todo-state names
-    (setq org-todo-keywords
-            '((sequence "TOMORROW" "TODAY" "DOING" "|" "DONE")))
-
-    ;; org clean-outlines
-
-    (setq org-startup-indented t
-          org-hide-leading-stars t
-          org-indent-indentation-per-level 1)
-
-    ;; word-wrap
-    (global-visual-line-mode 1)
-
-    ;; start the calendar on monday
-    (setq calendar-week-start-day 1)
-
-    ;; start with outline folded
-    (setq org-startup-folded t)
-  #+END_SRC
 * org-export python mode
 This just stops emitting the message that emacs is using a default 4 spaces when exporting python.
 

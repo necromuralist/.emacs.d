@@ -1,0 +1,60 @@
+#+BEGIN_COMMENT
+.. title: Configuration: Org-Mode
+.. slug: configuration-org-mode
+.. date: 2026-06-01 16:14:39 UTC-07:00
+.. tags: init,org-mode,configuration
+.. category: Configuration
+.. link: 
+.. description: Setting up org-mode
+.. type: text
+.. status: 
+.. updated: 
+
+#+END_COMMENT
+#+OPTIONS: ^:{}
+#+TOC: headlines 2
+
+* Org-Mode
+  #+NAME: org-mode
+  #+BEGIN_SRC emacs-lisp
+    ;; org-mode
+    ;;(require 'org)
+
+    ;; these are recommended by org
+    ;; see: https://orgmode.org/org.html#Activation-1
+    (define-key global-map "\C-cl" 'org-store-link)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (global-set-key (kbd "C-c c") #'org-capture)
+
+    (setq org-log-done t)
+
+    ;; org-mode agendas
+    (setq org-agenda-files (list "~/documents/roku-chiji/repository/kanban.org"))
+
+    ;; org-capture
+    (setq org-default-notes-file (concat "~/documents/roku-chiji/repository/" "bugs.org"))
+    (define-key global-map "\C-cc" 'org-capture)
+
+    (setq org-capture-templates
+          '(("b" "Bug" entry (file+headline "~/documents/roku-chiji/repository/bugs.org" "Bugs")
+             "* BUG %?\n  %i\n  %a")))
+
+    ;; todo-state names
+    (setq org-todo-keywords
+            '((sequence "TOMORROW" "TODAY" "DOING" "|" "DONE")))
+
+    ;; org clean-outlines
+
+    (setq org-startup-indented t
+          org-hide-leading-stars t
+          org-indent-indentation-per-level 1)
+
+    ;; word-wrap
+    (global-visual-line-mode 1)
+
+    ;; start the calendar on monday
+    (setq calendar-week-start-day 1)
+
+    ;; start with outline folded
+    (setq org-startup-folded t)
+  #+END_SRC
