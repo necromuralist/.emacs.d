@@ -32,3 +32,7 @@ This is the section to load the package management configuration.
 
   (require 'use-package)
 #+END_SRC
+
+* Links
+
+- {{%lancelot title="The Main Configuration Post" %}}the-init-file{{% /lancelot %}}

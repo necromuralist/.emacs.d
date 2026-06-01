@@ -98,11 +98,13 @@
 - [ ] figure out what to copy from minimal-emacs
 
 * Includes
-The =#+INCLUDE= doesn't get picked up when you tangle, only when you export this file to another format. To make this work:
+This section is made up of parts included from other posts, so to see what's really going on you'll have to look at the source.
 
-- Export this file to another Org file (C-c C-e Ov)
+The =#+INCLUDE= doesn't get picked up when you tangle, only when you export this file to another format. To make build the =init.el= configuration file:
+
+1. Export this file to another Org file (C-c C-e Ov)
   This will export it to a file named =the-init-file.org.org= and open it in another buffer
-- Change into the new buffer and tangle the configuration there (C-c C-v C-t)
+2. Change into the new buffer that's been created and opened and tangle the configuration there (C-c C-v C-t)
 
 See [[https://necromuralist.github.io/posts/tangling-multiple-org-files/][Necromuralist: Tangling Multiple org Files]].
 
@@ -111,6 +113,8 @@ The exported org-file (=the-init-file.org.org=) won't be a valid nikola file (it
 #+end_notecard
 
 #+INCLUDE: "./configuration-packages.org::*Package Management"
+
+{{% lancelot title="From the Configure Packages post" %}}configuration-packages{{% /lancelot %}}
 * Custom Set Variables
 
 These were set by emacs via the interactive interface (I think).
