@@ -89,8 +89,8 @@
   (message "**** Loaded deltron's init file")
 #+END_SRC
 
-* Things To Do [0/6]
-- [ ] Move setup so far to separate posts and then include elisp back into this one
+* Things To Do [1/6]
+- [X] Move setup so far to separate posts and then include elisp back into this one
 - [ ] move custom-set-variables and faces to separate files [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Customizations.html][See the emacs manual]]
 - [ ] Add emacs settings (like backups, hide toolbar, etc)
 - [ ] get jupyter working
@@ -102,9 +102,10 @@ This section is made up of parts included from other posts, so to see what's rea
 
 The =#+INCLUDE= doesn't get picked up when you tangle, only when you export this file to another format. To make build the =init.el= configuration file:
 
-1. Export this file to another Org file (C-c C-e Ov)
-  This will export it to a file named =the-init-file.org.org= and open it in another buffer
-2. Change into the new buffer that's been created and opened and tangle the configuration there (C-c C-v C-t)
+1. Export this file to another Org file (=C-c C-e Ov=).
+   This will export it to a file named =the-init-file.org.org= and open it in another buffer
+2. Change into the new buffer that's been created and opened and tangle the configuration there (C-c C-v C-t).
+   This will create the =init.el= file defined in the tangle (hidden in the HTML output).
 
 See [[https://necromuralist.github.io/posts/tangling-multiple-org-files/][Necromuralist: Tangling Multiple org Files]].
 
@@ -123,6 +124,10 @@ The exported org-file (=the-init-file.org.org=) won't be a valid nikola file (it
 #+INCLUDE: "./configuration-org-babel.org::*Org-Babel"
 
 {{% lancelot title="From the /Configuration: Org-Babel/ post" %}}configuration-org-babel{{% /lancelot %}}
+
+#+INCLUDE: "./configuration-god-mode.org::*God-Mode"
+
+{{% lancelot title="From the /Configuration: God-Mode/ post" %}}configuration-god-mode{{% /lancelot %}}
 
 * Custom Set Variables
 
@@ -264,81 +269,6 @@ A lock got corrupted once in the cryfs directory, making the editing file unread
 ;; (setq default-input-method "TeX")
 (setq default-input-method "TeX")
 #+end_src
-* God Mode
-#+begin_src emacs-lisp :noweb-ref god-mode
-;; god-mode
-(require 'god-mode)
-(global-set-key (kbd "<escape>") 'god-mode-all)
-(global-set-key (kbd "C-$") 'god-mode-all)
-(global-set-key (kbd "<Scroll_Lock>") 'god-mode-all)
-(define-key god-local-mode-map (kbd ".") 'repeat)
-
-(setq god-exempt-major-modes nil)
-(setq god-exempt-predicates nil)
-
-(defun my-update-cursor ()
-  (setq cursor-type (if (or god-local-mode buffer-read-only)
-                        'box
-                      'bar)))
-(defun c/god-mode-update-cursor ()
-  (let ((limited-colors-p (> 257 (length (defined-colors)))))
-    (cond (god-local-mode (progn
-                            (set-face-background 'mode-line (if limited-colors-p "white" "#e9e2cb"))
-                            (set-face-background 'mode-line-inactive (if limited-colors-p "white" "#e9e2cb"))))
-          (t (progn
-               (set-face-background 'mode-line (if limited-colors-p "black" "#0a2832"))
-               (set-face-background 'mode-line-inactive (if limited-colors-p "black" "#0a2832")))))))
-
-(add-hook 'god-mode-enabled-hook 'my-update-cursor)
-(add-hook 'god-mode-disabled-hook 'my-update-cursor)
-
-;; window bindings for god-mode
-(global-set-key (kbd "C-x C-o") 'other-window)
-(global-set-key (kbd "C-x C-1") 'delete-other-windows)
-(global-set-key (kbd "C-x C-2") 'split-window-below)
-(global-set-key (kbd "C-x C-3") 'split-window-right)
-(global-set-key (kbd "C-x C-0") 'delete-window)
-(global-set-key (kbd "C-x C-B") 'switch-to-buffer)
-
-;; allow using 's' and 'r' for repeated searches
-(require 'god-mode-isearch)
-(define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
-(define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
-
-(define-key god-local-mode-map (kbd ".") 'repeat)
-
-;; hide-show is broken by god mode.
-;; this adds universal quick and dirty code-folding that works
-(defvar hs-special-modes-alist
-  (mapcar 'purecopy
-          '((c-mode "{" "}" "/[*/]" nil nil)
-            (c++-mode "{" "}" "/[*/]" nil nil)
-            (bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
-            (java-mode "{" "}" "/[*/]" nil nil)
-            (js2-mode "{" "}" "/[*/]" nil))))
-
-(defun toggle-selective-display (column)
-  (interactive "P")
-  (set-selective-display
-   (or column
-       (unless selective-display
-         (1+ (current-column))))))
-
-(defun toggle-hiding (column)
-  (interactive "P")
-  (if hs-minor-mode
-      (if (condition-case nil
-              (hs-toggle-hiding)
-            (error t))
-          (hs-show-all))
-    (toggle-selective-display column)))
-(load-library "hideshow")
-(global-set-key (kbd "C-+") 'toggle-hiding)
-(global-set-key (kbd "C-|") 'toggle-selective-display)
-(add-hook 'java-mode-hook       'hs-minor-mode)
-(add-hook 'sh-mode-hook         'hs-minor-mode)
-(add-hook 'js2-mode-hook         'hs-minor-mode)
-#+end_src
 * Python and elpy
 
 #+NAME: python-elpy
@@ -425,7 +355,6 @@ This just stops emitting the message that emacs is using a default 4 spaces when
 ;; js2
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 #+END_SRC
-
 * Feature Mode
 #+NAME: feature-mode
 #+BEGIN_SRC emacs-lisp

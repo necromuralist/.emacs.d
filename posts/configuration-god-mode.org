@@ -1,0 +1,96 @@
+#+BEGIN_COMMENT
+.. title: Configuration: God-Mode
+.. slug: configuration-god-mode
+.. date: 2026-06-01 16:26:45 UTC-07:00
+.. tags: init,configuration,god-mode
+.. category: Configuration
+.. link: 
+.. description: Configuring god-mode.
+.. type: text
+.. status: 
+.. updated: 
+
+#+END_COMMENT
+#+OPTIONS: ^:{}
+#+TOC: headlines 2
+
+* God-Mode
+#+NAME: god-mode
+#+begin_src emacs-lisp
+;; god-mode
+(require 'god-mode)
+(global-set-key (kbd "<escape>") 'god-mode-all)
+(global-set-key (kbd "C-$") 'god-mode-all)
+(global-set-key (kbd "<Scroll_Lock>") 'god-mode-all)
+(define-key god-local-mode-map (kbd ".") 'repeat)
+
+(setq god-exempt-major-modes nil)
+(setq god-exempt-predicates nil)
+
+(defun my-update-cursor ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only)
+                        'box
+                      'bar)))
+(defun c/god-mode-update-cursor ()
+  (let ((limited-colors-p (> 257 (length (defined-colors)))))
+    (cond (god-local-mode (progn
+                            (set-face-background 'mode-line (if limited-colors-p "white" "#e9e2cb"))
+                            (set-face-background 'mode-line-inactive (if limited-colors-p "white" "#e9e2cb"))))
+          (t (progn
+               (set-face-background 'mode-line (if limited-colors-p "black" "#0a2832"))
+               (set-face-background 'mode-line-inactive (if limited-colors-p "black" "#0a2832")))))))
+
+(add-hook 'god-mode-enabled-hook 'my-update-cursor)
+(add-hook 'god-mode-disabled-hook 'my-update-cursor)
+
+;; window bindings for god-mode
+(global-set-key (kbd "C-x C-o") 'other-window)
+(global-set-key (kbd "C-x C-1") 'delete-other-windows)
+(global-set-key (kbd "C-x C-2") 'split-window-below)
+(global-set-key (kbd "C-x C-3") 'split-window-right)
+(global-set-key (kbd "C-x C-0") 'delete-window)
+(global-set-key (kbd "C-x C-B") 'switch-to-buffer)
+
+;; allow using 's' and 'r' for repeated searches
+(require 'god-mode-isearch)
+(define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
+(define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
+
+(define-key god-local-mode-map (kbd ".") 'repeat)
+
+;; hide-show is broken by god mode.
+;; this adds universal quick and dirty code-folding that works
+(defvar hs-special-modes-alist
+  (mapcar 'purecopy
+          '((c-mode "{" "}" "/[*/]" nil nil)
+            (c++-mode "{" "}" "/[*/]" nil nil)
+            (bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
+            (java-mode "{" "}" "/[*/]" nil nil)
+            (js2-mode "{" "}" "/[*/]" nil))))
+
+(defun toggle-selective-display (column)
+  (interactive "P")
+  (set-selective-display
+   (or column
+       (unless selective-display
+         (1+ (current-column))))))
+
+(defun toggle-hiding (column)
+  (interactive "P")
+  (if hs-minor-mode
+      (if (condition-case nil
+              (hs-toggle-hiding)
+            (error t))
+          (hs-show-all))
+    (toggle-selective-display column)))
+(load-library "hideshow")
+(global-set-key (kbd "C-+") 'toggle-hiding)
+(global-set-key (kbd "C-|") 'toggle-selective-display)
+(add-hook 'java-mode-hook       'hs-minor-mode)
+(add-hook 'sh-mode-hook         'hs-minor-mode)
+(add-hook 'js2-mode-hook         'hs-minor-mode)
+#+end_src
+
+* Links
+
+- {{%lancelot title="The Main Configuration Post" %}}the-init-file{{% /lancelot %}}

@@ -107,6 +107,9 @@
     ;; export org to nikola
   ;;  (require 'ox-nikola)
   
+  ;; export to .org
+  (require 'ox-org)
+  
     ;; export to latex/pdf
     (require 'ox-latex)
   
