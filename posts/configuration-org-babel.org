@@ -1,0 +1,89 @@
+#+BEGIN_COMMENT
+.. title: Configuration: Org-Babel
+.. slug: configuration-org-babel
+.. date: 2026-06-01 16:21:16 UTC-07:00
+.. tags: init,org-mode,configuration,org-babel
+.. category: Configuration
+.. link: 
+.. description: Setting up org-babel.
+.. type: text
+.. status: 
+.. updated: 
+
+#+END_COMMENT
+#+OPTIONS: ^:{}
+#+TOC: headlines 2
+
+* Org-Babel
+
+#+NAME: org-babel
+#+BEGIN_SRC emacs-lisp
+  ;; org-babel
+(require 'ob-js)
+
+  (add-to-list 'org-src-lang-modes '("rst" . "rst"))
+  (add-to-list 'org-src-lang-modes '("feature" . "feature"))
+  (add-to-list 'org-src-lang-modes '("org" . "org"))
+  (add-to-list 'org-src-lang-modes '("css" . "css"))
+  (add-to-list 'org-src-lang-modes '("plantuml" . "plantuml"))
+  (add-to-list 'org-src-lang-modes '("conf" . "conf"))
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (plantuml . t)
+     (shell . t)
+     (emacs-lisp . t)
+     (latex . t)
+     (org . t)
+     (js . t)
+     ;;(jupyter . t)
+     ))
+
+  (setq org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml.jar"))
+  
+  ;; Don't treat underscores as sub-script notation
+  (setq org-export-with-sub-superscripts nil)
+
+  ;; Don't re-evaluate the source blocks before exporting
+  (setq org-export-babel-evaluate nil)
+
+  ;; don't confirm block evaluation
+  (setq org-confirm-babel-evaluate nil)
+
+  ;;; display/update images in the buffer after evaluation
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+
+  ;; noweb expansion only when you tangle
+  (setq org-babel-default-header-args
+        (cons '(:noweb . "tangle")
+              (assq-delete-all :noweb org-babel-default-header-args))
+        )
+
+  ;; syntax highlighting in org-files
+  (setq org-src-fontify-natively t)
+
+  ;; export org to rst
+;;  (require 'ox-rst)
+
+  ;; export org to nikola
+;;  (require 'ox-nikola)
+
+  ;; export to latex/pdf
+  (require 'ox-latex)
+
+  ;; syntax-highlighting for pdf's
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+  ;; let the user set the indentation so you can insert text between methods in classes.
+  (setq org-src-preserve-indentation t)
+
+  ;; pygmentize ipython
+  (add-to-list 'org-latex-minted-langs '(ipython "python"))
+#+END_SRC
+* Links
+
+- {{%lancelot title="The Main Configuration Post" %}}the-init-file{{% /lancelot %}}
+

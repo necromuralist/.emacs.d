@@ -58,3 +58,7 @@
     ;; start with outline folded
     (setq org-startup-folded t)
   #+END_SRC
+
+* Links
+
+- {{%lancelot title="The Main Configuration Post" %}}the-init-file{{% /lancelot %}}

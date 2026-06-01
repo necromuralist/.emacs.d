@@ -120,6 +120,10 @@ The exported org-file (=the-init-file.org.org=) won't be a valid nikola file (it
 
 {{% lancelot title="From the /Configuration: Org-Mode/ post" %}}configuration-org-mode{{% /lancelot %}}
 
+#+INCLUDE: "./configuration-org-babel.org::*Org-Babel"
+
+{{% lancelot title="From the /Configuration: Org-Babel/ post" %}}configuration-org-babel{{% /lancelot %}}
+
 * Custom Set Variables
 
 These were set by emacs via the interactive interface (I think).
@@ -421,74 +425,7 @@ This just stops emitting the message that emacs is using a default 4 spaces when
 ;; js2
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 #+END_SRC
-* org-babel
-#+NAME: org-babel
-#+BEGIN_SRC emacs-lisp
-  ;; org-babel
-(require 'ob-js)
 
-  (add-to-list 'org-src-lang-modes '("rst" . "rst"))
-  (add-to-list 'org-src-lang-modes '("feature" . "feature"))
-  (add-to-list 'org-src-lang-modes '("org" . "org"))
-  (add-to-list 'org-src-lang-modes '("css" . "css"))
-  (add-to-list 'org-src-lang-modes '("plantuml" . "plantuml"))
-  (add-to-list 'org-src-lang-modes '("conf" . "conf"))
-
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '(
-     (plantuml . t)
-     (shell . t)
-     (emacs-lisp . t)
-     (latex . t)
-     (org . t)
-     (js . t)
-     ;;(jupyter . t)
-     ))
-
-  (setq org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml.jar"))
-  
-  ;; Don't treat underscores as sub-script notation
-  (setq org-export-with-sub-superscripts nil)
-
-  ;; Don't re-evaluate the source blocks before exporting
-  (setq org-export-babel-evaluate nil)
-
-  ;; don't confirm block evaluation
-  (setq org-confirm-babel-evaluate nil)
-
-  ;;; display/update images in the buffer after evaluation
-  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-
-  ;; noweb expansion only when you tangle
-  (setq org-babel-default-header-args
-        (cons '(:noweb . "tangle")
-              (assq-delete-all :noweb org-babel-default-header-args))
-        )
-
-  ;; syntax highlighting in org-files
-  (setq org-src-fontify-natively t)
-
-  ;; export org to rst
-;;  (require 'ox-rst)
-
-  ;; export org to nikola
-;;  (require 'ox-nikola)
-
-  ;; export to latex/pdf
-  (require 'ox-latex)
-
-  ;; syntax-highlighting for pdf's
-  (add-to-list 'org-latex-packages-alist '("" "minted"))
-  (setq org-latex-listings 'minted)
-  (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
-  ;; let the user set the indentation so you can insert text between methods in classes.
-  (setq org-src-preserve-indentation t)
-
-  ;; pygmentize ipython
-  (add-to-list 'org-latex-minted-langs '(ipython "python"))
-#+END_SRC
 * Feature Mode
 #+NAME: feature-mode
 #+BEGIN_SRC emacs-lisp
