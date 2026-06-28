@@ -1,128 +1,128 @@
-    ;; emacs package management
-    (require 'package)
-  
-    ;; add the repositories
-    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-    (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-  
-    ;; refresh the list
-    (when (not package-archive-contents)
-      (package-refresh-contents))
-  
-    (require 'use-package)
+  ;; emacs package management
+  (require 'package)
+
+  ;; add the repositories
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
+  ;; refresh the list
+  (when (not package-archive-contents)
+    (package-refresh-contents))
+
+  (require 'use-package)
 
   ;; (require 'pyvenv)
   ;; (pyvenv-activate "~/.virtualenvs/emacs-environment/")
 
-      ;; org-mode
-      ;;(require 'org)
-  
-      ;; these are recommended by org
-      ;; see: https://orgmode.org/org.html#Activation-1
-      (define-key global-map "\C-cl" 'org-store-link)
-      (define-key global-map "\C-ca" 'org-agenda)
-      (global-set-key (kbd "C-c c") #'org-capture)
-  
-      (setq org-log-done t)
-  
-      ;; org-mode agendas
-      (setq org-agenda-files (list "~/documents/roku-chiji/repository/kanban.org"))
-  
-      ;; org-capture
-      (setq org-default-notes-file (concat "~/documents/roku-chiji/repository/" "bugs.org"))
-      (define-key global-map "\C-cc" 'org-capture)
-  
-      (setq org-capture-templates
-            '(("b" "Bug" entry (file+headline "~/documents/roku-chiji/repository/bugs.org" "Bugs")
-               "* BUG %?\n  %i\n  %a")))
-  
-      ;; todo-state names
-      (setq org-todo-keywords
-              '((sequence "TOMORROW" "TODAY" "DOING" "|" "DONE")))
-  
-      ;; org clean-outlines
-  
-      (setq org-startup-indented t
-            org-hide-leading-stars t
-            org-indent-indentation-per-level 1)
-  
-      ;; word-wrap
-      (global-visual-line-mode 1)
-  
-      ;; start the calendar on monday
-      (setq calendar-week-start-day 1)
-  
-      ;; start with outline folded
-      (setq org-startup-folded t)
+    ;; org-mode
+    ;;(require 'org)
+
+    ;; these are recommended by org
+    ;; see: https://orgmode.org/org.html#Activation-1
+    (define-key global-map "\C-cl" 'org-store-link)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (global-set-key (kbd "C-c c") #'org-capture)
+
+    (setq org-log-done t)
+
+    ;; org-mode agendas
+    (setq org-agenda-files (list "~/documents/roku-chiji/repository/kanban.org"))
+
+    ;; org-capture
+    (setq org-default-notes-file (concat "~/documents/roku-chiji/repository/" "bugs.org"))
+    (define-key global-map "\C-cc" 'org-capture)
+
+    (setq org-capture-templates
+          '(("b" "Bug" entry (file+headline "~/documents/roku-chiji/repository/bugs.org" "Bugs")
+             "* BUG %?\n  %i\n  %a")))
+
+    ;; todo-state names
+    (setq org-todo-keywords
+            '((sequence "TOMORROW" "TODAY" "DOING" "|" "DONE")))
+
+    ;; org clean-outlines
+
+    (setq org-startup-indented t
+          org-hide-leading-stars t
+          org-indent-indentation-per-level 1)
+
+    ;; word-wrap
+    (global-visual-line-mode 1)
+
+    ;; start the calendar on monday
+    (setq calendar-week-start-day 1)
+
+    ;; start with outline folded
+    (setq org-startup-folded t)
 
   ;; make sure org-babel comes before jupyter or any other code-based settings
-    ;; org-babel
-  (require 'ob-js)
+  ;; org-babel
+(require 'ob-js)
+
+  (add-to-list 'org-src-lang-modes '("rst" . "rst"))
+  (add-to-list 'org-src-lang-modes '("feature" . "feature"))
+  (add-to-list 'org-src-lang-modes '("org" . "org"))
+  (add-to-list 'org-src-lang-modes '("css" . "css"))
+  (add-to-list 'org-src-lang-modes '("plantuml" . "plantuml"))
+  (add-to-list 'org-src-lang-modes '("conf" . "conf"))
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (plantuml . t)
+     (shell . t)
+     (emacs-lisp . t)
+     (latex . t)
+     (org . t)
+     (js . t)
+     ;;(jupyter . t)
+     ))
+
+  (setq org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml.jar"))
   
-    (add-to-list 'org-src-lang-modes '("rst" . "rst"))
-    (add-to-list 'org-src-lang-modes '("feature" . "feature"))
-    (add-to-list 'org-src-lang-modes '("org" . "org"))
-    (add-to-list 'org-src-lang-modes '("css" . "css"))
-    (add-to-list 'org-src-lang-modes '("plantuml" . "plantuml"))
-    (add-to-list 'org-src-lang-modes '("conf" . "conf"))
-  
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '(
-       (plantuml . t)
-       (shell . t)
-       (emacs-lisp . t)
-       (latex . t)
-       (org . t)
-       (js . t)
-       ;;(jupyter . t)
-       ))
-  
-    (setq org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml.jar"))
-    
-    ;; Don't treat underscores as sub-script notation
-    (setq org-export-with-sub-superscripts nil)
-  
-    ;; Don't re-evaluate the source blocks before exporting
-    (setq org-export-babel-evaluate nil)
-  
-    ;; don't confirm block evaluation
-    (setq org-confirm-babel-evaluate nil)
-  
-    ;;; display/update images in the buffer after evaluation
-    (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
-  
-    ;; noweb expansion only when you tangle
-    (setq org-babel-default-header-args
-          (cons '(:noweb . "tangle")
-                (assq-delete-all :noweb org-babel-default-header-args))
-          )
-  
-    ;; syntax highlighting in org-files
-    (setq org-src-fontify-natively t)
-  
-    ;; export org to rst
-  ;;  (require 'ox-rst)
-  
-    ;; export org to nikola
-  ;;  (require 'ox-nikola)
-  
-  ;; export to .org
-  (require 'ox-org)
-  
-    ;; export to latex/pdf
-    (require 'ox-latex)
-  
-    ;; syntax-highlighting for pdf's
-    (add-to-list 'org-latex-packages-alist '("" "minted"))
-    (setq org-latex-listings 'minted)
-    (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-  
-    ;; let the user set the indentation so you can insert text between methods in classes.
-    (setq org-src-preserve-indentation t)
-  
-    ;; pygmentize ipython
-    (add-to-list 'org-latex-minted-langs '(ipython "python"))
+  ;; Don't treat underscores as sub-script notation
+  (setq org-export-with-sub-superscripts nil)
+
+  ;; Don't re-evaluate the source blocks before exporting
+  (setq org-export-babel-evaluate nil)
+
+  ;; don't confirm block evaluation
+  (setq org-confirm-babel-evaluate nil)
+
+  ;;; display/update images in the buffer after evaluation
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+
+  ;; noweb expansion only when you tangle
+  (setq org-babel-default-header-args
+        (cons '(:noweb . "tangle")
+              (assq-delete-all :noweb org-babel-default-header-args))
+        )
+
+  ;; syntax highlighting in org-files
+  (setq org-src-fontify-natively t)
+
+  ;; export org to rst
+;;  (require 'ox-rst)
+
+  ;; export org to nikola
+;;  (require 'ox-nikola)
+
+;; export to .org
+(require 'ox-org)
+
+  ;; export to latex/pdf
+  (require 'ox-latex)
+
+  ;; syntax-highlighting for pdf's
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+  ;; let the user set the indentation so you can insert text between methods in classes.
+  (setq org-src-preserve-indentation t)
+
+  ;; pygmentize ipython
+  (add-to-list 'org-latex-minted-langs '(ipython "python"))
 
   ;; (setq python-indent-guess-indent-offset t)  
   ;; (setq python-indent-guess-indent-offset-verbose nil)
@@ -232,78 +232,81 @@
 
   ;;
 
-  ;; god-mode
-  (require 'god-mode)
-  (global-set-key (kbd "<escape>") 'god-mode-all)
-  (global-set-key (kbd "C-$") 'god-mode-all)
-  (global-set-key (kbd "<Scroll_Lock>") 'god-mode-all)
-  (define-key god-local-mode-map (kbd ".") 'repeat)
-  
-  (setq god-exempt-major-modes nil)
-  (setq god-exempt-predicates nil)
-  
-  (defun my-update-cursor ()
-    (setq cursor-type (if (or god-local-mode buffer-read-only)
-                          'box
-                        'bar)))
-  (defun c/god-mode-update-cursor ()
-    (let ((limited-colors-p (> 257 (length (defined-colors)))))
-      (cond (god-local-mode (progn
-                              (set-face-background 'mode-line (if limited-colors-p "white" "#e9e2cb"))
-                              (set-face-background 'mode-line-inactive (if limited-colors-p "white" "#e9e2cb"))))
-            (t (progn
-                 (set-face-background 'mode-line (if limited-colors-p "black" "#0a2832"))
-                 (set-face-background 'mode-line-inactive (if limited-colors-p "black" "#0a2832")))))))
-  
-  (add-hook 'god-mode-enabled-hook 'my-update-cursor)
-  (add-hook 'god-mode-disabled-hook 'my-update-cursor)
-  
-  ;; window bindings for god-mode
-  (global-set-key (kbd "C-x C-o") 'other-window)
-  (global-set-key (kbd "C-x C-1") 'delete-other-windows)
-  (global-set-key (kbd "C-x C-2") 'split-window-below)
-  (global-set-key (kbd "C-x C-3") 'split-window-right)
-  (global-set-key (kbd "C-x C-0") 'delete-window)
-  (global-set-key (kbd "C-x C-B") 'switch-to-buffer)
-  
-  ;; allow using 's' and 'r' for repeated searches
-  (require 'god-mode-isearch)
-  (define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
-  (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
-  
-  (define-key god-local-mode-map (kbd ".") 'repeat)
-  
-  ;; hide-show is broken by god mode.
-  ;; this adds universal quick and dirty code-folding that works
-  (defvar hs-special-modes-alist
-    (mapcar 'purecopy
-            '((c-mode "{" "}" "/[*/]" nil nil)
-              (c++-mode "{" "}" "/[*/]" nil nil)
-              (bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
-              (java-mode "{" "}" "/[*/]" nil nil)
-              (js2-mode "{" "}" "/[*/]" nil))))
-  
-  (defun toggle-selective-display (column)
-    (interactive "P")
-    (set-selective-display
-     (or column
-         (unless selective-display
-           (1+ (current-column))))))
-  
-  (defun toggle-hiding (column)
-    (interactive "P")
-    (if hs-minor-mode
-        (if (condition-case nil
-                (hs-toggle-hiding)
-              (error t))
-            (hs-show-all))
-      (toggle-selective-display column)))
-  (load-library "hideshow")
-  (global-set-key (kbd "C-+") 'toggle-hiding)
-  (global-set-key (kbd "C-|") 'toggle-selective-display)
-  (add-hook 'java-mode-hook       'hs-minor-mode)
-  (add-hook 'sh-mode-hook         'hs-minor-mode)
-  (add-hook 'js2-mode-hook         'hs-minor-mode)
+;; god-mode
+(require 'god-mode)
+(global-set-key (kbd "<escape>") 'god-mode-all)
+(global-set-key (kbd "C-$") 'god-mode-all)
+(global-set-key (kbd "<Scroll_Lock>") 'god-mode-all)
+(define-key god-local-mode-map (kbd ".") 'repeat)
+
+(setq god-exempt-major-modes nil)
+(setq god-exempt-predicates nil)
+
+(defun my-update-cursor ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only)
+                        'box
+                      'bar)))
+(defun c/god-mode-update-cursor ()
+  (let ((limited-colors-p (> 257 (length (defined-colors)))))
+    (cond (god-local-mode (progn
+                            (set-face-background 'mode-line (if limited-colors-p "white" "#e9e2cb"))
+                            (set-face-background 'mode-line-inactive (if limited-colors-p "white" "#e9e2cb"))))
+          (t (progn
+               (set-face-background 'mode-line (if limited-colors-p "black" "#0a2832"))
+               (set-face-background 'mode-line-inactive (if limited-colors-p "black" "#0a2832")))))))
+
+(add-hook 'god-mode-enabled-hook 'my-update-cursor)
+(add-hook 'god-mode-disabled-hook 'my-update-cursor)
+
+;; window bindings for god-mode
+(global-set-key (kbd "C-x C-o") 'other-window)
+(global-set-key (kbd "C-x C-1") 'delete-other-windows)
+(global-set-key (kbd "C-x C-2") 'split-window-below)
+(global-set-key (kbd "C-x C-3") 'split-window-right)
+(global-set-key (kbd "C-x C-0") 'delete-window)
+(global-set-key (kbd "C-x C-B") 'switch-to-buffer)
+
+;; allow using 's' and 'r' for repeated searches
+(require 'god-mode-isearch)
+(define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
+(define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
+
+(define-key god-local-mode-map (kbd ".") 'repeat)
+
+;; hide-show is broken by god mode.
+;; this adds universal quick and dirty code-folding that works
+(defvar hs-special-modes-alist
+  (mapcar 'purecopy
+          '((c-mode "{" "}" "/[*/]" nil nil)
+            (c++-mode "{" "}" "/[*/]" nil nil)
+            (bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
+            (java-mode "{" "}" "/[*/]" nil nil)
+            (js2-mode "{" "}" "/[*/]" nil))))
+
+(defun toggle-selective-display (column)
+  (interactive "P")
+  (set-selective-display
+   (or column
+       (unless selective-display
+         (1+ (current-column))))))
+
+(defun toggle-hiding (column)
+  (interactive "P")
+  (if hs-minor-mode
+      (if (condition-case nil
+              (hs-toggle-hiding)
+            (error t))
+          (hs-show-all))
+    (toggle-selective-display column)))
+(load-library "hideshow")
+(global-set-key (kbd "C-+") 'toggle-hiding)
+(global-set-key (kbd "C-|") 'toggle-selective-display)
+(add-hook 'java-mode-hook       'hs-minor-mode)
+(add-hook 'sh-mode-hook         'hs-minor-mode)
+(add-hook 'js2-mode-hook         'hs-minor-mode)
+
+;; backup file location
+(setq backup-directory-alist '(("." . "/tmp/")))
 
   ;;(org-babel-jupyter-override-src-block "python")
 
@@ -326,11 +329,6 @@
   ;; ;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
 
   ;; (add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
-
-  ;;(setq backup-directory-alist 
-  ;;      '(("." . "/tmp/")))
-  ;;(setq auto-save-file-name-transforms
-  ;;      `((".*" , "/tmp/" t)))
 
   ;; (use-package markdown-mode
   ;;  :ensure t

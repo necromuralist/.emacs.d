@@ -1,20 +1,10 @@
-#+BEGIN_COMMENT
-.. title: The Init File
-.. slug: the-init-file
-.. date: 2026-04-08 20:22:32 UTC-07:00
-.. tags: init
-.. category: Configuration
-.. link: 
-.. description: The init.el file.
-.. type: text
-.. status: 
-.. updated: 
+# Created 2026-06-27 Sat 21:15
+#+options: ^:{}
+#+title: 
+#+author: deltron
+#+toc: headlines 2
 
-#+END_COMMENT
-#+OPTIONS: ^:{}
-#+TOC: headlines 2
-
-#+BEGIN_SRC emacs-lisp :tangle ../emacs/init.el :exports none :noweb yes
+#+begin_src emacs-lisp :tangle ../emacs/init.el :exports none :noweb yes
 <<package-management>>
 
   ;; <<activate-pyvenv>>
@@ -87,8 +77,7 @@
   ;;<<custom-set-faces>>
 
   (message "**** Loaded deltron's init file")
-#+END_SRC
-
+#+end_src
 * Things To Do [1/6]
 - [X] Move setup so far to separate posts and then include elisp back into this one
 - [ ] move custom-set-variables and faces to separate files [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Customizations.html][See the emacs manual]]
@@ -96,7 +85,6 @@
 - [ ] get jupyter working
 - [ ] Figure out what to re-add to the config
 - [ ] figure out what to copy from minimal-emacs
-
 * Includes
 This section is made up of parts included from other posts, so to see what's really going on you'll have to look at the source.
 
@@ -112,27 +100,230 @@ See [[https://necromuralist.github.io/posts/tangling-multiple-org-files/][Necrom
 #+begin_notecard
 The exported org-file (=the-init-file.org.org=) won't be a valid nikola file (it won't have the metadata at the top of the file). You'll have to delete it to build the nikola HTML.
 #+end_notecard
-
-#+INCLUDE: "./backup-files.org::*Backups"
+** Backups
+#+name: backup-files
+#+begin_src emacs-lisp
+;; backup file location
+(setq backup-directory-alist '(("." . "/tmp/")))
+#+end_src
 
 {{% lancelot %}}configuration-backup-files{{% /lancelot %}}
+** Package Management
+#+name: package-management
+#+begin_src emacs-lisp
+  ;; emacs package management
+  (require 'package)
 
-#+INCLUDE: "./configuration-packages.org::*Package Management"
+  ;; add the repositories
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
+  ;; refresh the list
+  (when (not package-archive-contents)
+    (package-refresh-contents))
+
+  (require 'use-package)
+#+end_src
 
 {{% lancelot title="From the /Configuration: Packages/ post" %}}configuration-packages{{% /lancelot %}}
+** Org-Mode
+#+name: org-mode
+#+begin_src emacs-lisp
+    ;; org-mode
+    ;;(require 'org)
 
-#+INCLUDE: "./configuration-org-mode.org::*Org-Mode"
+    ;; these are recommended by org
+    ;; see: https://orgmode.org/org.html#Activation-1
+    (define-key global-map "\C-cl" 'org-store-link)
+    (define-key global-map "\C-ca" 'org-agenda)
+    (global-set-key (kbd "C-c c") #'org-capture)
+
+    (setq org-log-done t)
+
+    ;; org-mode agendas
+    (setq org-agenda-files (list "~/documents/roku-chiji/repository/kanban.org"))
+
+    ;; org-capture
+    (setq org-default-notes-file (concat "~/documents/roku-chiji/repository/" "bugs.org"))
+    (define-key global-map "\C-cc" 'org-capture)
+
+    (setq org-capture-templates
+          '(("b" "Bug" entry (file+headline "~/documents/roku-chiji/repository/bugs.org" "Bugs")
+             "* BUG %?\n  %i\n  %a")))
+
+    ;; todo-state names
+    (setq org-todo-keywords
+            '((sequence "TOMORROW" "TODAY" "DOING" "|" "DONE")))
+
+    ;; org clean-outlines
+
+    (setq org-startup-indented t
+          org-hide-leading-stars t
+          org-indent-indentation-per-level 1)
+
+    ;; word-wrap
+    (global-visual-line-mode 1)
+
+    ;; start the calendar on monday
+    (setq calendar-week-start-day 1)
+
+    ;; start with outline folded
+    (setq org-startup-folded t)
+#+end_src
 
 {{% lancelot title="From the /Configuration: Org-Mode/ post" %}}configuration-org-mode{{% /lancelot %}}
+** Org-Babel
 
-#+INCLUDE: "./configuration-org-babel.org::*Org-Babel"
+#+name: org-babel
+#+begin_src emacs-lisp
+  ;; org-babel
+(require 'ob-js)
+
+  (add-to-list 'org-src-lang-modes '("rst" . "rst"))
+  (add-to-list 'org-src-lang-modes '("feature" . "feature"))
+  (add-to-list 'org-src-lang-modes '("org" . "org"))
+  (add-to-list 'org-src-lang-modes '("css" . "css"))
+  (add-to-list 'org-src-lang-modes '("plantuml" . "plantuml"))
+  (add-to-list 'org-src-lang-modes '("conf" . "conf"))
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (plantuml . t)
+     (shell . t)
+     (emacs-lisp . t)
+     (latex . t)
+     (org . t)
+     (js . t)
+     ;;(jupyter . t)
+     ))
+
+  (setq org-plantuml-jar-path (expand-file-name "/usr/share/java/plantuml.jar"))
+  
+  ;; Don't treat underscores as sub-script notation
+  (setq org-export-with-sub-superscripts nil)
+
+  ;; Don't re-evaluate the source blocks before exporting
+  (setq org-export-babel-evaluate nil)
+
+  ;; don't confirm block evaluation
+  (setq org-confirm-babel-evaluate nil)
+
+  ;;; display/update images in the buffer after evaluation
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+
+  ;; noweb expansion only when you tangle
+  (setq org-babel-default-header-args
+        (cons '(:noweb . "tangle")
+              (assq-delete-all :noweb org-babel-default-header-args))
+        )
+
+  ;; syntax highlighting in org-files
+  (setq org-src-fontify-natively t)
+
+  ;; export org to rst
+;;  (require 'ox-rst)
+
+  ;; export org to nikola
+;;  (require 'ox-nikola)
+
+;; export to .org
+(require 'ox-org)
+
+  ;; export to latex/pdf
+  (require 'ox-latex)
+
+  ;; syntax-highlighting for pdf's
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+  ;; let the user set the indentation so you can insert text between methods in classes.
+  (setq org-src-preserve-indentation t)
+
+  ;; pygmentize ipython
+  (add-to-list 'org-latex-minted-langs '(ipython "python"))
+#+end_src
 
 {{% lancelot title="From the /Configuration: Org-Babel/ post" %}}configuration-org-babel{{% /lancelot %}}
+** God-Mode
+#+name: god-mode
+#+begin_src emacs-lisp
+;; god-mode
+(require 'god-mode)
+(global-set-key (kbd "<escape>") 'god-mode-all)
+(global-set-key (kbd "C-$") 'god-mode-all)
+(global-set-key (kbd "<Scroll_Lock>") 'god-mode-all)
+(define-key god-local-mode-map (kbd ".") 'repeat)
 
-#+INCLUDE: "./configuration-god-mode.org::*God-Mode"
+(setq god-exempt-major-modes nil)
+(setq god-exempt-predicates nil)
+
+(defun my-update-cursor ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only)
+                        'box
+                      'bar)))
+(defun c/god-mode-update-cursor ()
+  (let ((limited-colors-p (> 257 (length (defined-colors)))))
+    (cond (god-local-mode (progn
+                            (set-face-background 'mode-line (if limited-colors-p "white" "#e9e2cb"))
+                            (set-face-background 'mode-line-inactive (if limited-colors-p "white" "#e9e2cb"))))
+          (t (progn
+               (set-face-background 'mode-line (if limited-colors-p "black" "#0a2832"))
+               (set-face-background 'mode-line-inactive (if limited-colors-p "black" "#0a2832")))))))
+
+(add-hook 'god-mode-enabled-hook 'my-update-cursor)
+(add-hook 'god-mode-disabled-hook 'my-update-cursor)
+
+;; window bindings for god-mode
+(global-set-key (kbd "C-x C-o") 'other-window)
+(global-set-key (kbd "C-x C-1") 'delete-other-windows)
+(global-set-key (kbd "C-x C-2") 'split-window-below)
+(global-set-key (kbd "C-x C-3") 'split-window-right)
+(global-set-key (kbd "C-x C-0") 'delete-window)
+(global-set-key (kbd "C-x C-B") 'switch-to-buffer)
+
+;; allow using 's' and 'r' for repeated searches
+(require 'god-mode-isearch)
+(define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
+(define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
+
+(define-key god-local-mode-map (kbd ".") 'repeat)
+
+;; hide-show is broken by god mode.
+;; this adds universal quick and dirty code-folding that works
+(defvar hs-special-modes-alist
+  (mapcar 'purecopy
+          '((c-mode "{" "}" "/[*/]" nil nil)
+            (c++-mode "{" "}" "/[*/]" nil nil)
+            (bibtex-mode ("@\\S(*\\(\\s(\\)" 1))
+            (java-mode "{" "}" "/[*/]" nil nil)
+            (js2-mode "{" "}" "/[*/]" nil))))
+
+(defun toggle-selective-display (column)
+  (interactive "P")
+  (set-selective-display
+   (or column
+       (unless selective-display
+         (1+ (current-column))))))
+
+(defun toggle-hiding (column)
+  (interactive "P")
+  (if hs-minor-mode
+      (if (condition-case nil
+              (hs-toggle-hiding)
+            (error t))
+          (hs-show-all))
+    (toggle-selective-display column)))
+(load-library "hideshow")
+(global-set-key (kbd "C-+") 'toggle-hiding)
+(global-set-key (kbd "C-|") 'toggle-selective-display)
+(add-hook 'java-mode-hook       'hs-minor-mode)
+(add-hook 'sh-mode-hook         'hs-minor-mode)
+(add-hook 'js2-mode-hook         'hs-minor-mode)
+#+end_src
 
 {{% lancelot title="From the /Configuration: God-Mode/ post" %}}configuration-god-mode{{% /lancelot %}}
-
 * Custom Set Variables
 
 These were set by emacs via the interactive interface (I think).
@@ -151,7 +342,6 @@ These were set by emacs via the interactive interface (I think).
          (quote
           (htmlize ox-nikola ox-rst web-mode swiper smex paredit magit jedi ido-ubiquitous idle-highlight-mode god-mode fuzzy feature-mode csv-mode autopair ac-js2))))
 #+end_src
-
 ** Custom Set Faces
 
 #+begin_src emacs-lisp :noweb-ref custom-set-faces
@@ -165,7 +355,6 @@ These were set by emacs via the interactive interface (I think).
  '(rst-level-3 ((t (:background "cyan"))))
  '(rst-level-4 ((t (:background "magenta")))))
 #+end_src
-
 * RST Minor Mode
 
 #+begin_src emacs-lisp :noweb-ref rst-minor-mode
@@ -173,7 +362,6 @@ These were set by emacs via the interactive interface (I think).
 (defun turn-on-rst () (rst-minor-mode 1))
 (add-hook 'python-mode-hook 'turn-on-rst)
 #+end_src
-
 * Hide-Show Mode
 
 #+begin_src emacs-lisp :noweb-ref hide-show-mode
@@ -181,14 +369,12 @@ These were set by emacs via the interactive interface (I think).
 (defun turn-on-hideshow () (hs-minor-mode 1))
 (add-hook 'python-mode-hook 'turn-on-hideshow)
 #+end_src
-
 * Universal No-Tabs
 
 #+begin_src emacs-lisp :noweb-ref universal-no-tabs
 ;; make no-tabs universal
 (setq-default indent-tabs-mode nil)
 #+end_src
-
 * Electric Pair Mode
 
 #+begin_src emacs-lisp :noweb-ref electric-pair-mode
@@ -200,14 +386,12 @@ These were set by emacs via the interactive interface (I think).
 
 (select-electric-pair-mode 1)
 #+end_src
-
 * Tramp Mode
 
 #+begin_src emacs-lisp :noweb-ref tramp-mode
 ;; tramp mode
 (setq tramp-default-method "ssh")
 #+end_src
-
 * Magit
 
 #+begin_src emacs-lisp noweb-ref: magit-mode
@@ -268,15 +452,15 @@ A lock got corrupted once in the cryfs directory, making the editing file unread
 (setq create-lockfiles nil)
 #+end_src
 ** Toggle Input Mode
-   This allows you to switch to latex input and then back using =C-\=. This is useful to embed special characters. Although you could probably just do the same thing with math mode if you want to wait until exporting.
+This allows you to switch to latex input and then back using =C-\=. This is useful to embed special characters. Although you could probably just do the same thing with math mode if you want to wait until exporting.
 #+begin_src emacs-lisp :noweb-ref toggle-input-method
 ;; (setq default-input-method "TeX")
 (setq default-input-method "TeX")
 #+end_src
 * Python and elpy
 
-#+NAME: python-elpy
-#+BEGIN_SRC emacs-lisp
+#+name: python-elpy
+#+begin_src emacs-lisp
   ;; elpy
 (use-package elpy
   :ensure t
@@ -284,7 +468,7 @@ A lock got corrupted once in the cryfs directory, making the editing file unread
   :init
   (advice-add 'python-mode :before 'elpy-enable))
   (add-to-list 'auto-mode-alist '("\\.py" . python-mode))
-#+END_SRC
+#+end_src
 * Emacs Jupyter
 #+begin_src python :noweb-ref jupyter-emacs
 (org-babel-jupyter-override-src-block "python")
@@ -304,8 +488,8 @@ This just stops emitting the message that emacs is using a default 4 spaces when
 (setq python-indent-guess-indent-offset-verbose nil)
 #+end_src
 * web-mode
-  #+NAME: web-mode
-  #+BEGIN_SRC emacs-lisp
+#+name: web-mode
+#+begin_src emacs-lisp
     ;; web-mode
     (require 'web-mode)
     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
@@ -330,12 +514,11 @@ This just stops emitting the message that emacs is using a default 4 spaces when
           )
     )
     (add-hook 'web-mode-hook  'my-web-mode-hook)
-  #+END_SRC
-
+#+end_src
 * auto-complete
 
-  #+NAME: auto-complete
-  #+BEGIN_SRC emacs-lisp
+#+name: auto-complete
+#+begin_src emacs-lisp
     ;; auto-complete
     ;; (defun turn-on-autocomplete () (auto-complete-mode 1))
     (add-to-list 'load-path "~/.emacs.d/lisp")
@@ -344,40 +527,38 @@ This just stops emitting the message that emacs is using a default 4 spaces when
     (ac-config-default)
     (defadvice auto-complete-mode (around disable-auto-complete-for-python)
     (unless (eq major-mode 'python-mode) ad-do-it))
-  #+END_SRC
-
+#+end_src
 * general text
-#+NAME: general-text
-#+BEGIN_SRC emacs-lisp
+#+name: general-text
+#+begin_src emacs-lisp
   ;; increase/decrease text size
   (global-set-key (kbd "C-c C-+") 'text-scale-increase)
   (global-set-key (kbd "C--") 'text-scale-decrease)
-#+END_SRC
+#+end_src
 * javascript
-#+NAME: javascript
-#+BEGIN_SRC emacs-lisp
+#+name: javascript
+#+begin_src emacs-lisp
 ;; js2
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-#+END_SRC
+#+end_src
 * Feature Mode
-#+NAME: feature-mode
-#+BEGIN_SRC emacs-lisp
+#+name: feature-mode
+#+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.feature" . feature-mode))
-#+END_SRC
-
+#+end_src
 * yaml
-#+BEGIN_SRC emacs-lisp :noweb-ref yaml
+#+begin_src emacs-lisp :noweb-ref yaml
 (add-hook 'yaml-mode-hook
           (lambda ()
             (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
-#+END_SRC
+#+end_src
 * Vue.js
-#+BEGIN_SRC emacs-lisp :noweb-ref vue
+#+begin_src emacs-lisp :noweb-ref vue
 ;; setup files ending in “.vue” to open in vue-mode
 ;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
-#+END_SRC
+#+end_src
 * Bats
-  The Bash Automated Test System mode.
+The Bash Automated Test System mode.
 
 | Keybinding | Description                                | State        |
 |------------+--------------------------------------------+--------------|
@@ -386,19 +567,19 @@ This just stops emitting the message that emacs is using a default 4 spaces when
 | C-c M-,    | Run the test where the cursor is           | Doesn't Work |
 
 There's a ticket on github to add this feature (?) to bats, but the old developers stopped supporting it and I don't know if the fork has it yet. It isn't working if you install bats from Ubuntu's repositories as of Bionic Beaver.
-#+BEGIN_SRC emacs-lisp :noweb-ref bats
+#+begin_src emacs-lisp :noweb-ref bats
 (add-to-list 'auto-mode-alist '("\\.bat\\'" . bats-mode))
-#+END_SRC
+#+end_src
 * Backups
 From the [[https://www.emacswiki.org/emacs/BackupDirectory][Emacs Wiki]].
-#+BEGIN_SRC emacs-lisp :noweb-ref backups
+#+begin_src emacs-lisp :noweb-ref backups
 (setq backup-directory-alist 
       '(("." . "/tmp/")))
 (setq auto-save-file-name-transforms
       `((".*" , "/tmp/" t)))
-#+END_SRC
+#+end_src
 * Markdown Mode
-#+BEGIN_SRC emacs-lisp :noweb-ref markdown-mode
+#+begin_src emacs-lisp :noweb-ref markdown-mode
 (use-package markdown-mode
  :ensure t
  :mode (("README\\.md\\'" . gfm-mode)
@@ -406,8 +587,7 @@ From the [[https://www.emacswiki.org/emacs/BackupDirectory][Emacs Wiki]].
          ("\\.markdown\\'" . markdown-mode))
  :init (setq markdown-command "pandoc")
 )
-
-#+END_SRC
+#+end_src
 * Dockerfile Mode
 #+begin_src emacs-lisp :noweb-ref dockerfile-mode
 (require 'dockerfile-mode)
@@ -467,7 +647,7 @@ From the [[https://www.emacswiki.org/emacs/BackupDirectory][Emacs Wiki]].
 ;; poetry
 (use-package poetry
   :ensure t)
-#+end_src  
+#+end_src
 * Keychain
 This is to be able to use ssh-agent (via keychain).
 - `keychain` needs to be installed (e.g. via apt)

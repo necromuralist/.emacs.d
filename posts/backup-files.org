@@ -1,0 +1,25 @@
+#+BEGIN_COMMENT
+.. title: Configuration: Backup-Files
+.. slug: configuration-backup-files
+.. date: 2026-06-27 18:08:30 UTC-07:00
+.. tags: init,backups,configuration
+.. category: Configuration
+.. link: 
+.. description: Set up backup files' location.
+.. type: text
+.. status: 
+.. updated: 
+
+#+END_COMMENT
+#+OPTIONS: ^:{}
+#+TOC: headlines 2
+* Backups
+#+NAME: backup-files
+#+BEGIN_SRC emacs-lisp
+;; backup file location
+(setq backup-directory-alist '(("." . "/tmp/")))
+#+END_SRC
+
+* Links
+- [[https://emacsdocs.org/docs/elisp/Making-Backups#user-option-backup-directory-alist][backup-directory-alist]]: emacsdocs.org manual explanation of the variable we're setting.
+- [[https://emacs.stackexchange.com/a/34][Stack Overflow Answer]]: /Put all backups into one backup folder/
